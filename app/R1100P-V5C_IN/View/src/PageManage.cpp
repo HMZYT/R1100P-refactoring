@@ -28,11 +28,9 @@ void PageManage::page_manage_add_page(PAGE* page, int id, void (*init)(lv_obj_t*
 void PageManage::page_manage_switch_page(int id, lv_obj_t *ipage)
 {
     int i;
-    int a = pageList.size();
     for (i = 0; i < pageList.size(); i++)
     {
         PAGE* page = pageList[i];
-        int b = page->pageID;
         if (page->pageID == id)
         {
             if(curr_page != NULL)

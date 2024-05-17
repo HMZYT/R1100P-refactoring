@@ -33,8 +33,6 @@ public:
 public:
     void mode_manage_add_widget(irc_lcd_widget_t *modeWidget, lv_obj_t* (*init)());
     lv_obj_t *mode_manage_switch_widget(rc_lcd_mode_t modeIndex);
-    void mode_manage_switch_page(int nPageIndex);
-    void working_manage_pages_create(lv_obj_t* widget);
 private:
     lv_obj_t *currentModeWidget;
     vector<irc_lcd_widget_t *> widgetsList;

@@ -744,15 +744,15 @@ irc_lcd_footer_t *working_footer_create(lv_obj_t *parent)
     lv_style_init(&style_center);
     lv_style_set_text_color(&style_center, lv_color_make(0xFF, 0, 0));
     lv_style_set_text_align(&style_center, LV_TEXT_ALIGN_CENTER);
-    lv_style_set_text_font(&style_center, &aliph_14);
+    lv_style_set_text_font(&style_center, &working_mode_16px);
 
     lv_style_init(&style);
     lv_style_set_text_color(&style, lv_color_make(0xFF, 0, 0));
-    lv_style_set_text_font(&style, &aliph_14);
+    lv_style_set_text_font(&style, &working_mode_16px);
 
     lv_style_init(&style_content);
     lv_style_set_text_color(&style_content, lv_color_make(0xFF, 0, 0));
-    lv_style_set_text_font(&style_content, &aliph_14);
+    lv_style_set_text_font(&style_content, &working_mode_16px);
 		
     uint16_t parent_width, parent_height;
     parent_width = lv_disp_get_hor_res(NULL);
