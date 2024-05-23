@@ -6,7 +6,11 @@
 #include "irc_lcd_footer.h"
 #include <iostream>
 #include <vector>
-#include "working_widget.h"
+#include "rc_lcd_working_widget.h"
+#include "rc_lcd_prepared_widget.h"
+#include "rc_lcd_idle_widget.h"
+#include "rc_lcd_factory_widget.h"
+#include "rc_lcd_off_charging_widget.h"
 #include "../inc/PageManage.h"
 
 using namespace std;

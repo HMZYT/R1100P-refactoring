@@ -13,7 +13,7 @@ typedef struct
     lv_obj_t *id;
     lv_obj_t *total;
     lv_obj_t *detail;
-		lv_obj_t *content;
+    lv_obj_t *content;
 } working_footer_t;
 
 

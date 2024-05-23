@@ -54,7 +54,8 @@ file(GLOB_RECURSE SOURCES
         "drivers/bsp/src/*.c"
         "drivers/dev/src/*.c"
         "images/home/*.c"
-        "images/antipping/*.c")
+        "images/antipping/*.c"
+        "images/control/*.c")
 
 add_executable(main main.c lv_port_pc_eclipse/mouse_cursor_icon.c ${SOURCES} ${INCLUDES}
         app/R1100P-V5C_IN/View/inc/working_header.h
