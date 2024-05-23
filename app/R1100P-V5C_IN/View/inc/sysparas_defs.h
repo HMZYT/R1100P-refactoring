@@ -2,6 +2,9 @@
 #define LVGL_SYSPARAS_DEFS_H
 
 typedef enum {
+    //language
+    system_paras_language,
+    //working_home
     home_motor_speed,
 
 

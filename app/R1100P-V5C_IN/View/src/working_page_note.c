@@ -3,6 +3,11 @@
 #include <stdbool.h>
 #include "math.h"
 #include "../inc/images_v4_0.h"
+#include "../inc/UiSubjectsWrapper.h"
+#include "../inc/sysparas_defs.h"
+#include "../../View/GUI_APP/language_control.h"
+
+static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 void working_page_note_init(lv_obj_t *page)
 {
@@ -135,36 +140,46 @@ void working_page_note_init(lv_obj_t *page)
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 620, 10 + 0 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "堵管");
+    language_set_current_label(temp_obj, "label_14");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 620, 10 + 1 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "料况差");
+    language_set_current_label(temp_obj, "label_15");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 620, 10 + 2 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "料况好");
+    language_set_current_label(temp_obj, "label_16");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 620, 10 + 3 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "料况一般");
+    language_set_current_label(temp_obj, "label_17");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 620, 10 + 4 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "臂架油温");
+    language_set_current_label(temp_obj, "label_18");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 620, 10 + 5 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "锁臂");
+    language_set_current_label(temp_obj, "label_19");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 630, 360);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "R_016ZNV2B.1");
+    language_set_current_label(temp_obj, "R_016ZNV2B.1");
+
+    lv_subject_t* subjectParas = getSubjectsParasWrapper();
+    lv_subject_add_observer_obj(&subjectParas[system_paras_language], note_observer_list_cb, NULL, NULL);
+    lv_subject_remove_all_obj(&subjectParas[system_paras_language],NULL);
 }
 
+void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
+{
+    int nLang = lv_subject_get_int(subject) ;
+    language_set_current_lang(nLang);
+    language_change_callback();
+}

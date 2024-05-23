@@ -27,12 +27,18 @@ void language_set_current_lang(int32_t num)
 
 void language_set_current_label(lv_obj_t* obj_label, char* info_label)
 {
-		lv_i18n_init(lv_i18n_language_pack);
-		lv_i18n_set_locale(language_current);
-		lv_label_set_text(obj_label, _(info_label));
+    lv_i18n_init(lv_i18n_language_pack);
+    lv_i18n_set_locale(language_current);
+    lv_label_set_text(obj_label, _(info_label));
     info_detail[nindex].label_obj = obj_label;
     info_detail[nindex].label_info = info_label;
     nindex++;
+}
+
+void language_clear_label_list()
+{
+    lv_memset(&info_detail, 0, sizeof(info_detail));
+    nindex = 0;
 }
 
 void language_change_callback()

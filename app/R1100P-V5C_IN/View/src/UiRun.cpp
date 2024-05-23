@@ -17,6 +17,9 @@
 #include "../inc/fact_page_touch.h"
 #include "../inc/off_charging_page_charging.h"
 #include "../inc/prepared_page_rc.h"
+#include "../../Model/inc/DtR1100PUi.h"
+#include "../inc/sysparas_defs.h"
+#include "../inc/UiSubjectsWrapper.h"
 
 void uiRun()
 {
@@ -25,7 +28,7 @@ void uiRun()
 
     //创建窗口
     rc_lcd_mode_t modeIndex = e_rc_lcd_working;
-    int  pageIndex = 0;
+    int  pageIndex = 4;
 
     irc_lcd_widget_t idle_widget;
     irc_lcd_widget_t working_widget;
@@ -50,9 +53,18 @@ void uiRun()
     PAGE fact_page_touch;
     PAGE off_charging_page;
     PAGE prepared_page;
-    PageManage pageManage(&working_home_page, working_page_home_init);
+    PageManage pageManage(&working_home_page, working_page_home_init/*, subject_home_all*/);
     pageManage.page_manage_add_page(&working_antipping_page, 1, working_page_antipping_init);
     pageManage.page_manage_add_page(&working_faults_page, 2, working_page_faults_init);
+
+
+//    static lv_subject_t subject_home_all;
+//    static lv_subject_t *home_list[2];
+//    lv_subject_t* subjectParas = getSubjectsParasWrapper();
+//    home_list[0] = &subjectParas[home_motor_speed];
+//    home_list[1] = &subjectParas[home_motor_speed];
+//    lv_subject_init_group(&subject_home_all, home_list, 2);
+
     pageManage.page_manage_add_page(&working_rc_page, 3, working_page_rc_init);
     pageManage.page_manage_add_page(&working_note_page, 4, working_page_note_init);
     pageManage.page_manage_add_page(&idle_black_page, 5, idle_page_black_init);
@@ -66,4 +78,8 @@ void uiRun()
 
     lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(modeIndex);//选择模式
     pageManage.page_manage_switch_page(pageIndex,temp_widget);
+    pageManage.page_manage_switch_page(0,temp_widget);
+    lv_subject_t* subjectParas = getSubjectsParasWrapper();
+    lv_subject_set_int(&subjectParas[system_paras_language], 1);
+
 }

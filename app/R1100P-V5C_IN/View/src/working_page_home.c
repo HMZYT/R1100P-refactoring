@@ -27,7 +27,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     // 1. 发动机转速
     //-----------------------------------------------------------------
     lv_subject_t *s;
-    s = lv_subject_get_group_element(subject, home_motor_speed);
+    s = lv_subject_get_group_element(subject, 0);
     int motor_speed = lv_subject_get_int(s);
 
     if (motor_speed > 2500)

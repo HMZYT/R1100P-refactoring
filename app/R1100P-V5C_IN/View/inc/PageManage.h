@@ -14,6 +14,7 @@ using namespace std;
 typedef struct
 {
     int  pageID;             //pageID 每个页面有唯一的ID
+    lv_subject_t *s;
     void (*init)(lv_obj_t* page);         //页面初始化
 }PAGE;
 
