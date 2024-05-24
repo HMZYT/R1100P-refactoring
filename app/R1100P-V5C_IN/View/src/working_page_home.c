@@ -6,46 +6,13 @@
 #include "../inc/sysparas_defs.h"
 #include "../inc/UiRun.h"
 
+static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
+
 static lv_style_t style_oil_bar;
 static lv_style_t style_uera_bar;
 static lv_style_t style_uera_bar_blue;
 static lv_style_t style_uera_bar_green;
 static lv_style_t style8;
-
-static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) {
-    lv_obj_t *page_home = lv_observer_get_target_obj(observer);
-    working_page_home_t *p = (working_page_home_t *) observer->user_data;
-    char temp[64];
-    /*************************************************************************************
-   * 一区：
-   * - 发动机转速
-   * - 瞬时油耗
-   * - ECO，泵送节能状态
-   * - 排量档位
-   * - 推荐经济档位
-   *************************************************************************************/
-
-    //-----------------------------------------------------------------
-    // 1. 发动机转速
-    //-----------------------------------------------------------------
-    lv_subject_t *s;
-    s = lv_subject_get_group_element(subject, 0);
-    int motor_speed = lv_subject_get_int(s);
-
-    if (motor_speed > 2500)
-    {
-        motor_speed = 2500;
-    }
-
-    snprintf(temp, 64, "%d", motor_speed);
-    lv_label_set_text(p->engine_speed_label, temp);
-    lv_img_set_angle(p->engine_speed_pointer, motor_speed * 1800.0 / 2500);
-}
-
-void observer_page_home_init(lv_obj_t *page, working_page_home_t *page_home)
-{
-    lv_subject_add_observer_obj(&subject_home_all, home_observer_list_cb, page, page_home);
-}
 
 lv_obj_t* working_page_home_init(lv_obj_t *page)
 {
@@ -649,7 +616,37 @@ lv_obj_t* working_page_home_init(lv_obj_t *page)
     lv_label_set_text(p->arm_oil_label, "0.0℃");
 
     //观察者模式
-    observer_page_home_init(page, p);
+    lv_subject_add_observer_obj(&subject_home_all, home_observer_list_cb, page, p);
 
     return obj;
+}
+
+static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) {
+    lv_obj_t *page_home = lv_observer_get_target_obj(observer);
+    working_page_home_t *p = (working_page_home_t *) observer->user_data;
+
+    char temp[64];
+    /*************************************************************************************
+   * 一区：
+   * - 发动机转速
+   * - 瞬时油耗
+   * - ECO，泵送节能状态
+   * - 排量档位
+   * - 推荐经济档位
+   *************************************************************************************/
+
+    //-----------------------------------------------------------------
+    // 1. 发动机转速
+    //-----------------------------------------------------------------
+    lv_subject_t *s = lv_subject_get_group_element(subject, 0);
+    int motor_speed = lv_subject_get_int(s);
+
+    if (motor_speed > 2500)
+    {
+        motor_speed = 2500;
+    }
+
+    snprintf(temp, 64, "%d", motor_speed);
+    lv_label_set_text(p->engine_speed_label, temp);
+    lv_img_set_angle(p->engine_speed_pointer, motor_speed * 1800.0 / 2500);
 }

@@ -20,8 +20,12 @@
 #include "../../Model/inc/DtR1100PUi.h"
 #include "../inc/sysparas_defs.h"
 #include "../inc/UiSubjectsWrapper.h"
+#include "../GUI_APP/language_control.h"
 
-static void page_manage_subjects_init(lv_subject_t* subject, int id);
+static void page_manage_subjects_init();
+static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
+
+lv_subject_t subject_system;
 lv_subject_t subject_home_all;
 lv_subject_t subject_note_all;
 
@@ -44,6 +48,7 @@ void uiRun()
     modeManage.mode_manage_add_widget(&factory_widget, rc_lcd_factory_widget_init);
     modeManage.mode_manage_add_widget(&offChargint_widget, rc_lcd_off_charging_widget_init);
     modeManage.mode_manage_add_widget(&prepared_widget, prepared_widget_init);
+
     PAGE working_home_page;
     PAGE working_antipping_page;
     PAGE working_faults_page;
@@ -73,46 +78,39 @@ void uiRun()
 
     lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(modeIndex);//选择模式
 
-    switch (pageIndex) {
-        case working_page_home:
-            page_manage_subjects_init(&subject_home_all, pageIndex);
-            break;
-        case working_page_note:
-            page_manage_subjects_init(&subject_note_all, pageIndex);
-            break;
-        default:
-            break;
-    }
-
+    //观察者初始化
+    page_manage_subjects_init();
 
     pageManage.page_manage_switch_page(pageIndex,temp_widget);
+    language_clear_label_list();
     pageManage.page_manage_switch_page(0,temp_widget);
+    lv_subject_add_observer_obj(&subject_system, system_observer_list_cb, NULL, NULL);
 
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_set_int(&subjectParas[system_paras_language], 0);
+    lv_subject_set_int(&subjectParas[system_paras_language], 1);
 }
 
-void page_manage_subjects_init(lv_subject_t* subject, int id)
+static void page_manage_subjects_init()
 {
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_t *home_list[1];
-    lv_subject_t *note_list[2];
-    lv_subject_t  *s;
-    int a ;
-    switch (id) {
-        case working_page_home:
-            home_list[0] = &subjectParas[home_motor_speed];
-            lv_subject_init_group(subject, home_list, 1);
+    static lv_subject_t *system_list[system_end];
+    static lv_subject_t *home_list[home_end - system_end - 1];
+    //lv_subject_t *note_list[1];
 
-            break;
-        case working_page_note:
-            note_list[0] = &subjectParas[system_paras_language];
-            note_list[1] = &subjectParas[home_motor_speed];
-            lv_subject_init_group(subject, note_list, 2);
-            s =lv_subject_get_group_element(subject,0);
-            a = lv_subject_get_int(s);
-            break;
-        default:
-            break;
-    }
+    system_list[0] = &subjectParas[system_paras_language];
+    lv_subject_init_group(&subject_system, system_list, system_end);
+
+    home_list[0] = &subjectParas[home_motor_speed];
+    lv_subject_init_group(&subject_home_all, home_list, home_end - system_end - 1);
+
+//  note_list[0] = &subjectParas[system_paras_language];
+//  lv_subject_init_group(subject, note_list, 1);
+}
+
+static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
+{
+    lv_subject_t *s = lv_subject_get_group_element(subject, 0);
+    int lang = lv_subject_get_int(s);
+    language_set_current_lang(lang);
+    language_change_callback();
 }

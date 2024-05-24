@@ -173,13 +173,13 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_obj_add_style(temp_obj, &style02, 0);
     language_set_current_label(temp_obj, "R_016ZNV2B.1");
 
-    //lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, obj, NULL);
+    lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, page, NULL);
     return obj;
 }
 
 void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
 {
+    //语言
     lv_subject_t *s = lv_subject_get_group_element(subject,0);
     int nLang = lv_subject_get_int(s) ;
     language_set_current_lang(nLang);
