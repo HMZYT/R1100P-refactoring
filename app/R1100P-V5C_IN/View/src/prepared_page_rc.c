@@ -14,7 +14,7 @@ static void _set_rocker(rocker_t *rocker, uint8_t v);
 
 char string_show[80];
 
-void prepared_page_rc_create(lv_obj_t *page)
+lv_obj_t* prepared_page_rc_create(lv_obj_t *page)
 {
     prepared_page_rc_t *p = lv_malloc(sizeof (prepared_page_rc_t));
     static lv_style_t style;

@@ -7,6 +7,7 @@
 typedef struct
 {
     uint8_t arm0;
+    uint8_t arm1;
     //遥控器串口数据
 } dt_r1100p_ui_t;
 

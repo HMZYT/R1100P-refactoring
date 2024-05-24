@@ -734,7 +734,7 @@ static void _set_data_16(lv_obj_t *label, uint16_t v)
     lv_label_set_text(label, temp);
 }
 
-void working_page_faults_init(lv_obj_t *page)
+lv_obj_t* working_page_faults_init(lv_obj_t *page)
 {
     working_page_faults_t *p = lv_malloc(sizeof (working_page_faults_t));
     uint16_t parent_width, parent_height;

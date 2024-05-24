@@ -15,7 +15,7 @@ typedef struct{
     lv_obj_t *btn_5;
 }fact_page_align_displacement_t;
 
-void fact_page_algin_displacement_init(lv_obj_t *page);
+lv_obj_t* fact_page_algin_displacement_init(lv_obj_t *page);
 
 #ifdef __cplusplus
 } /*extern "C"*/

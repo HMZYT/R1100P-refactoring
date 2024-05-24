@@ -11,7 +11,7 @@ typedef struct{
     lv_obj_t *tips;
 }fact_page_full_color_t;
 
-void fact_page_full_color_init(lv_obj_t *page);
+lv_obj_t* fact_page_full_color_init(lv_obj_t *page);
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -87,7 +87,7 @@ static void _touch( lv_event_t *e )
 #endif
 }
 //extern lv_group_t *default_group;
-void fact_page_touch_init(lv_obj_t *page)
+lv_obj_t* fact_page_touch_init(lv_obj_t *page)
 {
     fact_page_touch_t *p = lv_malloc(sizeof (fact_page_touch_t));
     p->parent = page;

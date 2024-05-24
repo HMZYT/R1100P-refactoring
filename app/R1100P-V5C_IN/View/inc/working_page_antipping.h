@@ -92,7 +92,7 @@ typedef struct{
     lv_obj_t *red_leg_6_long;
 }working_page_antipping_t;
 
-void working_page_antipping_init(lv_obj_t *page);
+lv_obj_t* working_page_antipping_init(lv_obj_t *page);
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

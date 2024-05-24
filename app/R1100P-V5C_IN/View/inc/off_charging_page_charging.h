@@ -11,7 +11,7 @@ typedef struct{
     lv_obj_t *bat;
 }off_charging_page_charging_t;
 
-void off_charging_page_charging_init(lv_obj_t *page);
+lv_obj_t* off_charging_page_charging_init(lv_obj_t *page);
 
 
 #endif // _OFF_CHARGING_PAGE_CHARGING_H_

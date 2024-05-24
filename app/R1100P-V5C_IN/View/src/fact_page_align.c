@@ -31,7 +31,7 @@ static void align_event_handler(lv_event_t *e)
     }
 }
 
-void fact_page_algin_init(lv_obj_t *page)
+lv_obj_t* fact_page_algin_init(lv_obj_t *page)
 {
     fact_page_align_t *p = lv_malloc(sizeof (fact_page_align_t));
     uint16_t parent_width, parent_height;

@@ -4,6 +4,8 @@
 #include "../inc/images_v4_0.h"
 #include "../../View/GUI_APP/language_control.h"
 #include "../inc/sysparas_defs.h"
+#include "../inc/UiRun.h"
+
 static lv_style_t style_oil_bar;
 static lv_style_t style_uera_bar;
 static lv_style_t style_uera_bar_blue;
@@ -40,17 +42,12 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     lv_img_set_angle(p->engine_speed_pointer, motor_speed * 1800.0 / 2500);
 }
 
-void observer_page_home_init(working_page_home_t *page_home)
+void observer_page_home_init(lv_obj_t *page, working_page_home_t *page_home)
 {
-    static lv_subject_t subject_home_all;
-    static lv_subject_t *home_list[1];
-    lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    home_list[0] = &subjectParas[home_motor_speed];
-    lv_subject_init_group(&subject_home_all, home_list, 1);
-    lv_subject_add_observer_obj(&subject_home_all, home_observer_list_cb, NULL, page_home);
+    lv_subject_add_observer_obj(&subject_home_all, home_observer_list_cb, page, page_home);
 }
 
-void working_page_home_init(lv_obj_t *page)
+lv_obj_t* working_page_home_init(lv_obj_t *page)
 {
     working_page_home_t *p = lv_malloc(sizeof (working_page_home_t));
     uint16_t parent_width, parent_height;
@@ -652,5 +649,7 @@ void working_page_home_init(lv_obj_t *page)
     lv_label_set_text(p->arm_oil_label, "0.0℃");
 
     //观察者模式
-    observer_page_home_init(p);
+    observer_page_home_init(page, p);
+
+    return obj;
 }

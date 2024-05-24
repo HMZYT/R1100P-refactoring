@@ -36,7 +36,7 @@ typedef struct{
     lv_obj_t *arrow_dow;
 }prepared_page_rc_t;
 
-void prepared_page_rc_create(lv_obj_t *page);
+lv_obj_t* prepared_page_rc_create(lv_obj_t *page);
 extern char string_show[80];
 
 #ifdef __cplusplus

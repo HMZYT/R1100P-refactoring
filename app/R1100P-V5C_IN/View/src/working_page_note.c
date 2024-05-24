@@ -6,10 +6,11 @@
 #include "../inc/UiSubjectsWrapper.h"
 #include "../inc/sysparas_defs.h"
 #include "../../View/GUI_APP/language_control.h"
+#include "../inc/UiRun.h"
 
 static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
-void working_page_note_init(lv_obj_t *page)
+lv_obj_t* working_page_note_init(lv_obj_t *page)
 {
     static lv_style_t style;
     lv_style_init(&style);
@@ -172,14 +173,15 @@ void working_page_note_init(lv_obj_t *page)
     lv_obj_add_style(temp_obj, &style02, 0);
     language_set_current_label(temp_obj, "R_016ZNV2B.1");
 
-    lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_add_observer_obj(&subjectParas[system_paras_language], note_observer_list_cb, NULL, NULL);
-    lv_subject_remove_all_obj(&subjectParas[system_paras_language],NULL);
+    //lv_subject_t* subjectParas = getSubjectsParasWrapper();
+    lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, obj, NULL);
+    return obj;
 }
 
 void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
 {
-    int nLang = lv_subject_get_int(subject) ;
+    lv_subject_t *s = lv_subject_get_group_element(subject,0);
+    int nLang = lv_subject_get_int(s) ;
     language_set_current_lang(nLang);
     language_change_callback();
 }

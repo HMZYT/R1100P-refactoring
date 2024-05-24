@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-void off_charging_page_charging_init(lv_obj_t *page)
+lv_obj_t* off_charging_page_charging_init(lv_obj_t *page)
 {
     off_charging_page_charging_t *p = lv_malloc(sizeof (off_charging_page_charging_t));
     uint16_t parent_width, parent_height;

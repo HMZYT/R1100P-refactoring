@@ -103,7 +103,7 @@ typedef struct{
     lv_obj_t *danger_mode_icon;
 }working_page_home_t;
 
-void working_page_home_init(lv_obj_t *page);
+lv_obj_t* working_page_home_init(lv_obj_t *page);
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

@@ -1,7 +1,7 @@
 #include "../inc/idle_page_black.h"
 #include <stdlib.h>
 
-void idle_page_black_init(lv_obj_t *page)
+lv_obj_t* idle_page_black_init(lv_obj_t *page)
 {
     uint16_t parent_width, parent_height;
 

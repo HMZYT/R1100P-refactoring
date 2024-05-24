@@ -7,7 +7,7 @@ extern "C" {
 
 #include "lvgl/lvgl.h"
 
-void idle_page_black_init(lv_obj_t *page);
+lv_obj_t* idle_page_black_init(lv_obj_t *page);
 
 #ifdef __cplusplus
 } /*extern "C"*/

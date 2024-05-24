@@ -40,7 +40,7 @@ static void _set_rf_address(lv_obj_t *label, uint32_t vv) //信道设置
     lv_label_set_text(label, name);
 }
 
-void fact_page_version_init(lv_obj_t *page)
+lv_obj_t* fact_page_version_init(lv_obj_t *page)
 {
     fact_page_version_t *p = lv_malloc(sizeof (fact_page_version_t));
     uint16_t parent_width, parent_height;

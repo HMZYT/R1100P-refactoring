@@ -15,7 +15,7 @@ static void _button_lock_arm_set_v(lv_obj_t *btn, lv_obj_t *l, uint8_t v); //锁
 static void _set_displacement(lv_obj_t *btn, lv_obj_t *label, uint8_t v);  //排量设置
 static void _set_rocker(rocker_t *rocker, uint8_t v);
 
-void working_page_rc_init(lv_obj_t *page)
+lv_obj_t* working_page_rc_init(lv_obj_t *page)
 {
     working_page_rc_t *p = lv_malloc(sizeof (working_page_rc_t));
     static lv_style_t style;

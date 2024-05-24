@@ -5,6 +5,9 @@
 extern "C"{
 #endif
 #include "lvgl/lvgl.h"
+
+extern lv_subject_t subject_home_all;
+extern lv_subject_t subject_note_all;
 extern void uiRun();
 
 #ifdef __cplusplus

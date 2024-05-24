@@ -17,7 +17,7 @@ typedef struct{
     lv_point_t *pnts[ FACT_PAGE_TOUCH_MAX_LINES ];
 }fact_page_touch_t;
 
-void fact_page_touch_init(lv_obj_t *page);
+lv_obj_t* fact_page_touch_init(lv_obj_t *page);
 
 #ifdef __cplusplus
 } /*extern "C"*/

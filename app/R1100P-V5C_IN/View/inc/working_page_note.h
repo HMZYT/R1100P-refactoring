@@ -10,7 +10,7 @@ extern "C" {
 typedef struct{
 }working_page_note_t;
 
-void working_page_note_init(lv_obj_t *page);
+lv_obj_t* working_page_note_init(lv_obj_t *page);
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

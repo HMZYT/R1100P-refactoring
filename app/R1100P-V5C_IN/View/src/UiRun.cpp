@@ -21,6 +21,10 @@
 #include "../inc/sysparas_defs.h"
 #include "../inc/UiSubjectsWrapper.h"
 
+static void page_manage_subjects_init(lv_subject_t* subject, int id);
+lv_subject_t subject_home_all;
+lv_subject_t subject_note_all;
+
 void uiRun()
 {
     //观察者初始化
@@ -28,7 +32,7 @@ void uiRun()
 
     //创建窗口
     rc_lcd_mode_t modeIndex = e_rc_lcd_working;
-    int  pageIndex = 4;
+    int  pageIndex = working_page_note;
 
     irc_lcd_widget_t idle_widget;
     irc_lcd_widget_t working_widget;
@@ -49,37 +53,66 @@ void uiRun()
     PAGE fact_version_page;
     PAGE fact_algin_page;
     PAGE fact_algin_displacement_page;
-    PAGE fact_page_full_color;
-    PAGE fact_page_touch;
+    PAGE fact_page_full_color_page;
+    PAGE fact_page_touch_page;
     PAGE off_charging_page;
     PAGE prepared_page;
-    PageManage pageManage(&working_home_page, working_page_home_init/*, subject_home_all*/);
-    pageManage.page_manage_add_page(&working_antipping_page, 1, working_page_antipping_init);
-    pageManage.page_manage_add_page(&working_faults_page, 2, working_page_faults_init);
-
-
-//    static lv_subject_t subject_home_all;
-//    static lv_subject_t *home_list[2];
-//    lv_subject_t* subjectParas = getSubjectsParasWrapper();
-//    home_list[0] = &subjectParas[home_motor_speed];
-//    home_list[1] = &subjectParas[home_motor_speed];
-//    lv_subject_init_group(&subject_home_all, home_list, 2);
-
-    pageManage.page_manage_add_page(&working_rc_page, 3, working_page_rc_init);
-    pageManage.page_manage_add_page(&working_note_page, 4, working_page_note_init);
-    pageManage.page_manage_add_page(&idle_black_page, 5, idle_page_black_init);
-    pageManage.page_manage_add_page(&fact_version_page, 6, fact_page_version_init);
-    pageManage.page_manage_add_page(&fact_algin_page, 7, fact_page_algin_init);
-    pageManage.page_manage_add_page(&fact_algin_displacement_page, 8, fact_page_algin_displacement_init);
-    pageManage.page_manage_add_page(&fact_page_full_color, 9, fact_page_full_color_init);
-    pageManage.page_manage_add_page(&fact_page_touch, 10, fact_page_touch_init);
-    pageManage.page_manage_add_page(&off_charging_page, 11, off_charging_page_charging_init);
-    pageManage.page_manage_add_page(&prepared_page, 12, prepared_page_rc_create);
+    PageManage pageManage(&working_home_page, working_page_home_init);
+    pageManage.page_manage_add_page(&working_antipping_page, working_page_antipping, working_page_antipping_init);
+    pageManage.page_manage_add_page(&working_faults_page, working_page_faults, working_page_faults_init);
+    pageManage.page_manage_add_page(&working_rc_page, working_page_rc, working_page_rc_init);
+    pageManage.page_manage_add_page(&working_note_page, working_page_note, working_page_note_init);
+    pageManage.page_manage_add_page(&idle_black_page, idle_page_black, idle_page_black_init);
+    pageManage.page_manage_add_page(&fact_version_page, fact_page_version, fact_page_version_init);
+    pageManage.page_manage_add_page(&fact_algin_page, fact_page_algin, fact_page_algin_init);
+    pageManage.page_manage_add_page(&fact_algin_displacement_page, fact_page_algin_displacement, fact_page_algin_displacement_init);
+    pageManage.page_manage_add_page(&fact_page_full_color_page, fact_page_full_color, fact_page_full_color_init);
+    pageManage.page_manage_add_page(&fact_page_touch_page, fact_page_touch, fact_page_touch_init);
+    pageManage.page_manage_add_page(&off_charging_page, off_charging_page_charging, off_charging_page_charging_init);
+    pageManage.page_manage_add_page(&prepared_page, prepared_page_rc, prepared_page_rc_create);
 
     lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(modeIndex);//选择模式
+
+    switch (pageIndex) {
+        case working_page_home:
+            page_manage_subjects_init(&subject_home_all, pageIndex);
+            break;
+        case working_page_note:
+            page_manage_subjects_init(&subject_note_all, pageIndex);
+            break;
+        default:
+            break;
+    }
+
+
     pageManage.page_manage_switch_page(pageIndex,temp_widget);
     pageManage.page_manage_switch_page(0,temp_widget);
-    lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_set_int(&subjectParas[system_paras_language], 1);
 
+    lv_subject_t* subjectParas = getSubjectsParasWrapper();
+    lv_subject_set_int(&subjectParas[system_paras_language], 0);
+}
+
+void page_manage_subjects_init(lv_subject_t* subject, int id)
+{
+    lv_subject_t* subjectParas = getSubjectsParasWrapper();
+    lv_subject_t *home_list[1];
+    lv_subject_t *note_list[2];
+    lv_subject_t  *s;
+    int a ;
+    switch (id) {
+        case working_page_home:
+            home_list[0] = &subjectParas[home_motor_speed];
+            lv_subject_init_group(subject, home_list, 1);
+
+            break;
+        case working_page_note:
+            note_list[0] = &subjectParas[system_paras_language];
+            note_list[1] = &subjectParas[home_motor_speed];
+            lv_subject_init_group(subject, note_list, 2);
+            s =lv_subject_get_group_element(subject,0);
+            a = lv_subject_get_int(s);
+            break;
+        default:
+            break;
+    }
 }

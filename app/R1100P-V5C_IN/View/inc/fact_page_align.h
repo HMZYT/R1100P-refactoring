@@ -19,7 +19,7 @@ typedef struct{
     lv_obj_t *rocker_right ;
 }fact_page_align_t;
 
-void fact_page_algin_init(lv_obj_t *page);
+lv_obj_t* fact_page_algin_init(lv_obj_t *page);
 
 #ifdef __cplusplus
 } /*extern "C"*/

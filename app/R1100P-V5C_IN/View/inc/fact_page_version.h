@@ -16,7 +16,7 @@ typedef struct{
     lv_obj_t *content_dev_addr ;
 }fact_page_version_t;
 
-void fact_page_version_init(lv_obj_t *page);
+lv_obj_t* fact_page_version_init(lv_obj_t *page);
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -18,7 +18,7 @@ static lv_style_t style_bubble;
 static lv_style_t style_line_red;
 static lv_style_t style_line_green;
 
-void working_page_antipping_init(lv_obj_t *page)
+lv_obj_t* working_page_antipping_init(lv_obj_t *page)
 {
     working_page_antipping_t *p = lv_malloc(sizeof (working_page_antipping_t));
     uint16_t parent_width, parent_height;

@@ -43,7 +43,7 @@ typedef struct{
     lv_obj_t *backlight_bar;
 }working_page_rc_t;
 
-void working_page_rc_init(lv_obj_t *page);
+lv_obj_t* working_page_rc_init(lv_obj_t *page);
 extern int bg_light_level;
 #endif
 
