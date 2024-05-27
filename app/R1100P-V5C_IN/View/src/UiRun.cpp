@@ -94,14 +94,14 @@ static void page_manage_subjects_init()
 {
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
     static lv_subject_t *system_list[system_end];
-    static lv_subject_t *home_list[home_end - system_end - 1];
+    static lv_subject_t *home_list[machine_end - system_end - 1];
     //lv_subject_t *note_list[1];
 
     system_list[0] = &subjectParas[system_paras_language];
     lv_subject_init_group(&subject_system, system_list, system_end);
 
-    home_list[0] = &subjectParas[home_motor_speed];
-    lv_subject_init_group(&subject_home_all, home_list, home_end - system_end - 1);
+    home_list[0] = &subjectParas[machine_motor_speed];
+    lv_subject_init_group(&subject_home_all, home_list, machine_end - system_end - 1);
 
 //  note_list[0] = &subjectParas[system_paras_language];
 //  lv_subject_init_group(subject, note_list, 1);

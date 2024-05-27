@@ -636,7 +636,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
    *************************************************************************************/
 
 #pragma region
-    lv_subject_t *s = lv_subject_get_group_element(subject, home_motor_speed - system_end - 1);
+    lv_subject_t *s = lv_subject_get_group_element(subject, machine_motor_speed - system_end - 1);
     int motor_speed = lv_subject_get_int(s);
 
     if (motor_speed > 2500)
@@ -648,7 +648,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     lv_label_set_text(p->engine_speed_label, temp);
     lv_img_set_angle(p->engine_speed_pointer, motor_speed * 1800.0 / 2500);
 
-    s = lv_subject_get_group_element(subject, home_machine_acc_flag - system_end - 1);
+    s = lv_subject_get_group_element(subject, machine_acc_flag - system_end - 1);
     int acc_flag = lv_subject_get_int(s);
     if (lv_subject_get_previous_int(s) != acc_flag)
     {
@@ -664,7 +664,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         }
     }
 
-    s = lv_subject_get_group_element(subject, home_machine_dec_flag - system_end - 1);
+    s = lv_subject_get_group_element(subject, machine_dec_flag - system_end - 1);
     int dec_flag = lv_subject_get_int(s);
     if (lv_subject_get_previous_int(s) != dec_flag)
     {
