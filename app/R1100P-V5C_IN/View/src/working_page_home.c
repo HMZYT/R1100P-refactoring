@@ -8,6 +8,7 @@
 
 static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum);
+static int32_t cal_angel(int32_t data);
 static lv_style_t style_oil_bar;
 static lv_style_t style_uera_bar;
 static lv_style_t style_uera_bar_blue;
@@ -628,6 +629,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     char temp[64];
     temp_value_t temp_v;
     temp_value_t temp_vv;
+    temp_value_t temp_vvv;
     /*************************************************************************************
    * 一区：
    * - 发动机转速
@@ -936,6 +938,341 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 14.风机
     //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_fan_manual,pageid_home);
+    temp_vv =  lv_subject_get_int_from_type(subject, machine_fan_auto,pageid_home);
+    temp_vvv =  lv_subject_get_int_from_type(subject, machine_fan_close,pageid_home);
+    if(temp_v.different_flag || temp_vv.different_flag || temp_vvv.different_flag) {
+        if (temp_v.current_value)
+        {
+            lv_img_set_src(p->wind_status, &fan0);
+        }
+        if (temp_vv.current_value)
+        {
+            lv_img_set_src(p->wind_status, &fan1);
+        }
+        if (temp_vvv.current_value)
+        {
+            lv_img_set_src(p->wind_status, &fan2);
+        }
+    }
+    //风机应急
+    temp_v =  lv_subject_get_int_from_type(subject, machine_fan_emr,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value)
+        {
+            lv_obj_clear_flag(p->wind_status_emr, LV_OBJ_FLAG_HIDDEN);
+        }
+        else
+        {
+            lv_obj_add_flag(p->wind_status_emr, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    //-----------------------------------------------------------------
+    // 15. 正反搅拌
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_mixer_cw,pageid_home);
+    temp_vv =  lv_subject_get_int_from_type(subject, machine_mixer_ccw,pageid_home);
+    if(temp_v.different_flag || temp_vv.different_flag ) {
+        if (temp_v.current_value)
+        { //正搅拌
+            lv_obj_clear_flag(p->jiaoban_status, LV_OBJ_FLAG_HIDDEN);
+            //lv_img_set_src(p->jiaoban_status, &jiaoban_status_rig); //gggyf
+        }
+        else if ( temp_vv.current_value )
+        { //反搅拌
+            lv_obj_clear_flag(p->jiaoban_status, LV_OBJ_FLAG_HIDDEN);
+            //lv_img_set_src(p->jiaoban_status, &jiaoban_status_left);//gggyf
+        }
+        else
+        { //低压
+            lv_obj_clear_flag(p->jiaoban_status, LV_OBJ_FLAG_HIDDEN);
+            //lv_img_set_src(p->jiaoban_status, &jiaoban_status_stop);//gggyf
+        }
+    }
+    //搅拌应急
+    temp_v =  lv_subject_get_int_from_type(subject, machine_mixer_emr,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value)
+        {
+            lv_obj_clear_flag(p->jiaoban_status_emr, LV_OBJ_FLAG_HIDDEN);
+        }
+        else
+        {
+            lv_obj_add_flag(p->jiaoban_status_emr, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    //-----------------------------------------------------------------
+    //16. 锁臂使能
+    //-----------------------------------------------------------------
+    for (int i = machine_arm0_cw_en; i <= machine_arm5_ccw_en;i++) {
+        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        if (temp_v.current_value == 0) {
+            lv_obj_clear_flag(p->lock_img, LV_OBJ_FLAG_HIDDEN);
+            break;
+        }
+        if((i == machine_arm5_ccw_en) && (temp_v.current_value != 0)) {
+            lv_obj_add_flag(p->lock_img, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // 17. 锁臂
+    //-----------------------------------------------------------------
+    //上
+    for(int i = machine_arm1_cw_en; i <=  machine_arm5_cw_en; i++) {
+        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        if(temp_v.different_flag) {
+            if(temp_v.current_value == 0)
+            {
+                lv_obj_clear_flag(p->arms_up_lock[4-(machine_arm5_cw_en-i)], LV_OBJ_FLAG_HIDDEN);
+            }else{
+                lv_obj_add_flag(p->arms_up_lock[4-(machine_arm5_cw_en-i)], LV_OBJ_FLAG_HIDDEN);
+            }
+        }
+    }
+    //下
+    for(int i = machine_arm1_ccw_en; i <=  machine_arm5_ccw_en; i++) {
+        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        if(temp_v.different_flag) {
+            if(temp_v.current_value == 0)
+            {
+                lv_obj_clear_flag(p->arms_down_lock[4-(machine_arm5_ccw_en-i)], LV_OBJ_FLAG_HIDDEN);
+            }else{
+                lv_obj_add_flag(p->arms_down_lock[4-(machine_arm5_ccw_en-i)], LV_OBJ_FLAG_HIDDEN);
+            }
+        }
+    }
+    //-----------------------------------------------------------------
+    // 18. 角度
+    //-----------------------------------------------------------------
+    int32_t data_t = 0;
+    for(int i = machine_arm1_status; i <=  machine_arm5_status; i++) {
+        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        data_t = data_t +temp_v.current_value;
+        sprintf(temp, "%d°", cal_angel(data_t) / 10);
+        lv_label_set_text(p->arms_angel[4-(machine_arm5_status-i)], temp);
+    }
+
+    //-----------------------------------------------------------------
+    // 19. 支撑模式
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode,pageid_home);
+    if(temp_v.different_flag) {
+        // if (temp_v.current_value == 1)
+        // { //全支撑模式
+        //     //lv_label_set_text(p->arm_support_label, "全支撑");
+        //     lv_img_set_src( p->truck, &bus_status_1 );
+        // }
+        // else if (temp_v.current_value == 2)
+        // { //左支撑模式
+        //     //lv_label_set_text(p->arm_support_label, "左支撑");
+        //     lv_img_set_src( p->truck, &bus_status_7 );
+        // }
+        // else if (temp_v.current_value == 3)
+        // { //右支撑模式
+        //     //lv_label_set_text(p->arm_support_label, "右支撑");
+        //     lv_img_set_src( p->truck, &bus_status_5 );
+        // }
+        // else if (temp_v.current_value == 4)
+        // { //前支撑模式
+        //     //lv_label_set_text(p->arm_support_label, "前支撑");
+        //     lv_img_set_src( p->truck, &bus_status_3 );
+        // }
+        // else if (temp_v.current_value == 5)
+        // { //小支撑模式???
+        //     //lv_label_set_text(p->arm_support_label, "小支撑");
+        //     lv_img_set_src( p->truck, &bus_status_2 );
+        // }
+        // else if (temp_v.current_value == 6)
+        // {
+        //     //lv_label_set_text(p->arm_support_label, "一级腿");
+        //     lv_img_set_src( p->truck, &bus_status_2 );
+        // }
+        // else if (temp_v.current_value == 7)
+        // {
+        //     //lv_label_set_text(p->arm_support_label, "左前");
+        //     lv_img_set_src( p->truck, &bus_status_8 );
+        // }
+        // else if (temp_v.current_value == 8)
+        // {
+        //     //lv_label_set_text(p->arm_support_label, "右前");
+        //     lv_img_set_src( p->truck, &bus_status_6 );
+        // }
+        // else if (temp_v.current_value == 9)
+        // {
+        //     //lv_label_set_text(p->arm_support_label, "两级腿");
+        //     lv_img_set_src( p->truck, &bus_status_2 );
+        // }
+        // else if (temp_v.current_value == 10)
+        // {
+        //     //lv_label_set_text(p->arm_support_label, "任意支撑");
+        //     lv_img_set_src( p->truck, &bus_status_4 );
+        // }
+        // else if (temp_v.current_value == 100)
+        // {
+        //     //lv_label_set_text(p->arm_support_label, "RPC");
+        //     lv_img_set_src( p->truck, &bus_status_9 );
+        // }
+        // else
+        // { //无支撑模式
+        //     //lv_label_set_text(p->arm_support_label, "无支撑");
+        //     lv_img_set_src( p->truck, &bus_status_0 );
+        // }
+    }
+    //-----------------------------------------------------------------
+    // 20. 臂架液压油温
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_arms_temperature,pageid_home);
+    if(temp_v.different_flag) {
+        sprintf(temp, "%.1f℃",temp_v.current_value / 10.0);
+        lv_label_set_text(p->arm_oil_label, temp);
+    }
+    //-----------------------------------------------------------------
+    // 21. 回转角度
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_arm0_status,pageid_home);
+    if(temp_v.different_flag) {
+        sprintf(temp, "%.1f°", temp_v.current_value / 10.0);
+        lv_label_set_text(p->cycle_angel_label, temp);
+    }
+    temp_v =  lv_subject_get_int_from_type(subject, machine_cw_emr,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value)
+        {
+            lv_obj_clear_flag(p->cycle_emr, LV_OBJ_FLAG_HIDDEN);
+        }
+        else
+        {
+            lv_obj_add_flag(p->cycle_emr, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    //-----------------------------------------------------------------
+    // 22. 危险等级
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value == 1)
+        {
+            lv_img_set_src(p->danger, & danger0);
+        }
+        else if (temp_v.current_value == 2)
+        {
+            lv_img_set_src(p->danger, &danger1);
+        }
+        else if (temp_v.current_value == 3)
+        {
+            lv_img_set_src(p->danger, &danger2);
+        }
+        else if (temp_v.current_value == 4)
+        {
+            lv_img_set_src(p->danger, &danger3);
+        }
+
+        if (temp_v.current_value == 0)
+        {
+            lv_obj_add_flag(p->danger, LV_OBJ_FLAG_HIDDEN);
+        }
+        else
+        {
+            lv_obj_clear_flag(p->danger, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    //-----------------------------------------------------------------
+    // 23. 塌陷
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_collapse_logo,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value == 1)
+        {
+            lv_img_set_src(p->danger_icon, &mode_icon0);
+        }
+        else if (temp_v.current_value == 2)
+        {
+            lv_img_set_src(p->danger_icon, &mode_icon1);
+        }
+        else if (temp_v.current_value == 3)
+        {
+            lv_img_set_src(p->danger_icon, &mode_icon2);
+        }
+        else if (temp_v.current_value == 4)
+        {
+            lv_img_set_src(p->danger_icon, &mode_icon3);
+        }
+
+        if (temp_v.current_value == 0)
+        {
+            lv_obj_add_flag(p->danger_icon, LV_OBJ_FLAG_HIDDEN);
+        }
+        else
+        {
+            lv_obj_clear_flag(p->danger_icon, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    //-----------------------------------------------------------------
+    // 24. 安全系数
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode,pageid_home);
+    temp_vv =  lv_subject_get_int_from_type(subject, machine_safe_k,pageid_home);
+    if(temp_v.current_value == 10) {
+        lv_obj_clear_flag(p->safety_bg, LV_OBJ_FLAG_HIDDEN);
+        if(temp_vv.different_flag) {
+            if(temp_vv.current_value > 200)
+			{
+					temp_vv.current_value = 200;
+			}
+			if(temp_vv.current_value == 0)
+			{
+					lv_obj_add_flag(p->green_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_add_flag(p->yellow_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_add_flag(p->red_obj, LV_OBJ_FLAG_HIDDEN);
+			}
+			if(temp_vv.current_value >= 100 && temp_vv.current_value <= 110)
+			{
+					lv_obj_add_flag(p->green_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_add_flag(p->yellow_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_clear_flag(p->red_obj, LV_OBJ_FLAG_HIDDEN);
+
+					lv_obj_set_size(p->red_obj, 35, 80*(temp_vv.current_value - 100)/100.0 );
+					lv_obj_set_pos(p->red_obj, 65 + 145, 275 + 52 + 20 + (8 - 80*(temp_vv.current_value - 100)/100.0)) ;
+			}
+			else if(temp_vv.current_value > 110 && temp_vv.current_value <= 135)
+			{
+					lv_obj_add_flag(p->green_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_clear_flag(p->yellow_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_clear_flag(p->red_obj, LV_OBJ_FLAG_HIDDEN);
+
+					lv_obj_set_size(p->red_obj, 35, 8);
+					lv_obj_set_pos(p->red_obj, 65 + 145, 275 + 52 + 20);
+
+					lv_obj_set_size(p->yellow_obj, 35, 80*(temp_vv.current_value - 110)/100.0 );
+					lv_obj_set_pos(p->yellow_obj, 65 + 145, 275 + 52 + (20 - 80*(temp_vv.current_value - 110)/100.0)) ;
+			}
+			else if(temp_vv.current_value > 135 && temp_vv.current_value <= 200)
+			{
+					lv_obj_clear_flag(p->green_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_clear_flag(p->yellow_obj, LV_OBJ_FLAG_HIDDEN);
+					lv_obj_clear_flag(p->red_obj, LV_OBJ_FLAG_HIDDEN);
+
+					lv_obj_set_size(p->red_obj, 35, 8);
+					lv_obj_set_pos(p->red_obj, 65 + 145, 275 + 52 + 20);
+
+					lv_obj_set_size(p->yellow_obj, 35, 20);
+					lv_obj_set_pos(p->yellow_obj, 65 + 145, 275 + 52);
+
+					lv_obj_set_size(p->green_obj, 35, 80*(temp_vv.current_value - 135)/100.0);
+					lv_obj_set_pos(p->green_obj, 65 + 145, 275 + (52 - 80*(temp_vv.current_value - 135)/100.0));
+			}
+        }
+        else
+        {
+            lv_obj_add_flag(p->safety_bg, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(p->green_obj, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(p->yellow_obj, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(p->red_obj, LV_OBJ_FLAG_HIDDEN);
+        }
+
+    }
+
 
 
 
@@ -967,4 +1304,17 @@ temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index,
 
     return temp_v;
 
+}
+
+static int32_t cal_angel(int32_t data)
+{
+    while ( data < -1800)
+    {
+        data = data + 3600;
+    }
+    while ( data >= 1800)
+    {
+        data = data - 3600;
+    }
+    return data;
 }
