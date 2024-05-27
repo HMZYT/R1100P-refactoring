@@ -2,6 +2,14 @@
 #define LVGL_SYSPARAS_DEFS_H
 
 typedef enum {
+    pageid_home,
+    pageid_rc,
+    pageid_note,
+    pageid_faults,
+    pageid_end
+}page_idx;
+
+typedef enum {
 #pragma region system
     system_paras_language,          //语言
     system_end,
@@ -56,22 +64,6 @@ typedef enum {
     machine_support_logo,           //20a,主监控任意支撑功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
     machine_collapse_logo,          //20a,主监控塌陷识别功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
     machine_safe_k,                 //安全系数
-    machine_collapse_flag,          //20a,显示屏机手页面勾选塌陷识别功能标志位：false，未勾选；true，勾选
-    machine_alarm_flag,             //20a,支撑安全预警系统警示灯提示标志位：false，未勾选；true，勾选
-    machine_limit_flag,             //20a,支撑安全预警系统限制功能标志位：false，未勾选；true，勾选
-    machine_leg_left_up_level,      //左前支腿塌陷级别（-3~3）
-    machine_leg_right_up_level,     //右前支腿塌陷级别
-    machine_leg_left_down_level,    //左后支腿塌陷级别
-    machine_leg_right_down_level,   //右后支腿塌陷级别
-    machine_leg_left_up_collapse,   //左前支腿塌陷
-    machine_leg_left_down_collapse, //左后支腿塌陷
-    machine_leg_right_up_collapse,  //右前支腿塌陷
-    machine_leg_right_down_collapse,//右后支腿塌陷
-    machine_up_dis,                 //前方安全距离
-    machine_down_dis,               //后方安全距离
-    machine_left_dis,               //左方安全距离
-    machine_right_dis,              //右方安全距离
-    machine_danger_edge,            //侧翻危险边
     machine_end,
 #pragma endregion
 
@@ -110,10 +102,27 @@ typedef enum {
     faults_id,                      //故障序号
     faults_detail,                  //故障代码
     faults_total,                   //故障总数
+    faults_end,
 #pragma endregion
 
 #pragma region antipping
-
+    antipping_collapse_flag,          //20a,显示屏机手页面勾选塌陷识别功能标志位：false，未勾选；true，勾选
+    antipping_alarm_flag,             //20a,支撑安全预警系统警示灯提示标志位：false，未勾选；true，勾选
+    antipping_limit_flag,             //20a,支撑安全预警系统限制功能标志位：false，未勾选；true，勾选
+    antipping_leg_left_up_level,      //左前支腿塌陷级别（-3~3）
+    antipping_leg_right_up_level,     //右前支腿塌陷级别
+    antipping_leg_left_down_level,    //左后支腿塌陷级别
+    antipping_leg_right_down_level,   //右后支腿塌陷级别
+    antipping_leg_left_up_collapse,   //左前支腿塌陷
+    antipping_leg_left_down_collapse, //左后支腿塌陷
+    antipping_leg_right_up_collapse,  //右前支腿塌陷
+    antipping_leg_right_down_collapse,//右后支腿塌陷
+    antipping_up_dis,                 //前方安全距离
+    antipping_down_dis,               //后方安全距离
+    antipping_left_dis,               //左方安全距离
+    antipping_right_dis,              //右方安全距离
+    antipping_danger_edge,            //侧翻危险边
+    antipping_end,
 #pragma endregion
 
     SUBJECT_COUNTS_PARAS_END

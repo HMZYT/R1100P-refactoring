@@ -7,8 +7,10 @@ extern "C"{
 #include "lvgl/lvgl.h"
 
 extern lv_subject_t subject_home_all;
-extern lv_subject_t subject_note_all;
 extern lv_subject_t subject_system;
+extern lv_subject_t subject_rc_all;
+extern lv_subject_t subject_faults_all;
+extern lv_subject_t subject_antipping_all;
 
 extern void uiRun();
 

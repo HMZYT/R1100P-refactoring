@@ -27,7 +27,9 @@ static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subje
 
 lv_subject_t subject_system;
 lv_subject_t subject_home_all;
-lv_subject_t subject_note_all;
+lv_subject_t subject_rc_all;
+lv_subject_t subject_faults_all;
+lv_subject_t subject_antipping_all;
 
 void uiRun()
 {
@@ -95,16 +97,30 @@ static void page_manage_subjects_init()
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
     static lv_subject_t *system_list[system_end];
     static lv_subject_t *home_list[machine_end - system_end - 1];
-    //lv_subject_t *note_list[1];
+    static lv_subject_t *rc_list[rc_end - machine_end - 1];
+    static lv_subject_t *faults_list[faults_end - rc_end - 1];
+    static lv_subject_t *antipping_list[antipping_end - faults_end - 1];
 
-    system_list[0] = &subjectParas[system_paras_language];
+    for(int nIndex = 0; nIndex < system_end; nIndex++)
+        system_list[nIndex] = &subjectParas[system_paras_language + nIndex];
     lv_subject_init_group(&subject_system, system_list, system_end);
 
-    home_list[0] = &subjectParas[machine_motor_speed];
+    for(int nIndex = 0; nIndex < machine_end - system_end - 1; nIndex++)
+        home_list[nIndex] = &subjectParas[machine_motor_speed + nIndex];
     lv_subject_init_group(&subject_home_all, home_list, machine_end - system_end - 1);
 
-//  note_list[0] = &subjectParas[system_paras_language];
-//  lv_subject_init_group(subject, note_list, 1);
+    for(int nIndex = 0; nIndex < rc_end - machine_end - 1; nIndex++)
+        rc_list[nIndex] = &subjectParas[rc_armSupport + nIndex];
+    lv_subject_init_group(&subject_rc_all, rc_list, rc_end - machine_end - 1);
+
+    for(int nIndex = 0; nIndex < faults_end - rc_end - 1; nIndex++)
+        faults_list[nIndex] = &subjectParas[faults_id + nIndex];
+    lv_subject_init_group(&subject_faults_all, faults_list, faults_end - rc_end - 1);
+
+    for(int nIndex = 0; nIndex < antipping_end - faults_end - 1; nIndex++)
+        antipping_list[nIndex] = &subjectParas[antipping_collapse_flag + nIndex];
+    lv_subject_init_group(&subject_antipping_all, antipping_list, antipping_end - faults_end - 1);
+
 }
 
 static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)

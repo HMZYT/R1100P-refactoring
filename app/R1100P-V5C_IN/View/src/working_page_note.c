@@ -173,7 +173,7 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_obj_add_style(temp_obj, &style02, 0);
     language_set_current_label(temp_obj, "R_016ZNV2B.1");
 
-    lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, page, NULL);
+    //lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, page, NULL);
     return obj;
 }
 
