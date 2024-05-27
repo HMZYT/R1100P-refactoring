@@ -6,6 +6,13 @@ extern "C" {
 #endif
 
 #include "lvgl/lvgl.h"
+#include "../inc/sysparas_defs.h"
+
+typedef struct{
+    int32_t current_value;
+    int32_t previous_value;
+    bool different_flag;
+}temp_value_t;
 
 typedef struct{
     /*************************************************************************************
@@ -103,7 +110,8 @@ typedef struct{
     lv_obj_t *danger_mode_icon;
 }working_page_home_t;
 
-lv_obj_t* working_page_home_init(lv_obj_t *page);
+extern lv_obj_t* working_page_home_init(lv_obj_t *page);
+extern temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum);
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

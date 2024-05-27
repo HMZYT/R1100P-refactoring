@@ -7,7 +7,7 @@
 #include "../inc/UiRun.h"
 
 static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
-
+temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum);
 static lv_style_t style_oil_bar;
 static lv_style_t style_uera_bar;
 static lv_style_t style_uera_bar_blue;
@@ -626,6 +626,8 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     working_page_home_t *p = (working_page_home_t *) observer->user_data;
 
     char temp[64];
+    temp_value_t temp_v;
+    temp_value_t temp_vv;
     /*************************************************************************************
    * 一区：
    * - 发动机转速
@@ -636,23 +638,27 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
    *************************************************************************************/
 
 #pragma region
-    lv_subject_t *s = lv_subject_get_group_element(subject, machine_motor_speed - system_end - 1);
-    int motor_speed = lv_subject_get_int(s);
 
-    if (motor_speed > 2500)
+    //-----------------------------------------------------------------
+    // 1. 发动机转速
+    //-----------------------------------------------------------------
+    temp_v = lv_subject_get_int_from_type(subject, machine_motor_speed,pageid_home);
+    if (temp_v.current_value > 2500)
     {
-        motor_speed = 2500;
+        temp_v.current_value  = 2500;
+    }
+    if(temp_v.different_flag)
+    {
+        snprintf(temp, 64, "%d", temp_v.current_value);
+        lv_label_set_text(p->engine_speed_label, temp);
+        lv_img_set_angle(p->engine_speed_pointer, temp_v.current_value * 1800.0 / 2500);
     }
 
-    snprintf(temp, 64, "%d", motor_speed);
-    lv_label_set_text(p->engine_speed_label, temp);
-    lv_img_set_angle(p->engine_speed_pointer, motor_speed * 1800.0 / 2500);
 
-    s = lv_subject_get_group_element(subject, machine_acc_flag - system_end - 1);
-    int acc_flag = lv_subject_get_int(s);
-    if (lv_subject_get_previous_int(s) != acc_flag)
+    temp_v = lv_subject_get_int_from_type(subject, machine_acc_flag,pageid_home);
+    if (temp_v.different_flag)
     {
-        if (acc_flag)
+        if (temp_v.current_value)
         {
             lv_img_set_src(p->speed_up, &arrow01);
             lv_img_set_src(p->speed_down, &down_arrow);
@@ -664,11 +670,10 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         }
     }
 
-    s = lv_subject_get_group_element(subject, machine_dec_flag - system_end - 1);
-    int dec_flag = lv_subject_get_int(s);
-    if (lv_subject_get_previous_int(s) != dec_flag)
+    temp_v = lv_subject_get_int_from_type(subject, machine_dec_flag,pageid_home);
+    if (temp_v.different_flag)
     {
-        if (dec_flag)
+        if (temp_v.current_value)
         {
             lv_img_set_src(p->speed_up, &up_arrow);
             lv_img_set_src(p->speed_down, &arrow02);
@@ -680,6 +685,286 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         }
     }
 
+    //-----------------------------------------------------------------
+    // 2. 排量档位
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_dec_flag,pageid_home);
+    if(temp_v.different_flag)
+    {
+        sprintf(temp, "%.1f",temp_v.current_value / 10.0);
+        lv_label_set_text(p->local_level_label, temp);
+    }
+
+    //-----------------------------------------------------------------
+    // 3. 水冷
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_water_temp,pageid_home);
+    if(temp_v.different_flag)
+    {
+        sprintf(temp, "%d℃", temp_v.current_value -40);
+        lv_label_set_text(p->sug_level_label, temp);
+    }
+
+    //-----------------------------------------------------------------
+    // 4. 疏通强力节能
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_mode,pageid_home);
+    if(temp_v.different_flag)
+    {
+        if (temp_v.current_value == 2 )
+        { //疏通
+            lv_img_set_src(p->eco_img, &shutong);
+        }
+        else if(temp_v.current_value == 1 )
+        {//强力
+            lv_img_set_src(p->eco_img, &qiangli);
+        }
+        else if(temp_v.current_value == 3  )
+        {//节能
+            lv_img_set_src(p->eco_img, &jieneng);
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // 5. 油位
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_oil_pos,pageid_home);
+    if(temp_v.different_flag) {
+        if ( temp_v.current_value > 100 )
+        {
+            lv_label_set_text_fmt( p->oil_pos, "--%%", temp_v.current_value );
+        }
+        else
+        {
+            lv_label_set_text_fmt( p->oil_pos, "%d%%", temp_v.current_value );
+        }
+
+        uint8_t nn =temp_v.current_value / 10 + (temp_v.current_value % 10 ? 1: 0);
+        if ( nn > 10 )
+        {
+            nn = 10;
+        }
+        uint8_t mm =  nn;
+
+        for ( int i = 0; i < mm; ++i )
+        {
+            lv_obj_remove_style( p->oil_rect[ i ],&style_uera_bar, 0 );
+            lv_obj_add_style( p->oil_rect[ i ], &style_uera_bar_green, 0);
+        }
+        for ( int i = mm; i < 10; ++i )
+        {
+            lv_obj_remove_style( p->oil_rect[ i ],&style_uera_bar_green, 0 );
+            lv_obj_add_style( p->oil_rect[ i ], &style_uera_bar, 0);
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // 6. 尿素液位
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_urea_pos,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value > 100 )
+        {
+            lv_label_set_text_fmt( p->uera_pos, "--%%", temp_v.current_value );
+        }
+        else
+        {
+            lv_label_set_text_fmt( p->uera_pos, "%d%%", temp_v.current_value );
+        }
+
+
+        uint8_t n = temp_v.current_value / 10 + (temp_v.current_value % 10 ? 1: 0);
+        if ( n > 10 )
+        {
+            n = 10;
+        }
+        uint8_t m =  n;
+
+        for ( int j = 0; j < m; ++j )
+        {
+            lv_obj_remove_style( p->uera_rect[ j ],&style_uera_bar, 0 );
+            lv_obj_add_style( p->uera_rect[ j ], &style_uera_bar_blue, 0);
+        }
+        for ( int j = m; j < 10; ++j )
+        {
+            lv_obj_remove_style( p->uera_rect[ j ],&style_uera_bar_blue, 0 );
+            lv_obj_add_style( p->uera_rect[ j ], &style_uera_bar, 0);
+        }
+    }
+    //-----------------------------------------------------------------
+    // 7. 泵送压力
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pumping_pressure,pageid_home);
+    if(temp_v.different_flag) {
+        if ( temp_v.current_value > 600 )
+        {
+            temp_v.current_value = 600;
+        }
+        snprintf(temp, 64, "%.1f", temp_v.current_value / 10.0);
+        lv_label_set_text(p->pump_press_label, temp);
+
+        lv_img_set_angle(p->pump_press_pointer, temp_v.current_value / 10.0 * 1800.0 / 60);
+    }
+    //-----------------------------------------------------------------
+    // 8. 正反泵
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_cw,pageid_home);
+    temp_vv = lv_subject_get_int_from_type(subject, machine_ccw,pageid_home);
+    if(temp_v.different_flag || temp_vv.different_flag) {
+        if (temp_v.current_value)
+        { //正泵
+            lv_obj_clear_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src(p->pump_pos_neg, &bump_up );
+        }
+        else if (temp_vv.current_value)
+        { //反泵
+            lv_obj_clear_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src(p->pump_pos_neg, &bump_down);
+        }
+        else
+        {
+            //lv_obj_add_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src(p->pump_pos_neg, &bump_stop);
+        }
+    }
+    if (temp_v.current_value == 0 && temp_vv.current_value == 0 ) //补充情况 （初始化值都为0，上面else跑不进）
+    {
+        //lv_obj_add_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+        lv_img_set_src(p->pump_pos_neg, &bump_stop);
+    }
+
+    temp_v =  lv_subject_get_int_from_type(subject, machine_emr,pageid_home);
+    if(temp_v.different_flag) {
+        if ( temp_v.current_value == 0 )
+        {//关闭
+            lv_obj_add_flag(p->direction_err, LV_OBJ_FLAG_HIDDEN);
+        }
+        else if ( temp_v.current_value == 1 )
+        {//左主缸
+            lv_obj_clear_flag(p->direction_err, LV_OBJ_FLAG_HIDDEN);
+        }
+        else if ( temp_v.current_value == 2 )
+        {//右主缸
+            lv_obj_clear_flag(p->direction_err, LV_OBJ_FLAG_HIDDEN);
+        }
+        else if ( temp_v.current_value == 3 )
+        {//水箱
+            lv_obj_clear_flag(p->direction_err, LV_OBJ_FLAG_HIDDEN);
+        }
+        else if ( temp_v.current_value == 4 )
+        {//无传感
+            lv_obj_clear_flag(p->direction_err, LV_OBJ_FLAG_HIDDEN);
+        }
+        else{
+            lv_obj_clear_flag(p->direction_err, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // 9. 物料状态
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_materials,pageid_home);
+    if(temp_v.different_flag) {
+        if ( temp_v.current_value == 0 )
+        {//不显示n
+            lv_obj_clear_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src( p->icon_materials, &liao_none  );
+        }else if ( temp_v.current_value == 1 ){//1：可泵性好
+            //压力值不再闪烁，且颜色为绿色
+            lv_obj_clear_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src( p->icon_materials, &liao_good  );
+        }else if ( temp_v.current_value == 2 ){//2：可泵性一般
+            //压力值不再闪烁，且颜色为绿色
+            lv_obj_clear_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src( p->icon_materials, &liao_common );
+        }else if ( temp_v.current_value == 3 ){//3：可泵性差
+            //料况差时，图标为红色，压力值为红色，图标以及压力值以1s频率闪烁
+            lv_obj_clear_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+            lv_img_set_src( p->icon_materials, &liao_err );
+        }else{
+            //lv_obj_add_flag( p->icon_materials, LV_OBJ_FLAG_HIDDEN );
+        }
+    }
+    //-----------------------------------------------------------------
+    // 10. 泵送频率
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_freq,pageid_home);
+    if(temp_v.different_flag) {
+        snprintf(temp, 64, "%d次/min",temp_v.current_value );
+        lv_label_set_text(p->bump_direction_label, temp);
+    }
+    //-----------------------------------------------------------------
+    // 11. 泵送油温
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_temperature,pageid_home);
+    if(temp_v.different_flag) {
+        sprintf(temp, "%.1f℃", temp_v.current_value / 10.0);
+        lv_label_set_text(p->bump_oil_tep, temp);
+    }
+
+    //-----------------------------------------------------------------
+    // 12. 堵管报警
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_blocking,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value  >= 2 )
+        {
+            lv_obj_clear_flag( p->duguan, LV_OBJ_FLAG_HIDDEN );
+        }
+        else
+        {
+            lv_obj_add_flag( p->duguan, LV_OBJ_FLAG_HIDDEN );
+        }
+    }
+    //-----------------------------------------------------------------
+    // 13. 高低压
+    //-----------------------------------------------------------------
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pressure,pageid_home);
+    if(temp_v.different_flag) {
+        if (temp_v.current_value)
+        { //高压
+            lv_obj_clear_flag(p->press_status, LV_OBJ_FLAG_HIDDEN);
+            lv_img_set_src(p->press_status, &highpress);
+        }
+        else
+        { //低压
+            lv_obj_clear_flag(p->press_status, LV_OBJ_FLAG_HIDDEN);
+            lv_img_set_src(p->press_status, &lowpress);
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // 14.风机
+    //-----------------------------------------------------------------
+
+
+
 #pragma endregion
 }
 
+temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum) {
+
+    lv_subject_t *temp ;
+    temp_value_t temp_v;
+
+    if(type_enum == pageid_home) {
+        temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    }else if(type_enum == pageid_rc){
+        temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    }else if(type_enum == pageid_note){
+        temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    }else if(type_enum == pageid_faults){
+        temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    }else {
+    }
+    temp_v.current_value = lv_subject_get_int(temp);
+    temp_v.previous_value = lv_subject_get_previous_int(temp);
+    if(temp_v.current_value != temp_v.previous_value) {
+        temp_v.different_flag = true;
+    }else {
+        temp_v.different_flag = false;
+    }
+
+    return temp_v;
+
+}
