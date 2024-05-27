@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "math.h"
 #include "../inc/images_v4_0.h"
+#include "../inc/working_page_home.h"
+#include "../inc/UiRun.h"
 
 int bg_light_level = 100;
 
@@ -14,6 +16,8 @@ static void _button_side_set_clicked(lv_obj_t *btn, bool clicked);         //侧
 static void _button_lock_arm_set_v(lv_obj_t *btn, lv_obj_t *l, uint8_t v); //锁臂按键设置
 static void _set_displacement(lv_obj_t *btn, lv_obj_t *label, uint8_t v);  //排量设置
 static void _set_rocker(rocker_t *rocker, uint8_t v);
+
+static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 lv_obj_t* working_page_rc_init(lv_obj_t *page)
 {
@@ -313,6 +317,343 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
     lv_obj_set_style_bg_opa(p->backlight_bar, LV_OPA_100, LV_PART_INDICATOR);
     lv_bar_set_value(p->backlight_bar, 70, LV_ANIM_ON);
     lv_obj_add_flag( p->backlight_bar, LV_OBJ_FLAG_HIDDEN );
+
+    //观察者模式
+    lv_subject_add_observer_obj(&subject_rc_all, rc_observer_list_cb, page, p);
+}
+
+static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) {
+    lv_obj_t *page_rc = lv_observer_get_target_obj(observer);
+    working_page_rc_t *p = (working_page_rc_t *) observer->user_data;
+
+    char temp[64];
+    temp_value_t temp_v;
+    temp_value_t temp_vv;
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_flag,pageid_rc);
+    if(temp_v.different_flag)
+    {
+        if(temp_v.current_value)
+        {
+            lv_obj_clear_flag(p->backlight_bar,LV_OBJ_FLAG_HIDDEN);
+        }
+        else
+        {
+            lv_obj_add_flag(p->backlight_bar,LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_armSupport,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_rocker(p->rockers[0], temp_v.current_value);
+        if (temp_v.current_value == 0 )
+        {
+            lv_obj_add_flag( p->up[0], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[0], LV_OBJ_FLAG_HIDDEN );
+        }
+        else if (temp_v.current_value <= 0x7F )
+        {//下降
+            lv_obj_add_flag( p->up[0], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_clear_flag( p->down[0], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->down[0], "-%d", temp_v.current_value);
+        }
+        else
+        {//上升
+            lv_obj_clear_flag( p->up[0], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[0], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->up[0], "%d", 0xFF - (uint8_t)temp_v.current_value + 1);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm1,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_rocker(p->rockers[1], temp_v.current_value);
+        if (temp_v.current_value == 0 )
+        {
+            lv_obj_add_flag( p->up[1], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag( p->down[1], LV_OBJ_FLAG_HIDDEN);
+        }
+        else if (temp_v.current_value <= 0x7F )
+        {
+            lv_obj_add_flag( p->up[1], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag( p->down[1], LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text_fmt( p->down[1], "-%d", temp_v.current_value);
+        }
+        else
+        {
+            lv_obj_clear_flag( p->up[1], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[1], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->up[1], "%d", 0xFF - (uint8_t)temp_v.current_value + 1);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm2,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_rocker(p->rockers[2], temp_v.current_value);
+        if (temp_v.current_value == 0 )
+        {
+            lv_obj_add_flag( p->up[2], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag( p->down[2], LV_OBJ_FLAG_HIDDEN);
+        }
+        else if (temp_v.current_value <= 0x7F )
+        {
+            lv_obj_add_flag( p->up[2], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag( p->down[2], LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text_fmt( p->down[2], "-%d", temp_v.current_value);
+        }
+        else
+        {
+            lv_obj_clear_flag( p->up[2], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[2], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->up[2], "%d", 0xFF - (uint8_t)temp_v.current_value + 1);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm3,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_rocker(p->rockers[3], temp_v.current_value);
+        if (temp_v.current_value == 0 )
+        {
+            lv_obj_add_flag( p->up[3], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag( p->down[3], LV_OBJ_FLAG_HIDDEN);
+        }
+        else if (temp_v.current_value <= 0x7F )
+        {
+            lv_obj_add_flag( p->up[3], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag( p->down[3], LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text_fmt( p->down[3], "-%d", temp_v.current_value);
+        }
+        else
+        {
+            lv_obj_clear_flag( p->up[3], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[3], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->up[3], "%d", 0xFF - (uint8_t)temp_v.current_value + 1);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm4,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_rocker(p->rockers[4], temp_v.current_value);
+        if (temp_v.current_value == 0 )
+        {
+            lv_obj_add_flag( p->up[4], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag( p->down[4], LV_OBJ_FLAG_HIDDEN);
+        }
+        else if (temp_v.current_value <= 0x7F )
+        {
+            lv_obj_add_flag( p->up[4], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag( p->down[4], LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text_fmt( p->down[4], "-%d", temp_v.current_value);
+        }
+        else
+        {
+            lv_obj_clear_flag( p->up[4], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[4], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->up[4], "%d", 0xFF - (uint8_t)temp_v.current_value + 1);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm5,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_rocker(p->rockers[5], temp_v.current_value);
+        if (temp_v.current_value == 0 )
+        {
+            lv_obj_add_flag( p->up[5], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag( p->down[5], LV_OBJ_FLAG_HIDDEN);
+        }
+        else if (temp_v.current_value <= 0x7F )
+        {
+            lv_obj_add_flag( p->up[5], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag( p->down[5], LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text_fmt( p->down[5], "-%d", temp_v.current_value);
+        }
+        else
+        {
+            lv_obj_clear_flag( p->up[5], LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->down[5], LV_OBJ_FLAG_HIDDEN );
+            lv_label_set_text_fmt( p->up[5], "%d", 0xFF - (uint8_t)temp_v.current_value + 1);
+        }
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_displacement,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _set_displacement(p->btn_replacement, p->label_displacement, temp_v.current_value);
+    }
+
+    int temp_count = 0;
+    static uint8_t last_lock = 0;
+    for (int nIndex = rc_1; nIndex <= rc_2_3; nIndex++)
+    {
+        temp_count++;
+        temp_v = lv_subject_get_int_from_type(subject, nIndex,pageid_rc);
+        if (temp_v.current_value)
+        {
+            break;
+        }
+    }
+
+    if (temp_count != last_lock)
+    {
+        _button_lock_arm_set_v(p->btn_lock_arms, p->label_lock, temp_count);
+        last_lock = temp_count;
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_engine_stop,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _button_side_set_clicked(p->btn_stop, temp_v.current_value);
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_start_key,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _button_side_set_clicked(p->btn_start, temp_v.current_value);
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_horn,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _button_side_set_clicked(p->btn_whistle, temp_v.current_value);
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, rc_halt,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _button_side_set_clicked(p->btn_emergency, temp_v.current_value);
+    }
+
+    uint8_t v[ 7 ] = { 0 };
+    static uint8_t last_v[ 7 ] = { 0 };
+
+    /***************************
+    * BUTTON1: 正反泵
+    ***************************/
+    temp_value_t temp_rc_ccw = lv_subject_get_int_from_type(subject, rc_ccw,pageid_rc);
+    temp_value_t temp_rc_cw = lv_subject_get_int_from_type(subject, rc_cw,pageid_rc);
+    if (temp_rc_ccw.current_value)
+    {//下
+        v[ 0 ] = 2;
+    }
+    else if (temp_rc_cw.current_value)
+    {//上
+        v[ 0 ] = 1;
+    }
+    else
+    {//中
+        v[ 0 ] = 0;
+    }
+
+    if ( v[ 0 ] != last_v[ 0 ] )
+    {
+        _button_set_v(p->btns[0], v[ 0 ]);
+        last_v[ 0 ] = v[ 0 ];
+    }
+
+    /***************************
+    * BUTTON2: 左右摆缸
+    ***************************/
+    temp_value_t temp_right_swing_pump = lv_subject_get_int_from_type(subject, rc_right_swing_pump,pageid_rc);
+    temp_value_t temp_left_swing_pump = lv_subject_get_int_from_type(subject, rc_left_swing_pump,pageid_rc);
+    if (temp_right_swing_pump.current_value)
+    {//下
+        v[ 1 ] = 2;
+    }
+    else if (temp_left_swing_pump.current_value)
+    {//上
+        v[ 1 ] = 1;
+    }
+    else
+    {//中
+        v[ 1 ] = 0;
+    }
+
+    if ( v[ 1 ] != last_v[ 1 ] )
+    {
+        _button_set_v(p->btns[1], v[ 1 ]);
+        last_v[ 1 ] = v[ 1 ];
+    }
+
+    /***************************
+    * BUTTON3: 龟兔
+    ***************************/
+    temp_v = lv_subject_get_int_from_type(subject, rc_slow,pageid_rc);
+    if (temp_v.current_value)
+    {//下
+        v[ 2 ] = 2;
+    }
+    else
+    {//上
+        v[ 2 ] = 1;
+    }
+
+    if (temp_v.different_flag)
+    {
+        _button_set_v(p->btns[2], v[ 2 ]);
+    }
+
+    /***************************
+    * BUTTON4: PRM
+    ***************************/
+    temp_value_t temp_rpm_minus = lv_subject_get_int_from_type(subject, rc_rpm_minus,pageid_rc);
+    temp_value_t temp_rpm_plus = lv_subject_get_int_from_type(subject, rc_rpm_plus,pageid_rc);
+    if (temp_rpm_minus.current_value)
+    {//下
+        v[ 3 ] = 2;
+    }
+    else if (temp_rpm_plus.current_value)
+    {//上
+        v[ 3 ] = 1;
+    }
+    else
+    {//中
+        v[ 3 ] = 0;
+    }
+
+    if ( v[ 3 ] != last_v[ 3 ] )
+    {
+        _button_set_v(p->btns[3], v[ 3 ]);
+        last_v[ 3 ] = v[ 3 ];
+    }
+
+    /***************************
+    * BUTTON5: 强力、节能
+    ***************************/
+    temp_value_t temp_dredge = lv_subject_get_int_from_type(subject, rc_dredge,pageid_rc);
+    temp_value_t temp_strong_power = lv_subject_get_int_from_type(subject, rc_strong_power,pageid_rc);
+    if (temp_dredge.current_value)
+    {//疏通
+        v[ 4 ] = 0;
+    }
+    else if (temp_strong_power.current_value)
+    {//强力
+        v[ 4 ] = 1;
+    }
+    else
+    {//节能
+        v[ 4 ] = 2;
+    }
+
+    if ( v[ 4 ] != last_v[ 4 ] )
+    {
+        _button_set_v(p->btns[4], v[ 4 ]);
+        last_v[ 4 ] = v[ 4 ];
+    }
+
+    /***************************
+    * 电源按钮
+    ***************************/
+    temp_v = lv_subject_get_int_from_type(subject, rc_powerkey,pageid_rc);
+    if (temp_v.different_flag)
+    {
+        _button_side_set_clicked(p->btn_off, temp_v.current_value);
+    }
 }
 
 static rc_lcd_button_t *_create_button(lv_obj_t *parent)
