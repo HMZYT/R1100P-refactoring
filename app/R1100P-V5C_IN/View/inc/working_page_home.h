@@ -112,6 +112,7 @@ typedef struct{
 
 extern lv_obj_t* working_page_home_init(lv_obj_t *page);
 extern temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum);
+extern temp_value_t lv_subject_get_int_arr_from_type(lv_subject_t * subject, int32_t index,int32_t idx, page_idx type_enum);
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

@@ -6,6 +6,7 @@ typedef enum {
     pageid_rc,
     pageid_note,
     pageid_faults,
+    pageid_factory,
     pageid_end
 }page_idx;
 
@@ -125,6 +126,19 @@ typedef enum {
     antipping_end,
 #pragma endregion
 
+#pragma region factory
+    factory_align_disp_min,
+    factory_align_disp_mid,
+    factory_align_disp_max,
+    factory_align_disp_selected_pos,
+    factory_align_displacement_end,
+    factory_align_selected_cali_arm,
+    factory_align_min_arr,
+    factory_align_mid_arr,
+    factory_align_max_arr,
+    factory_align_selected_pos,
+    factory_align_end,
+#pragma endregion
     SUBJECT_COUNTS_PARAS_END
 } subject_paras_t;
 

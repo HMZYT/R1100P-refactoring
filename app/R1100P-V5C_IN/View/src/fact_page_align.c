@@ -1,5 +1,8 @@
 #include "../inc/fact_page_align.h"
 #include <stdio.h>
+#include "../inc/UiRun.h"
+#include "../inc/working_page_home.h"
+static void align_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) ;
 
 static void event_handler(lv_event_t *e)
 {
@@ -117,7 +120,6 @@ lv_obj_t* fact_page_algin_init(lv_obj_t *page)
     p->rocker_left = lv_img_create(obj);
     p->rocker_right = lv_img_create(obj);
 
-
     lv_obj_set_size(p->rocker_up, 43, 75);
     lv_obj_set_size(p->rocker_mid, 23, 6);
     lv_obj_set_size(p->rocker_btm, 43, 75);
@@ -177,55 +179,67 @@ lv_obj_t* fact_page_algin_init(lv_obj_t *page)
     lv_btnmatrix_set_one_checked(p->align_btnm, false);
     lv_btnmatrix_set_btn_ctrl(p->align_btnm, 1, LV_BTNMATRIX_CTRL_CHECKED);
 
+    //观察者模式
+    lv_subject_add_observer_obj(&subject_factory_all, align_observer_list_cb, page, p);
+
+    return obj;
 }
 
-//static void _refresh(irc_lcd_page_t *ipage, void *data)
-//{
-//    fact_page_align_t *page = (fact_page_align_t *)ipage;
-//    rc_lcd_fact_cali_arm_data_t *d = (rc_lcd_fact_cali_arm_data_t *)data;
-//
-//    uint8_t arm = d->selected_cali_arm;
-//    if (arm > 6)
-//    {
-//        arm = 6;
-//    }
-//    lv_btnmatrix_set_btn_ctrl(p->btnm_arm, arm, LV_BTNMATRIX_CTRL_CHECKED);
-//
-//		if (d->selected_cali_arm == 7)
-//		{
-//				lv_obj_add_flag( p->rocker_up, LV_OBJ_FLAG_HIDDEN );
-//				lv_obj_add_flag(p->rocker_btm, LV_OBJ_FLAG_HIDDEN );
-//				lv_obj_clear_flag( p->rocker_left, LV_OBJ_FLAG_HIDDEN );
-//				lv_obj_clear_flag( p->rocker_right, LV_OBJ_FLAG_HIDDEN );
-//		}
-//		else
-//		{
-//				lv_obj_clear_flag( p->rocker_up, LV_OBJ_FLAG_HIDDEN );
-//				lv_obj_clear_flag(p->rocker_btm, LV_OBJ_FLAG_HIDDEN );
-//				lv_obj_add_flag( p->rocker_left, LV_OBJ_FLAG_HIDDEN );
-//				lv_obj_add_flag( p->rocker_right, LV_OBJ_FLAG_HIDDEN );
-//		}
-//    char temp[ 64 ];
-//
-//    sprintf(temp, "0x%4X", d->max[ d->selected_cali_arm ]);
-//    lv_label_set_text(p->label_arm_top, temp);
-//
-//    sprintf(temp, "0x%4X", d->mid[ d->selected_cali_arm ]);
-//    lv_label_set_text(p->label_arm_mid, temp);
-//
-//    sprintf(temp, "0x%4X", d->min[ d->selected_cali_arm ]);
-//    lv_label_set_text(p->label_arm_btm, temp);
-//
-//    uint8_t cali_idx = d->selected_pos;
-//    if ( cali_idx > 3 )
-//    {
-//        cali_idx = 3;
-//    }
-//    lv_btnmatrix_clear_btn_ctrl_all(p->align_btnm, LV_BTNMATRIX_CTRL_CHECKED);
-//    if ( cali_idx != 0 )
-//    {
-//        lv_btnmatrix_set_btn_ctrl(p->align_btnm, 2 - (cali_idx - 1), LV_BTNMATRIX_CTRL_CHECKED);
-//    }
-//
-//}
+static void align_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) {
+    lv_obj_t *page_home = lv_observer_get_target_obj(observer);
+    fact_page_align_t *p = (fact_page_align_t *) observer->user_data;
+    temp_value_t temp_v;
+    temp_value_t temp_vv;
+    uint8_t arm = 0;;
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_selected_cali_arm,pageid_factory);
+    if (temp_v.different_flag)
+    {
+        arm = temp_v.current_value;
+        if(arm > 6) {
+            arm = 6;
+        }
+        lv_btnmatrix_set_btn_ctrl(p->btnm_arm, arm, LV_BTNMATRIX_CTRL_CHECKED);
+
+        if (temp_v.current_value == 7)
+        {
+            lv_obj_add_flag( p->rocker_up, LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag(p->rocker_btm, LV_OBJ_FLAG_HIDDEN );
+            lv_obj_clear_flag( p->rocker_left, LV_OBJ_FLAG_HIDDEN );
+            lv_obj_clear_flag( p->rocker_right, LV_OBJ_FLAG_HIDDEN );
+        }
+        else
+        {
+            lv_obj_clear_flag( p->rocker_up, LV_OBJ_FLAG_HIDDEN );
+            lv_obj_clear_flag(p->rocker_btm, LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->rocker_left, LV_OBJ_FLAG_HIDDEN );
+            lv_obj_add_flag( p->rocker_right, LV_OBJ_FLAG_HIDDEN );
+        }
+
+        char temp[ 64 ];
+        temp_vv = lv_subject_get_int_arr_from_type(subject, factory_align_max_arr, temp_v.current_value,pageid_factory);
+        sprintf(temp, "0x%4X", temp_vv.current_value);
+        lv_label_set_text(p->label_arm_top, temp);
+
+        temp_vv = lv_subject_get_int_arr_from_type(subject, factory_align_mid_arr, temp_v.current_value,pageid_factory);
+        sprintf(temp, "0x%4X", temp_vv.current_value);
+        lv_label_set_text(p->label_arm_mid, temp);
+
+        temp_vv = lv_subject_get_int_arr_from_type(subject, factory_align_min_arr, temp_v.current_value,pageid_factory);
+        sprintf(temp, "0x%4X", temp_vv.current_value);
+        lv_label_set_text(p->label_arm_btm, temp);
+
+        temp_v = lv_subject_get_int_from_type(subject, factory_align_selected_pos,pageid_factory);
+        uint32_t cali_idx = temp_v.current_value;
+        if ( cali_idx > 3 )
+        {
+            cali_idx = 3;
+        }
+        lv_btnmatrix_clear_btn_ctrl_all(p->align_btnm, LV_BTNMATRIX_CTRL_CHECKED);
+        if ( cali_idx != 0 )
+        {
+            lv_btnmatrix_set_btn_ctrl(p->align_btnm, 2 - (cali_idx - 1), LV_BTNMATRIX_CTRL_CHECKED);
+        }
+
+    }
+}
 

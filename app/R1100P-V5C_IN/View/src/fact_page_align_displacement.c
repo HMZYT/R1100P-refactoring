@@ -1,6 +1,9 @@
 #include "../inc/fact_page_align_displacement.h"
 #include <stdio.h>
+#include "../inc/UiRun.h"
+#include "../inc/working_page_home.h"
 
+static void align_displacement_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 static void event_handler(lv_event_t *e)
 {
@@ -172,8 +175,68 @@ lv_obj_t* fact_page_algin_displacement_init(lv_obj_t *page)
     lv_obj_set_pos( p->label_v10, 605, 295 );
     lv_obj_set_pos( p->label_v5, 460, 30 );
 
-}
+    //观察者模式
+    lv_subject_add_observer_obj(&subject_factory_all, align_displacement_observer_list_cb, page, p);
 
+
+    return obj;
+}
+static void align_displacement_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) {
+    lv_obj_t *page_home = lv_observer_get_target_obj(observer);
+    fact_page_align_displacement_t *p = (fact_page_align_displacement_t *) observer->user_data;
+    temp_value_t temp_v;
+    temp_value_t temp_vv;
+    char temp[ 64 ];
+
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_min,pageid_factory);
+    if (temp_v.different_flag) {
+        sprintf(temp, "0x%4X", temp_v.current_value);
+        lv_label_set_text(p->label_v0, temp);
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_mid,pageid_factory);
+    if (temp_v.different_flag) {
+        sprintf(temp, "0x%4X", temp_v.current_value);
+        lv_label_set_text(p->label_v5, temp);
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_max,pageid_factory);
+    if (temp_v.different_flag) {
+        sprintf(temp, "0x%4X", temp_v.current_value);
+        lv_label_set_text(p->label_v10, temp);
+    }
+
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_selected_pos,pageid_factory);
+    if (temp_v.different_flag) {
+        if ( temp_v.current_value == 0 )
+        {//清除所有选择
+            lv_obj_clear_state(p->btn_0, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_clear_state(p->btn_5, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_clear_state(p->btn_10, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+        }
+        else if ( temp_v.current_value == 1 )
+        {//选择 校准-0
+            lv_obj_add_state(p->btn_0, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_clear_state(p->btn_5, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_clear_state(p->btn_10, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+        }
+        else if (  temp_v.current_value == 2 )
+        {//选择 校准-5
+
+            lv_obj_clear_state(p->btn_0, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_add_state(p->btn_5, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_clear_state(p->btn_10, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+        }
+        else if (  temp_v.current_value == 3 )
+        {//选择 校准-10
+            lv_obj_clear_state(p->btn_0, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_clear_state(p->btn_5, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+            lv_obj_add_state(p->btn_10, LV_STATE_PRESSED | LV_STATE_CHECKED | LV_STATE_FOCUSED);
+        }
+    }
+
+
+}
 //static void _refresh(irc_lcd_page_t *ipage, void *data)
 //{
 //    fact_page_align_displacement_t *page = (fact_page_align_displacement_t *)ipage;

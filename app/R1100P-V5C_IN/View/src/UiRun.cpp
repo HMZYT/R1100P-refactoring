@@ -30,6 +30,7 @@ lv_subject_t subject_home_all;
 lv_subject_t subject_rc_all;
 lv_subject_t subject_faults_all;
 lv_subject_t subject_antipping_all;
+lv_subject_t subject_factory_all;
 
 void uiRun()
 {
@@ -89,7 +90,7 @@ void uiRun()
     lv_subject_add_observer_obj(&subject_system, system_observer_list_cb, NULL, NULL);
 
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_set_int(&subjectParas[system_paras_language], 1);
+    lv_subject_set_int(&subjectParas[machine_motor_speed], 800);
 }
 
 static void page_manage_subjects_init()
@@ -100,6 +101,7 @@ static void page_manage_subjects_init()
     static lv_subject_t *rc_list[rc_end - machine_end - 1];
     static lv_subject_t *faults_list[faults_end - rc_end - 1];
     static lv_subject_t *antipping_list[antipping_end - faults_end - 1];
+    static lv_subject_t *factory_list[factory_align_end - antipping_end - 1];
 
     for(int nIndex = 0; nIndex < system_end; nIndex++)
         system_list[nIndex] = &subjectParas[system_paras_language + nIndex];
@@ -120,6 +122,10 @@ static void page_manage_subjects_init()
     for(int nIndex = 0; nIndex < antipping_end - faults_end - 1; nIndex++)
         antipping_list[nIndex] = &subjectParas[antipping_collapse_flag + nIndex];
     lv_subject_init_group(&subject_antipping_all, antipping_list, antipping_end - faults_end - 1);
+
+    for(int nIndex = 0; nIndex < factory_align_end - antipping_end - 1; nIndex++)
+        factory_list[nIndex] = &subjectParas[factory_align_disp_min + nIndex];
+    lv_subject_init_group(&subject_factory_all, factory_list, factory_align_end - antipping_end - 1);
 
 }
 

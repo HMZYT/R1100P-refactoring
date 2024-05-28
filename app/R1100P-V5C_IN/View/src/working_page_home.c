@@ -8,6 +8,7 @@
 
 static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum);
+temp_value_t lv_subject_get_int_arr_from_type(lv_subject_t * subject, int32_t index,int32_t idx, page_idx type_enum);
 static int32_t cal_angel(int32_t data);
 static lv_style_t style_oil_bar;
 static lv_style_t style_uera_bar;
@@ -1304,6 +1305,34 @@ temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index,
 
     return temp_v;
 
+}
+
+temp_value_t lv_subject_get_int_arr_from_type(lv_subject_t * subject, int32_t index,int32_t idx, page_idx type_enum) {
+
+    lv_subject_t *temp ;
+    temp_value_t temp_v;
+    //
+    // if(type_enum == pageid_home) {
+    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    // }else if(type_enum == pageid_rc){
+    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    // }else if(type_enum == pageid_note){
+    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    // }else if(type_enum == pageid_faults){
+    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
+    // }else {
+    // }
+    // temp_v.current_value = lv_subject_get_int(temp);
+    // temp_v.previous_value = lv_subject_get_previous_int(temp);
+    // if(temp_v.current_value != temp_v.previous_value) {
+    //     temp_v.different_flag = true;
+    // }else {
+    //     temp_v.different_flag = false;
+    // }
+    //
+
+    ///gggyf
+    return temp_v;
 }
 
 static int32_t cal_angel(int32_t data)
