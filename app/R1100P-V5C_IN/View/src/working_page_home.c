@@ -1293,7 +1293,8 @@ temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index,
         temp = lv_subject_get_group_element(subject,index- system_end - 1);
     }else if(type_enum == pageid_faults){
         temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    }else {
+    }else if(type_enum == pageid_antipping){
+        temp = lv_subject_get_group_element(subject,index- system_end - 1);
     }
     temp_v.current_value = lv_subject_get_int(temp);
     temp_v.previous_value = lv_subject_get_previous_int(temp);

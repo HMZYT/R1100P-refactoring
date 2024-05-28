@@ -1,7 +1,10 @@
 #include "../inc/working_page_faults.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../inc/UiRun.h"
+#include "../inc/working_page_home.h"
 
+static void faults_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 /// @brief 00：遥控器独立判断故障
 static const char* _errs_00_0[] = {  
@@ -812,6 +815,376 @@ lv_obj_t* working_page_faults_init(lv_obj_t *page)
         lv_label_set_text( p->label_2[i], "" );
         lv_obj_add_style(p->label_2[i], &fault_style1, 0);
         lv_obj_set_pos(p->label_2[i], 130 , 50 + 42 *i );
+    }
+
+    //观察者模式
+    lv_subject_add_observer_obj(&subject_faults_all, faults_observer_list_cb, page, p);
+}
+
+static void faults_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
+{
+    lv_obj_t *page_rc = lv_observer_get_target_obj(observer);
+    working_page_faults_t *p = (working_page_faults_t *) observer->user_data;
+    static bool _start = false;
+
+    temp_value_t temp_fault_id = lv_subject_get_int_from_type(subject, faults_id,pageid_faults);
+    temp_value_t temp_fault_detail = lv_subject_get_int_from_type(subject, faults_detail,pageid_faults);
+    temp_value_t temp_fault_total = lv_subject_get_int_from_type(subject, faults_total,pageid_faults);
+    if(temp_fault_id.current_value == 1)
+    {
+        if ((temp_fault_detail.current_value / 100 % 100) == 0x00)
+        {
+            _start = false;
+            _set_data_8(p->label_1[(temp_fault_id.current_value - 1)],temp_fault_id.current_value);
+            _set_data_16(p->label_2[(temp_fault_id.current_value - 1)],temp_fault_detail.current_value);
+            switch (temp_fault_detail.current_value / 10000)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8 ], _errs_00_0[temp_fault_detail.current_value % 100] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_00_1[temp_fault_detail.current_value % 100] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_00_2[temp_fault_detail.current_value % 100] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_00_3[temp_fault_detail.current_value % 100] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            _start = true;
+        }
+    }
+    else if (temp_fault_detail.current_value > 8 )
+    {
+        _start = false;
+    }
+
+    if (temp_fault_id.current_value != 0 && _start)
+    {
+        _set_data_8(p->label_1[(temp_fault_id.current_value  -1)],temp_fault_id.current_value);
+        _set_data_16(p->label_2[(temp_fault_id.current_value  -1)],temp_fault_detail.current_value);
+
+        uint8_t _level,_class,_id;
+        _level = temp_fault_detail.current_value / 10000;
+        _class = temp_fault_detail.current_value / 100 % 100;
+        _id = temp_fault_detail.current_value % 100;
+        if (_class == 0x00)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8 ], _errs_00_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_00_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_00_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_00_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x01)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_01_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_01_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_01_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_01_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x02)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_02_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_02_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_02_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_02_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x03)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_03_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_03_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_03_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_03_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x04)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_04_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_04_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_04_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_04_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x05)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_05_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_05_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_05_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_05_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x06)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_06_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_06_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_06_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_06_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x07)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_07_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_07_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_07_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_07_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x08)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_08_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_08_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_08_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_08_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x09)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_09_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_09_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_09_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_09_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x0A)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_10_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_10_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_10_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_10_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x0B)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_11_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_11_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_11_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_11_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x0C)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_12_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_12_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_12_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_12_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x0D)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_13_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_13_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_13_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_13_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (_class == 0x0E)
+        {
+            switch (_level)
+            {
+                case 0x00 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_14_0[_id] );
+                    break;
+                case 0x01 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_14_1[_id] );
+                    break;
+                case 0x02 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_14_2[_id] );
+                    break;
+                case 0x03 :
+                    lv_label_set_text_static( p->label_3[(temp_fault_id.current_value -1) % 8], _errs_14_3[_id] );
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    //总数变化或者第一条报警变化则清零刷新
+    if (temp_fault_total.different_flag || (temp_fault_id.current_value == 1 && temp_fault_detail.different_flag))
+    {
+        for(int i = 1 ;i < 8; i++)
+        {
+            lv_label_set_text( p->label_1[i], "" );
+            lv_label_set_text( p->label_2[i], "" );
+            lv_label_set_text( p->label_3[i], "" );
+        }
     }
 }
 

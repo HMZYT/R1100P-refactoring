@@ -7,6 +7,7 @@ typedef enum {
     pageid_note,
     pageid_faults,
     pageid_factory,
+    pageid_antipping,
     pageid_end
 }page_idx;
 
@@ -124,6 +125,14 @@ typedef enum {
     antipping_left_dis,               //左方安全距离
     antipping_right_dis,              //右方安全距离
     antipping_danger_edge,            //侧翻危险边
+    antipping_support_mode,           //支撑模式(0-无支撑、1-全支撑、2-左支撑、3-右支撑、4-前支撑、5-小支撑 7-左前、8 -右前、100-RPC)
+    antipping_leg_left_up,			  //左前支腿开度
+    antipping_leg_left_down,		  //左后支腿开度
+    antipping_leg_right_up,			  //右前支腿开度
+    antipping_leg_right_down,		  //右后支腿开度
+    antipping_leg_not_open,			  //根据支腿未全开标志位显示：false：无显示；true：支腿未全开
+    antipping_arm0_status,            //回转角度(单位0.1°,有正负)
+    antipping_safe_k,                 //安全系数
     antipping_end,
 #pragma endregion
 
