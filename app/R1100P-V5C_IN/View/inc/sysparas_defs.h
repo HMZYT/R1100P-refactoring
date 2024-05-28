@@ -96,6 +96,7 @@ typedef enum {
     rc_dredge,                      //疏通
     rc_strong_power,                //强力
     rc_powerkey,                    //开机键复用
+    rc_flag,                        //是否锁屏
     rc_end,
 #pragma endregion
 

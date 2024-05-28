@@ -43,8 +43,14 @@ void PageManage::page_manage_switch_page(int id, lv_obj_t *ipage)
                     case working_page_home:
                         lv_subject_remove_all_obj(&subject_home_all, curr_page);
                         break;
-                    case working_page_note:
-                        //lv_subject_remove_all_obj(&subject_note_all, curr_page);
+                    case working_page_antipping:
+                        lv_subject_remove_all_obj(&subject_antipping_all, curr_page);
+                        break;
+                    case working_page_faults:
+                        lv_subject_remove_all_obj(&subject_faults_all, curr_page);
+                        break;
+                    case working_page_rc:
+                        lv_subject_remove_all_obj(&subject_rc_all, curr_page);
                         break;
                     default:
                         break;
