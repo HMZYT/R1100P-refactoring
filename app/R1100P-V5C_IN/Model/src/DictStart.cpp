@@ -160,8 +160,4 @@ void dictInit()
     for(int i = factory_align_disp_min; i < factory_align_end; i++) {
         dtR1100PUi.setDtInt(i, 0);
     }
-
-
-
-
 }

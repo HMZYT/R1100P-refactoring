@@ -1,14 +1,14 @@
 #include "../inc/working_page_note.h"
-#include <stdlib.h>
-#include <stdbool.h>
-#include "math.h"
 #include "../inc/images_v4_0.h"
-#include "../inc/UiSubjectsWrapper.h"
-#include "../inc/sysparas_defs.h"
 #include "../../View/GUI_APP/language_control.h"
 #include "../inc/UiRun.h"
+#include "../inc/working_page_home.h"
 
 static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
+
+lv_obj_t *language_list;
+lv_obj_t *btn_lang_CH;
+lv_obj_t *btn_lang_EN;
 
 lv_obj_t* working_page_note_init(lv_obj_t *page)
 {
@@ -81,6 +81,11 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_obj_set_pos(temp_obj, 30 + 1, 10 + 5 * 50 - 10);
     lv_img_set_zoom(temp_obj, 180);
 
+    temp_obj = lv_img_create(obj);
+    lv_img_set_src(temp_obj, &img_language);
+    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 6 * 50);
+    lv_img_set_zoom(temp_obj, 220);
+
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj, 80, 10 + 0 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
@@ -110,6 +115,20 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_obj_set_pos(temp_obj, 80, 10 + 5 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
     lv_label_set_text(temp_obj, "泵送油温");
+
+    temp_obj = lv_label_create(obj);
+    lv_obj_set_pos(temp_obj, 80, 10 + 6 * 50);
+    lv_obj_add_style(temp_obj, &style02, 0);
+    lv_label_set_text(temp_obj, "语言");
+
+#pragma region 语言列表
+    language_list = lv_list_create(obj);
+    lv_obj_set_size(language_list, 100, 50 * 2);
+    btn_lang_CH = lv_list_add_button(language_list, NULL, "中文");
+    btn_lang_EN = lv_list_add_button(language_list, NULL, "英文");
+    lv_obj_align_to(language_list, temp_obj, LV_ALIGN_BOTTOM_MID, 0, -30);
+    lv_obj_add_flag(language_list, LV_OBJ_FLAG_HIDDEN);
+#pragma endregion 语言列表
 
     // 第二列
     temp_obj = lv_img_create(obj);
@@ -173,5 +192,29 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_obj_add_style(temp_obj, &style02, 0);
     language_set_current_label(temp_obj, "R_016ZNV2B.1");
 
+    //观察者模式
+    lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, page, NULL);
+
     return obj;
+}
+
+static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
+{
+    lv_subject_t* temp_lock;
+    lv_subject_t* temp_selected;
+    lv_subject_t* temp_clecked_value;
+    lv_subject_t* temp_language;
+    temp_lock = lv_subject_get_group_element(subject,0);
+    temp_selected = lv_subject_get_group_element(subject,1);
+    temp_clecked_value = lv_subject_get_group_element(subject,2);
+    temp_language = lv_subject_get_group_element(subject,3);
+   // if (lv_subject_get_int(temp_lock))
+    {
+        lv_obj_remove_flag(language_list, LV_OBJ_FLAG_HIDDEN);
+        int a = lv_subject_get_int(temp_language);
+        if (lv_subject_get_int(temp_language) == 0)
+        {
+            lv_obj_set_style_bg_color(btn_lang_CH, lv_color_make(0xff, 0x00, 0x00), 0);
+        }
+    }
 }

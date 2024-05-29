@@ -31,6 +31,7 @@ lv_subject_t subject_rc_all;
 lv_subject_t subject_faults_all;
 lv_subject_t subject_antipping_all;
 lv_subject_t subject_factory_all;
+lv_subject_t subject_note_all;
 
 irc_lcd_widget_t working_widget;
 PAGE working_home_page;
@@ -84,16 +85,12 @@ void uiRun()
     pageManage.page_manage_add_page(&off_charging_page, off_charging_page_charging, off_charging_page_charging_init);
     pageManage.page_manage_add_page(&prepared_page, prepared_page_rc, prepared_page_rc_create);
 
-    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(e_rc_lcd_working);//选择模式
-
     //观察者初始化
     page_manage_subjects_init();
-
-    pageManage.page_manage_switch_page(working_page_home,temp_widget);
     lv_subject_add_observer_obj(&subject_system, system_observer_list_cb, NULL, NULL);
 
-    lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_set_int(&subjectParas[system_paras_page], 1);
+    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(e_rc_lcd_working);//选择模式
+    pageManage.page_manage_switch_page(working_page_note,temp_widget);
 }
 
 static void page_manage_subjects_init()
@@ -104,6 +101,7 @@ static void page_manage_subjects_init()
     static lv_subject_t *rc_list[rc_end - machine_end - 1];
     static lv_subject_t *faults_list[faults_end - rc_end - 1];
     static lv_subject_t *antipping_list[antipping_end - faults_end - 1];
+    static lv_subject_t *note_list[4];
     static lv_subject_t *factory_list[factory_align_end - antipping_end - 1];
 
     for(int nIndex = 0; nIndex < system_end; nIndex++)
@@ -125,6 +123,12 @@ static void page_manage_subjects_init()
     for(int nIndex = 0; nIndex < antipping_end - faults_end - 1; nIndex++)
         antipping_list[nIndex] = &subjectParas[antipping_collapse_flag + nIndex];
     lv_subject_init_group(&subject_antipping_all, antipping_list, antipping_end - faults_end - 1);
+
+    note_list[0] = &subjectParas[note_page_lock];
+    note_list[1] = &subjectParas[note_selected];
+    note_list[2] = &subjectParas[note_click_value];
+    note_list[3] = &subjectParas[system_paras_language];
+    lv_subject_init_group(&subject_note_all, note_list, 4);
 
     for(int nIndex = 0; nIndex < factory_align_end - antipping_end - 1; nIndex++)
         factory_list[nIndex] = &subjectParas[factory_align_disp_min + nIndex];

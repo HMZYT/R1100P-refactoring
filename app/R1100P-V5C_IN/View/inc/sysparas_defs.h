@@ -144,6 +144,13 @@ typedef enum {
     antipping_end,
 #pragma endregion
 
+#pragma region note
+    note_page_lock,                   //note锁屏
+    note_selected,                    //选中确认
+    note_click_value,                 //偏移量
+    note_page_end,
+#pragma endregion
+
 #pragma region factory
     factory_align_disp_min,
     factory_align_disp_mid,

@@ -52,6 +52,9 @@ void PageManage::page_manage_switch_page(int id, lv_obj_t *ipage)
                     case working_page_rc:
                         lv_subject_remove_all_obj(&subject_rc_all, curr_page);
                         break;
+                    case working_page_note:
+                        lv_subject_remove_all_obj(&subject_note_all, curr_page);
+                        break;
                     default:
                         break;
                 }

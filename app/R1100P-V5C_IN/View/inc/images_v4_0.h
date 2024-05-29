@@ -104,7 +104,7 @@ LV_IMAGE_DECLARE(img_power_red);
 LV_IMAGE_DECLARE(img_strong);
 LV_IMAGE_DECLARE(img_swing_left);
 LV_IMAGE_DECLARE(img_swing_right);
-
+LV_IMAGE_DECLARE(img_language);
 //拆分
 LV_IMAGE_DECLARE(arm_a0);
 LV_IMAGE_DECLARE(arm_a1);
