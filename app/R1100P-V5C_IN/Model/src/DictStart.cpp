@@ -12,7 +12,10 @@ void dictInit()
 {
     //绑字典
     //系统参数
-    dtR1100PUi.dtR1100pDictAdd(system_paras_language, &dt_ui.working.machine.motor_speed, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_language, &dt_ui.paras.language, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_mode, &dt_ui.paras.mode, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_page, &dt_ui.paras.page_id, 0);
+
     //machine
     dtR1100PUi.dtR1100pDictAdd(machine_motor_speed, &dt_ui.working.machine.motor_speed, 0);
     //dtR1100PUi.dtR1100pDictAdd(machine_acc_flag, &dt_ui.working.machine.acc_flag, 0);
@@ -140,6 +143,10 @@ void dictInit()
     //设初值
     //系统参数
     dtR1100PUi.setDtInt(system_paras_language, 0);
+    dtR1100PUi.setDtInt(system_paras_mode, 1);
+    dtR1100PUi.setDtInt(system_paras_page, 0);
+
+    int a = dtR1100PUi.getDtInt(system_paras_mode);
     //machine
     for(int i = machine_motor_speed; i < machine_end; i++) {
         dtR1100PUi.setDtInt(i, 0);

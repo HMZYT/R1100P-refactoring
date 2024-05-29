@@ -4,6 +4,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+typedef struct{
+    uint8_t language;
+    uint8_t mode;
+    uint8_t page_id;
+}lcd_system_paras;
+
 typedef struct {
 	uint8_t dredge 				: 1;		//疏通
 	uint8_t strong_power 		: 1;
@@ -378,6 +384,7 @@ typedef struct
     rc_lcd_off_charging_input_data_t charging;
 	working_rc_space rc_space;
 	working_machine_space machine_space;
+    lcd_system_paras paras;
 } dt_r1100p_ui_t;
 
 extern dt_r1100p_ui_t dt_ui;
