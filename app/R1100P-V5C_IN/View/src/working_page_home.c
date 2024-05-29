@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "../inc/working_page_home.h"
+
+#include "../../../../extensions/data-types/inc/dt_r1100p_ui_data.h"
 #include "../inc/UiSubjectsWrapper.h"
 #include "../inc/images_v4_0.h"
 #include "../../View/GUI_APP/language_control.h"

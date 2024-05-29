@@ -54,6 +54,16 @@ int32_t DtR1100PUi::getDtInt(uint32_t id)
     }
 }
 
+void * DtR1100PUi::getDtIntAdress(uint32_t id)
+{
+    int32_t _dict_idx = dt_R1100P_dict_get_idx(id);
+    if (_dict_idx != -1 && _dict_idx != -2) {
+        return g_dt.idict[_dict_idx].ptr;
+    }else {
+        return NULL;
+    }
+}
+
 bool DtR1100PUi::setDtInt(uint32_t id, int32_t value)
 {
     int32_t _dict_idx = dt_R1100P_dict_get_idx(id);

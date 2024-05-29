@@ -42,6 +42,7 @@ public:
     //string gtString(int id);
     bool dtR1100pDictAdd(uint32_t id, void *addr, uint8_t acc);
     int32_t dt_R1100P_dict_get_idx(uint32_t id);
+    void * getDtIntAdress(uint32_t id);
 private:
     dt_r1100p_dict_t g_dt;
 };

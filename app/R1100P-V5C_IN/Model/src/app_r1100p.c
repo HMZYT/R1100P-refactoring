@@ -9,7 +9,6 @@ app_r1100p_t *app_r1100p_create( void )
     app->bd = board_r1100p_create();
 
     app->dt = dt_r1100p_create();
-    app->dt->ui->arm0 = 123;
     //stateM_init( &app->sm, &state_idle , &state_err );
    // app->sme = stateME_create();
 

@@ -22,21 +22,34 @@ typedef enum {
 
 #pragma region machine
     machine_motor_speed,            //发动机转速(0-3200)
-    machine_acc_flag,               //加速标志
-    machine_dec_flag,               //减速标志
     machine_gear,                   //排量档位(0-10)
     machine_water_temp,             //冷却水温（单位：1℃，偏移：-40，范围：-40~210℃，16#FF表示无效数据）
     machine_pump_mode,              //泵送模式推荐（1：强力，2：疏通，3：节能）
     machine_oil_pos,                //油位（单位：%）
     machine_urea_pos,               //尿素液位（单位：%,数据范围0-100。发送FF表示数据异常，显示屏显示--以表示未识别到尿素液位)
     machine_pumping_pressure,       //泵送压(0-32MPa)
-    machine_cw,                     //正泵
-    machine_ccw,                    //反泵
     machine_emr,                    //应急换向模式(0 关闭 1左主缸 2右主缸 3水箱 4 无传感)
     machine_materials,              //料况可泵性状态 0：不显示 1：可泵性好 2：可泵性一般 3：可泵性差
     machine_pump_freq,              //泵送频率(单位：次/分钟)
     machine_pump_temperature,       //泵送液压油温（单位：0.1℃）
     machine_blocking,               //堵管状态(1：正常 2：堵管预警 3：堵管报警)
+    machine_arm0_status,            //回转角度(单位0.1°,有正负)
+    machine_arm1_status,            //1臂角度(单位0.1°,有正负)
+    machine_arm2_status,            //2臂角度(单位0.1°,有正负)
+    machine_arm3_status,            //3臂角度(单位0.1°,有正负)
+    machine_arm4_status,            //4臂角度(单位0.1°,有正负)
+    machine_arm5_status,            //5臂角度(单位0.1°,有正负)
+    machine_support_mode,           //支撑模式(0-无支撑、1-全支撑、2-左支撑、3-右支撑、4-前支撑、5-小支撑 7-左前、8 -右前、100-RPC)
+    machine_arms_temperature,       //臂架液压油温（单位：0.1℃，有正负）
+    machine_support_logo,           //20a,主监控任意支撑功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
+    machine_collapse_logo,          //20a,主监控塌陷识别功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
+    machine_safe_k,                 //安全系数
+    machine_data_space,
+    //位数据
+    machine_acc_flag,               //加速标志
+    machine_dec_flag,               //减速标志
+    machine_cw,                     //正泵
+    machine_ccw,                    //反泵
     machine_pressure,               //高低压
     machine_fan_manual,             //风机(手动)
     machine_fan_auto,               //风机(自动)
@@ -57,18 +70,7 @@ typedef enum {
     machine_arm3_ccw_en,            //3臂收使能
     machine_arm4_ccw_en,            //4臂收使能
     machine_arm5_ccw_en,            //5臂收使能
-    machine_arm0_status,            //回转角度(单位0.1°,有正负)
-    machine_arm1_status,            //1臂角度(单位0.1°,有正负)
-    machine_arm2_status,            //2臂角度(单位0.1°,有正负)
-    machine_arm3_status,            //3臂角度(单位0.1°,有正负)
-    machine_arm4_status,            //4臂角度(单位0.1°,有正负)
-    machine_arm5_status,            //5臂角度(单位0.1°,有正负)
-    machine_support_mode,           //支撑模式(0-无支撑、1-全支撑、2-左支撑、3-右支撑、4-前支撑、5-小支撑 7-左前、8 -右前、100-RPC)
-    machine_arms_temperature,       //臂架液压油温（单位：0.1℃，有正负）
     machine_cw_emr,                 //回转应急
-    machine_support_logo,           //20a,主监控任意支撑功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
-    machine_collapse_logo,          //20a,主监控塌陷识别功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
-    machine_safe_k,                 //安全系数
     machine_end,
 #pragma endregion
 
@@ -80,6 +82,10 @@ typedef enum {
     rc_arm4,                        //四级臂
     rc_arm5,                        //五级臂
     rc_displacement,                //排量
+    rc_halt,
+    rc_data_space,
+
+    //位数据
     rc_1,
     rc_1_2,
     rc_1_2_3,
@@ -89,7 +95,6 @@ typedef enum {
     rc_engine_stop,                 //发动机熄火
     rc_start_key,                   //启动按键按下：1, 启动按键松开：0
     rc_horn,                        //启动/电铃
-    rc_halt,
     rc_ccw,                         //反泵
     rc_cw,                          //正泵
     rc_right_swing_pump,            //右摆缸点动
