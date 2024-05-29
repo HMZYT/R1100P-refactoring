@@ -3,12 +3,13 @@
 #include "../../View/GUI_APP/language_control.h"
 #include "../inc/UiRun.h"
 #include "../inc/working_page_home.h"
+#include "../inc/UiSubjectsWrapper.h"
+#define LANGUAGE_NUMBER 2
 
 static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
+lv_obj_t *button_lang[LANGUAGE_NUMBER];
 lv_obj_t *language_list;
-lv_obj_t *btn_lang_CH;
-lv_obj_t *btn_lang_EN;
 
 lv_obj_t* working_page_note_init(lv_obj_t *page)
 {
@@ -124,8 +125,8 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
 #pragma region 语言列表
     language_list = lv_list_create(obj);
     lv_obj_set_size(language_list, 100, 50 * 2);
-    btn_lang_CH = lv_list_add_button(language_list, NULL, "中文");
-    btn_lang_EN = lv_list_add_button(language_list, NULL, "英文");
+    button_lang[0] = lv_list_add_button(language_list, NULL, "中文");
+    button_lang[1] = lv_list_add_button(language_list, NULL, "英文");
     lv_obj_align_to(language_list, temp_obj, LV_ALIGN_BOTTOM_MID, 0, -30);
     lv_obj_add_flag(language_list, LV_OBJ_FLAG_HIDDEN);
 #pragma endregion 语言列表
@@ -208,13 +209,37 @@ static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     temp_selected = lv_subject_get_group_element(subject,1);
     temp_clecked_value = lv_subject_get_group_element(subject,2);
     temp_language = lv_subject_get_group_element(subject,3);
-   // if (lv_subject_get_int(temp_lock))
+
+    static int current_lang;
+    if (lv_subject_get_int(temp_lock))
     {
+        int lang = 0;
+        current_lang = lv_subject_get_int(temp_clecked_value) + lv_subject_get_int(temp_language);
         lv_obj_remove_flag(language_list, LV_OBJ_FLAG_HIDDEN);
         int a = lv_subject_get_int(temp_language);
         if (lv_subject_get_int(temp_language) == 0)
+            lv_obj_set_style_bg_color(button_lang[Chinese], lv_color_make(0xff, 0x00, 0x00), 0);
+        else if(lv_subject_get_int(temp_language) == 1)
+            lv_obj_set_style_bg_color(button_lang[English], lv_color_make(0xff, 0x00, 0x00), 0);
+
+
+        if (lv_subject_get_previous_int(temp_clecked_value) != lv_subject_get_int(temp_clecked_value))
         {
-            lv_obj_set_style_bg_color(btn_lang_CH, lv_color_make(0xff, 0x00, 0x00), 0);
+            if (current_lang <= 0 )
+            {
+                current_lang = 0;
+            }
+            else if (current_lang >= (LANGUAGE_NUMBER -1 ))
+            {
+                current_lang = LANGUAGE_NUMBER -1;
+            }
+            lv_obj_set_style_bg_color(button_lang[current_lang], lv_color_make(0x00, 0xff, 0x00), 0);
+        }
+
+        if (lv_subject_get_previous_int(temp_selected) == 1 && lv_subject_get_int(temp_selected) == 0)
+        {
+            lv_subject_t* subjectParas = getSubjectsParasWrapper();
+            lv_subject_set_int(&subjectParas[system_paras_language], 1);
         }
     }
 }
