@@ -528,7 +528,7 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
     temp_value_t danger_edge;
     temp_value_t arm0_status;
     temp_value_t safe_k;
-    support_mode =  lv_subject_get_int_from_type(subject, antipping_support_mode,pageid_antipping);
+    support_mode =  lv_subject_get_int_from_type(subject, antipping_support_mode, 0, pageid_antipping);
 
 #pragma region 1.支撑模式
     if (support_mode.different_flag)
@@ -597,9 +597,9 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
 #pragma endregion 1.支撑模式
 
 #pragma region 2.支撑安全预警提示
-    collapse_flag =  lv_subject_get_int_from_type(subject, antipping_collapse_flag,pageid_antipping);
-    alarm_flag = lv_subject_get_int_from_type(subject, antipping_alarm_flag,pageid_antipping);
-    limit_flag = lv_subject_get_int_from_type(subject, antipping_limit_flag,pageid_antipping);
+    collapse_flag =  lv_subject_get_int_from_type(subject, antipping_collapse_flag, 0, pageid_antipping);
+    alarm_flag = lv_subject_get_int_from_type(subject, antipping_alarm_flag, 0, pageid_antipping);
+    limit_flag = lv_subject_get_int_from_type(subject, antipping_limit_flag, 0, pageid_antipping);
     if(collapse_flag.current_value == 1||support_mode.current_value == 10)
     {
         lv_obj_clear_flag(p->warning_title, LV_OBJ_FLAG_HIDDEN);
@@ -636,10 +636,10 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
 #pragma endregion 2.支撑安全预警提示
 
 #pragma region 3.支腿塌陷级别
-    leg_left_up_level = lv_subject_get_int_from_type(subject, antipping_leg_left_up_level,pageid_antipping);
-    leg_right_up_level = lv_subject_get_int_from_type(subject, antipping_leg_right_up_level,pageid_antipping);
-    leg_left_down_level = lv_subject_get_int_from_type(subject, antipping_leg_left_down_level,pageid_antipping);
-    leg_right_down_level = lv_subject_get_int_from_type(subject, antipping_leg_right_down_level,pageid_antipping);
+    leg_left_up_level = lv_subject_get_int_from_type(subject, antipping_leg_left_up_level, 0, pageid_antipping);
+    leg_right_up_level = lv_subject_get_int_from_type(subject, antipping_leg_right_up_level, 0, pageid_antipping);
+    leg_left_down_level = lv_subject_get_int_from_type(subject, antipping_leg_left_down_level, 0, pageid_antipping);
+    leg_right_down_level = lv_subject_get_int_from_type(subject, antipping_leg_right_down_level, 0, pageid_antipping);
     if (collapse_flag.current_value)
     {
         for(int i = 0; i < 4; i ++)
@@ -791,7 +791,7 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
 #pragma endregion 3.支腿塌陷级别
 
 #pragma region 任意支撑
-    arm0_status =  lv_subject_get_int_from_type(subject, antipping_arm0_status,pageid_antipping);
+    arm0_status =  lv_subject_get_int_from_type(subject, antipping_arm0_status, 0, pageid_antipping);
     if(support_mode.current_value == 10) //任意支撑
     {
         lv_obj_clear_flag(p->leg_length[0], LV_OBJ_FLAG_HIDDEN);
@@ -823,15 +823,15 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
         }
         lv_obj_add_flag(p->bus_cycle, LV_OBJ_FLAG_HIDDEN);
 
-        leg_left_up = lv_subject_get_int_from_type(subject, antipping_leg_left_up,pageid_antipping);
-        leg_right_up = lv_subject_get_int_from_type(subject, antipping_leg_right_up,pageid_antipping);
-        leg_left_down = lv_subject_get_int_from_type(subject, antipping_leg_left_down,pageid_antipping);
-        leg_right_down = lv_subject_get_int_from_type(subject, antipping_leg_right_down,pageid_antipping);
-        up_dis = lv_subject_get_int_from_type(subject, antipping_up_dis,pageid_antipping);
-        right_dis = lv_subject_get_int_from_type(subject, antipping_right_dis,pageid_antipping);
-        down_dis = lv_subject_get_int_from_type(subject, antipping_down_dis,pageid_antipping);
-        left_dis = lv_subject_get_int_from_type(subject, antipping_left_dis,pageid_antipping);
-        danger_edge = lv_subject_get_int_from_type(subject, antipping_danger_edge,pageid_antipping);
+        leg_left_up = lv_subject_get_int_from_type(subject, antipping_leg_left_up, 0, pageid_antipping);
+        leg_right_up = lv_subject_get_int_from_type(subject, antipping_leg_right_up, 0,pageid_antipping);
+        leg_left_down = lv_subject_get_int_from_type(subject, antipping_leg_left_down, 0,pageid_antipping);
+        leg_right_down = lv_subject_get_int_from_type(subject, antipping_leg_right_down, 0,pageid_antipping);
+        up_dis = lv_subject_get_int_from_type(subject, antipping_up_dis, 0,pageid_antipping);
+        right_dis = lv_subject_get_int_from_type(subject, antipping_right_dis, 0,pageid_antipping);
+        down_dis = lv_subject_get_int_from_type(subject, antipping_down_dis, 0,pageid_antipping);
+        left_dis = lv_subject_get_int_from_type(subject, antipping_left_dis, 0,pageid_antipping);
+        danger_edge = lv_subject_get_int_from_type(subject, antipping_danger_edge, 0,pageid_antipping);
         //支腿开度,前2腿伸缩，固定46度,后两腿摆动,最大50.4 开度值固定显示
         int xx,yy;
         if(leg_left_up.different_flag)
@@ -1201,7 +1201,7 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
     }
 #pragma endregion 任意支撑
 
-    safe_k =  lv_subject_get_int_from_type(subject, antipping_safe_k,pageid_antipping);
+    safe_k =  lv_subject_get_int_from_type(subject, antipping_safe_k, 0, pageid_antipping);
     //安全系数
     if(support_mode.current_value == 10)
     {

@@ -7,8 +7,7 @@
 #include "../inc/UiRun.h"
 
 static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
-temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum);
-temp_value_t lv_subject_get_int_arr_from_type(lv_subject_t * subject, int32_t index,int32_t idx, page_idx type_enum);
+temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, int32_t idx,page_idx type_enum);
 static int32_t cal_angel(int32_t data);
 static lv_style_t style_oil_bar;
 static lv_style_t style_uera_bar;
@@ -645,7 +644,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 1. 发动机转速
     //-----------------------------------------------------------------
-    temp_v = lv_subject_get_int_from_type(subject, machine_motor_speed,pageid_home);
+    temp_v = lv_subject_get_int_from_type(subject, machine_motor_speed, 0, pageid_home);
     if (temp_v.current_value > 2500)
     {
         temp_v.current_value  = 2500;
@@ -658,7 +657,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     }
 
 
-    temp_v = lv_subject_get_int_from_type(subject, machine_acc_flag,pageid_home);
+    temp_v = lv_subject_get_int_from_type(subject, machine_acc_flag, 0, pageid_home);
     if (temp_v.different_flag)
     {
         if (temp_v.current_value)
@@ -673,7 +672,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, machine_dec_flag,pageid_home);
+    temp_v = lv_subject_get_int_from_type(subject, machine_dec_flag, 0, pageid_home);
     if (temp_v.different_flag)
     {
         if (temp_v.current_value)
@@ -691,7 +690,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 2. 排量档位
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_dec_flag,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_dec_flag, 0, pageid_home);
     if(temp_v.different_flag)
     {
         sprintf(temp, "%.1f",temp_v.current_value / 10.0);
@@ -701,7 +700,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 3. 水冷
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_water_temp,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_water_temp, 0, pageid_home);
     if(temp_v.different_flag)
     {
         sprintf(temp, "%d℃", temp_v.current_value -40);
@@ -711,7 +710,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 4. 疏通强力节能
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_mode,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_mode, 0, pageid_home);
     if(temp_v.different_flag)
     {
         if (temp_v.current_value == 2 )
@@ -731,7 +730,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 5. 油位
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_oil_pos,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_oil_pos, 0, pageid_home);
     if(temp_v.different_flag) {
         if ( temp_v.current_value > 100 )
         {
@@ -764,7 +763,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 6. 尿素液位
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_urea_pos,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_urea_pos, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value > 100 )
         {
@@ -797,7 +796,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 7. 泵送压力
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_pumping_pressure,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pumping_pressure, 0, pageid_home);
     if(temp_v.different_flag) {
         if ( temp_v.current_value > 600 )
         {
@@ -811,8 +810,8 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 8. 正反泵
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_cw,pageid_home);
-    temp_vv = lv_subject_get_int_from_type(subject, machine_ccw,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_cw, 0,pageid_home);
+    temp_vv = lv_subject_get_int_from_type(subject, machine_ccw, 0,pageid_home);
     if(temp_v.different_flag || temp_vv.different_flag) {
         if (temp_v.current_value)
         { //正泵
@@ -836,7 +835,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         lv_img_set_src(p->pump_pos_neg, &bump_stop);
     }
 
-    temp_v =  lv_subject_get_int_from_type(subject, machine_emr,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_emr, 0 ,pageid_home);
     if(temp_v.different_flag) {
         if ( temp_v.current_value == 0 )
         {//关闭
@@ -866,7 +865,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 9. 物料状态
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_materials,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_materials, 0, pageid_home);
     if(temp_v.different_flag) {
         if ( temp_v.current_value == 0 )
         {//不显示n
@@ -891,7 +890,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 10. 泵送频率
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_freq,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_freq, 0, pageid_home);
     if(temp_v.different_flag) {
         snprintf(temp, 64, "%d次/min",temp_v.current_value );
         lv_label_set_text(p->bump_direction_label, temp);
@@ -899,7 +898,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 11. 泵送油温
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_temperature,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pump_temperature, 0, pageid_home);
     if(temp_v.different_flag) {
         sprintf(temp, "%.1f℃", temp_v.current_value / 10.0);
         lv_label_set_text(p->bump_oil_tep, temp);
@@ -908,7 +907,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 12. 堵管报警
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_blocking,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_blocking, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value  >= 2 )
         {
@@ -922,7 +921,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 13. 高低压
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_pressure,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_pressure, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value)
         { //高压
@@ -939,9 +938,9 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 14.风机
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_fan_manual,pageid_home);
-    temp_vv =  lv_subject_get_int_from_type(subject, machine_fan_auto,pageid_home);
-    temp_vvv =  lv_subject_get_int_from_type(subject, machine_fan_close,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_fan_manual, 0, pageid_home);
+    temp_vv =  lv_subject_get_int_from_type(subject, machine_fan_auto, 0, pageid_home);
+    temp_vvv =  lv_subject_get_int_from_type(subject, machine_fan_close, 0, pageid_home);
     if(temp_v.different_flag || temp_vv.different_flag || temp_vvv.different_flag) {
         if (temp_v.current_value)
         {
@@ -957,7 +956,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         }
     }
     //风机应急
-    temp_v =  lv_subject_get_int_from_type(subject, machine_fan_emr,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_fan_emr, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value)
         {
@@ -971,8 +970,8 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 15. 正反搅拌
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_mixer_cw,pageid_home);
-    temp_vv =  lv_subject_get_int_from_type(subject, machine_mixer_ccw,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_mixer_cw, 0, pageid_home);
+    temp_vv =  lv_subject_get_int_from_type(subject, machine_mixer_ccw, 0, pageid_home);
     if(temp_v.different_flag || temp_vv.different_flag ) {
         if (temp_v.current_value)
         { //正搅拌
@@ -991,7 +990,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
         }
     }
     //搅拌应急
-    temp_v =  lv_subject_get_int_from_type(subject, machine_mixer_emr,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_mixer_emr, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value)
         {
@@ -1006,7 +1005,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //16. 锁臂使能
     //-----------------------------------------------------------------
     for (int i = machine_arm0_cw_en; i <= machine_arm5_ccw_en;i++) {
-        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        temp_v =  lv_subject_get_int_from_type(subject, i, 0, pageid_home);
         if (temp_v.current_value == 0) {
             lv_obj_clear_flag(p->lock_img, LV_OBJ_FLAG_HIDDEN);
             break;
@@ -1021,7 +1020,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     //上
     for(int i = machine_arm1_cw_en; i <=  machine_arm5_cw_en; i++) {
-        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        temp_v =  lv_subject_get_int_from_type(subject, i, 0, pageid_home);
         if(temp_v.different_flag) {
             if(temp_v.current_value == 0)
             {
@@ -1033,7 +1032,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     }
     //下
     for(int i = machine_arm1_ccw_en; i <=  machine_arm5_ccw_en; i++) {
-        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        temp_v =  lv_subject_get_int_from_type(subject, i, 0, pageid_home);
         if(temp_v.different_flag) {
             if(temp_v.current_value == 0)
             {
@@ -1048,7 +1047,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     int32_t data_t = 0;
     for(int i = machine_arm1_status; i <=  machine_arm5_status; i++) {
-        temp_v =  lv_subject_get_int_from_type(subject, i,pageid_home);
+        temp_v =  lv_subject_get_int_from_type(subject, i, 0, pageid_home);
         data_t = data_t +temp_v.current_value;
         sprintf(temp, "%d°", cal_angel(data_t) / 10);
         lv_label_set_text(p->arms_angel[4-(machine_arm5_status-i)], temp);
@@ -1057,7 +1056,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 19. 支撑模式
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode, 0, pageid_home);
     if(temp_v.different_flag) {
         // if (temp_v.current_value == 1)
         // { //全支撑模式
@@ -1123,7 +1122,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 20. 臂架液压油温
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_arms_temperature,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_arms_temperature, 0, pageid_home);
     if(temp_v.different_flag) {
         sprintf(temp, "%.1f℃",temp_v.current_value / 10.0);
         lv_label_set_text(p->arm_oil_label, temp);
@@ -1131,12 +1130,12 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 21. 回转角度
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_arm0_status,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_arm0_status, 0, pageid_home);
     if(temp_v.different_flag) {
         sprintf(temp, "%.1f°", temp_v.current_value / 10.0);
         lv_label_set_text(p->cycle_angel_label, temp);
     }
-    temp_v =  lv_subject_get_int_from_type(subject, machine_cw_emr,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_cw_emr, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value)
         {
@@ -1150,7 +1149,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 22. 危险等级
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value == 1)
         {
@@ -1181,7 +1180,7 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 23. 塌陷
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_collapse_logo,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_collapse_logo, 0, pageid_home);
     if(temp_v.different_flag) {
         if (temp_v.current_value == 1)
         {
@@ -1212,8 +1211,8 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
     //-----------------------------------------------------------------
     // 24. 安全系数
     //-----------------------------------------------------------------
-    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode,pageid_home);
-    temp_vv =  lv_subject_get_int_from_type(subject, machine_safe_k,pageid_home);
+    temp_v =  lv_subject_get_int_from_type(subject, machine_support_mode, 0, pageid_home);
+    temp_vv =  lv_subject_get_int_from_type(subject, machine_safe_k, 0, pageid_home);
     if(temp_v.current_value == 10) {
         lv_obj_clear_flag(p->safety_bg, LV_OBJ_FLAG_HIDDEN);
         if(temp_vv.different_flag) {
@@ -1280,59 +1279,31 @@ static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
 #pragma endregion
 }
 
-temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, page_idx type_enum) {
+temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index,int32_t idx, page_idx type_enum) {
 
     lv_subject_t *temp ;
     temp_value_t temp_v;
 
-    if(type_enum == pageid_home) {
-        temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    }else if(type_enum == pageid_rc){
-        temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    }else if(type_enum == pageid_note){
-        temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    }else if(type_enum == pageid_faults){
-        temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    }else if(type_enum == pageid_antipping){
-        temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    }
+    if(type_enum == pageid_system)
+        temp = lv_subject_get_group_element(subject,index + idx);
+    else if(type_enum == pageid_home)
+        temp = lv_subject_get_group_element(subject,index- system_end - 1 + idx);
+    else if(type_enum == pageid_rc)
+        temp = lv_subject_get_group_element(subject,index- machine_end - 1 + idx);
+    else if(type_enum == pageid_faults)
+        temp = lv_subject_get_group_element(subject,index- rc_end - 1 + idx);
+    else if(type_enum == pageid_antipping)
+        temp = lv_subject_get_group_element(subject,index- faults_end - 1 + idx);
+    else if (type_enum == pageid_factory)
+        temp = lv_subject_get_group_element(subject,index- antipping_end - 1 + idx);
+
     temp_v.current_value = lv_subject_get_int(temp);
     temp_v.previous_value = lv_subject_get_previous_int(temp);
-    if(temp_v.current_value != temp_v.previous_value) {
+    if(temp_v.current_value != temp_v.previous_value)
         temp_v.different_flag = true;
-    }else {
+    else
         temp_v.different_flag = false;
-    }
 
-    return temp_v;
-
-}
-
-temp_value_t lv_subject_get_int_arr_from_type(lv_subject_t * subject, int32_t index,int32_t idx, page_idx type_enum) {
-
-    lv_subject_t *temp ;
-    temp_value_t temp_v;
-    //
-    // if(type_enum == pageid_home) {
-    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    // }else if(type_enum == pageid_rc){
-    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    // }else if(type_enum == pageid_note){
-    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    // }else if(type_enum == pageid_faults){
-    //     temp = lv_subject_get_group_element(subject,index- system_end - 1);
-    // }else {
-    // }
-    // temp_v.current_value = lv_subject_get_int(temp);
-    // temp_v.previous_value = lv_subject_get_previous_int(temp);
-    // if(temp_v.current_value != temp_v.previous_value) {
-    //     temp_v.different_flag = true;
-    // }else {
-    //     temp_v.different_flag = false;
-    // }
-    //
-
-    ///gggyf
     return temp_v;
 }
 

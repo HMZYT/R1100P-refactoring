@@ -2,6 +2,7 @@
 #define LVGL_SYSPARAS_DEFS_H
 
 typedef enum {
+    pageid_system,
     pageid_home,
     pageid_rc,
     pageid_note,
@@ -14,6 +15,8 @@ typedef enum {
 typedef enum {
 #pragma region system
     system_paras_language,          //语言
+    system_paras_mode,              //界面模式
+    system_paras_page,              //显示页面
     system_end,
 #pragma endregion
 

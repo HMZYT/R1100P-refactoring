@@ -191,7 +191,7 @@ static void align_observer_list_cb(lv_observer_t *observer, lv_subject_t *subjec
     temp_value_t temp_v;
     temp_value_t temp_vv;
     uint8_t arm = 0;;
-    temp_v = lv_subject_get_int_from_type(subject, factory_align_selected_cali_arm,pageid_factory);
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_selected_cali_arm, 0, pageid_factory);
     if (temp_v.different_flag)
     {
         arm = temp_v.current_value;
@@ -216,19 +216,19 @@ static void align_observer_list_cb(lv_observer_t *observer, lv_subject_t *subjec
         }
 
         char temp[ 64 ];
-        temp_vv = lv_subject_get_int_arr_from_type(subject, factory_align_max_arr, temp_v.current_value,pageid_factory);
+        temp_vv = lv_subject_get_int_from_type(subject, factory_align_max_arr, temp_v.current_value, pageid_factory);
         sprintf(temp, "0x%4X", temp_vv.current_value);
         lv_label_set_text(p->label_arm_top, temp);
 
-        temp_vv = lv_subject_get_int_arr_from_type(subject, factory_align_mid_arr, temp_v.current_value,pageid_factory);
+        temp_vv = lv_subject_get_int_from_type(subject, factory_align_mid_arr, temp_v.current_value,pageid_factory);
         sprintf(temp, "0x%4X", temp_vv.current_value);
         lv_label_set_text(p->label_arm_mid, temp);
 
-        temp_vv = lv_subject_get_int_arr_from_type(subject, factory_align_min_arr, temp_v.current_value,pageid_factory);
+        temp_vv = lv_subject_get_int_from_type(subject, factory_align_min_arr, temp_v.current_value,pageid_factory);
         sprintf(temp, "0x%4X", temp_vv.current_value);
         lv_label_set_text(p->label_arm_btm, temp);
 
-        temp_v = lv_subject_get_int_from_type(subject, factory_align_selected_pos,pageid_factory);
+        temp_v = lv_subject_get_int_from_type(subject, factory_align_selected_pos,0, pageid_factory);
         uint32_t cali_idx = temp_v.current_value;
         if ( cali_idx > 3 )
         {

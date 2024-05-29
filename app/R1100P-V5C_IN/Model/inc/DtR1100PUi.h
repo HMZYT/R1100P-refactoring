@@ -35,13 +35,13 @@ public:
 public:
     void dtR1100PUiInit();
     bool setDtInt(uint32_t id, int32_t value);
-    bool setDtInt(int id, int idx, int value, bool en);
+    bool setDtInt(uint32_t id, uint32_t idx, int32_t value);
     //bool setString(int id, string *str, int len, bool en);
     //int getDtInt(int id);
     int getDtInt(uint32_t id);
     //string gtString(int id);
     bool dtR1100pDictAdd(uint32_t id, void *addr, uint8_t acc);
-    int32_t dt_ylm_dict_get_idx(uint32_t id);
+    int32_t dt_R1100P_dict_get_idx(uint32_t id);
 private:
     dt_r1100p_dict_t g_dt;
 };

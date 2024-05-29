@@ -18,7 +18,7 @@ void DtR1100PUi::dtR1100PUiInit()
 
 }
 
-int32_t DtR1100PUi::dt_ylm_dict_get_idx(uint32_t id)
+int32_t DtR1100PUi::dt_R1100P_dict_get_idx(uint32_t id)
 {
     dt_r1100p_dict_t *s = &g_dt;
     if (NULL == s) {
@@ -45,7 +45,7 @@ int32_t DtR1100PUi::dt_ylm_dict_get_idx(uint32_t id)
 
 int32_t DtR1100PUi::getDtInt(uint32_t id)
 {
-    int32_t _dict_idx = dt_ylm_dict_get_idx(id);
+    int32_t _dict_idx = dt_R1100P_dict_get_idx(id);
     if (_dict_idx != -1 && _dict_idx != -2) {
         int32_t value = *(int32_t *) g_dt.idict[_dict_idx].ptr;
         return value;
@@ -56,7 +56,7 @@ int32_t DtR1100PUi::getDtInt(uint32_t id)
 
 bool DtR1100PUi::setDtInt(uint32_t id, int32_t value)
 {
-    int32_t _dict_idx = dt_ylm_dict_get_idx(id);
+    int32_t _dict_idx = dt_R1100P_dict_get_idx(id);
     if (_dict_idx != -1 && _dict_idx != -2) {
         if (NULL != g_dt.idict[_dict_idx].limit) {
             if (value > g_dt.idict[_dict_idx].limit->max) {
@@ -69,6 +69,27 @@ bool DtR1100PUi::setDtInt(uint32_t id, int32_t value)
         int32_t *_temp_ptr = (int32_t *) g_dt.idict[_dict_idx].ptr;
         *_temp_ptr = value;
 
+        return true;
+    } else {// 没有找到对应的ID
+        return false;
+    }
+}
+
+bool DtR1100PUi::setDtInt(uint32_t id, uint32_t idx, int32_t value)
+{
+    int32_t _dict_idx = dt_R1100P_dict_get_idx(id);
+    if (_dict_idx != -1 && _dict_idx != -2) {
+        if (NULL != g_dt.idict[_dict_idx].limit) {
+            if (value > g_dt.idict[_dict_idx].limit->max) {
+                value = g_dt.idict[_dict_idx].limit->max;
+            } else if (value < g_dt.idict[_dict_idx].limit->min) {
+                value = g_dt.idict[_dict_idx].limit->min;
+            }
+        }
+
+        int32_t *_temp_ptr = (int32_t *) g_dt.idict[_dict_idx].ptr;
+        _temp_ptr = _temp_ptr + idx;
+        *_temp_ptr = value;
         return true;
     } else {// 没有找到对应的ID
         return false;

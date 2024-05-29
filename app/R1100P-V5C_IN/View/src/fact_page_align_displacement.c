@@ -188,25 +188,25 @@ static void align_displacement_observer_list_cb(lv_observer_t *observer, lv_subj
     temp_value_t temp_vv;
     char temp[ 64 ];
 
-    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_min,pageid_factory);
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_min, 0, pageid_factory);
     if (temp_v.different_flag) {
         sprintf(temp, "0x%4X", temp_v.current_value);
         lv_label_set_text(p->label_v0, temp);
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_mid,pageid_factory);
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_mid, 0, pageid_factory);
     if (temp_v.different_flag) {
         sprintf(temp, "0x%4X", temp_v.current_value);
         lv_label_set_text(p->label_v5, temp);
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_max,pageid_factory);
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_max, 0, pageid_factory);
     if (temp_v.different_flag) {
         sprintf(temp, "0x%4X", temp_v.current_value);
         lv_label_set_text(p->label_v10, temp);
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_selected_pos,pageid_factory);
+    temp_v = lv_subject_get_int_from_type(subject, factory_align_disp_selected_pos, 0, pageid_factory);
     if (temp_v.different_flag) {
         if ( temp_v.current_value == 0 )
         {//清除所有选择

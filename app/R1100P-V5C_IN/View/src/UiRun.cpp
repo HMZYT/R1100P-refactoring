@@ -32,27 +32,27 @@ lv_subject_t subject_faults_all;
 lv_subject_t subject_antipping_all;
 lv_subject_t subject_factory_all;
 
+irc_lcd_widget_t working_widget;
+PAGE working_home_page;
+ModeManage modeManage = ModeManage(&working_widget, working_widget_init);
+PageManage pageManage = PageManage(&working_home_page, working_page_home_init);
+
 void uiRun()
 {
     //观察者初始化
     uiSubjects.uiSubjectsInit();
 
     //创建窗口
-    rc_lcd_mode_t modeIndex = e_rc_lcd_working;
-    int  pageIndex = working_page_note;
 
-    irc_lcd_widget_t idle_widget;
     irc_lcd_widget_t working_widget;
     irc_lcd_widget_t factory_widget;
     irc_lcd_widget_t offChargint_widget;
     irc_lcd_widget_t prepared_widget;
-    ModeManage modeManage(&idle_widget, idle_widget_init);
     modeManage.mode_manage_add_widget(&working_widget, working_widget_init);
     modeManage.mode_manage_add_widget(&factory_widget, rc_lcd_factory_widget_init);
     modeManage.mode_manage_add_widget(&offChargint_widget, rc_lcd_off_charging_widget_init);
     modeManage.mode_manage_add_widget(&prepared_widget, prepared_widget_init);
 
-    PAGE working_home_page;
     PAGE working_antipping_page;
     PAGE working_faults_page;
     PAGE working_rc_page;
@@ -65,7 +65,6 @@ void uiRun()
     PAGE fact_page_touch_page;
     PAGE off_charging_page;
     PAGE prepared_page;
-    PageManage pageManage(&working_home_page, working_page_home_init);
     pageManage.page_manage_add_page(&working_antipping_page, working_page_antipping, working_page_antipping_init);
     pageManage.page_manage_add_page(&working_faults_page, working_page_faults, working_page_faults_init);
     pageManage.page_manage_add_page(&working_rc_page, working_page_rc, working_page_rc_init);
@@ -79,18 +78,16 @@ void uiRun()
     pageManage.page_manage_add_page(&off_charging_page, off_charging_page_charging, off_charging_page_charging_init);
     pageManage.page_manage_add_page(&prepared_page, prepared_page_rc, prepared_page_rc_create);
 
-    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(modeIndex);//选择模式
+    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(e_rc_lcd_working);//选择模式
 
     //观察者初始化
     page_manage_subjects_init();
 
-    pageManage.page_manage_switch_page(pageIndex,temp_widget);
-    language_clear_label_list();
-    pageManage.page_manage_switch_page(0,temp_widget);
+    pageManage.page_manage_switch_page(working_page_home,temp_widget);
     lv_subject_add_observer_obj(&subject_system, system_observer_list_cb, NULL, NULL);
 
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
-    lv_subject_set_int(&subjectParas[machine_motor_speed], 800);
+    lv_subject_set_int(&subjectParas[system_paras_page], 1);
 }
 
 static void page_manage_subjects_init()
@@ -131,8 +128,23 @@ static void page_manage_subjects_init()
 
 static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
 {
-    lv_subject_t *s = lv_subject_get_group_element(subject, 0);
-    int lang = lv_subject_get_int(s);
-    language_set_current_lang(lang);
-    language_change_callback();
+#pragma region 语言
+    temp_value_t temp_v = lv_subject_get_int_from_type(subject, system_paras_language, 0, pageid_system);
+    if (temp_v.different_flag)
+    {
+        language_set_current_lang(temp_v.current_value);
+        language_change_callback();
+    }
+#pragma endregion 语言
+
+#pragma region 模式
+    temp_v = lv_subject_get_int_from_type(subject, system_paras_mode, 0, pageid_system);
+    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(temp_v.current_value);//选择模式
+#pragma endregion 模式
+
+#pragma region 页面
+    temp_v = lv_subject_get_int_from_type(subject, system_paras_page, 0, pageid_system);
+    language_clear_label_list();
+    pageManage.page_manage_switch_page(temp_v.current_value,temp_widget);
+#pragma endregion 页面
 }

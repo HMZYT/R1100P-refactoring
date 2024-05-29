@@ -18,7 +18,7 @@ void ModeManage::mode_manage_add_widget(irc_lcd_widget_t *modeWidget,lv_obj_t* (
     widgetsList.push_back(modeWidget);
 }
 
-lv_obj_t* ModeManage::mode_manage_switch_widget(rc_lcd_mode_t modeIndex)
+lv_obj_t* ModeManage::mode_manage_switch_widget(int modeIndex)
 {
     if(widgetsList[modeIndex] == nullptr || widgetsList[modeIndex]->init == nullptr)
         return nullptr;

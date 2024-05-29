@@ -330,7 +330,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     temp_value_t temp_v;
     temp_value_t temp_vv;
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_flag,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_flag,  0, pageid_rc);
     if(temp_v.different_flag)
     {
         if(temp_v.current_value)
@@ -343,7 +343,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_armSupport,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_armSupport, 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_rocker(p->rockers[0], temp_v.current_value);
@@ -366,7 +366,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_arm1,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm1 , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_rocker(p->rockers[1], temp_v.current_value);
@@ -389,7 +389,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_arm2,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm2 , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_rocker(p->rockers[2], temp_v.current_value);
@@ -412,7 +412,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_arm3,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm3 , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_rocker(p->rockers[3], temp_v.current_value);
@@ -435,7 +435,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_arm4,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm4 , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_rocker(p->rockers[4], temp_v.current_value);
@@ -458,7 +458,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_arm5,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_arm5 , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_rocker(p->rockers[5], temp_v.current_value);
@@ -481,7 +481,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         }
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_displacement,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_displacement , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _set_displacement(p->btn_replacement, p->label_displacement, temp_v.current_value);
@@ -492,7 +492,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     for (int nIndex = rc_1; nIndex <= rc_2_3; nIndex++)
     {
         temp_count++;
-        temp_v = lv_subject_get_int_from_type(subject, nIndex,pageid_rc);
+        temp_v = lv_subject_get_int_from_type(subject, nIndex , 0, pageid_rc);
         if (temp_v.current_value)
         {
             break;
@@ -505,25 +505,25 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
         last_lock = temp_count;
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_engine_stop,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_engine_stop , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _button_side_set_clicked(p->btn_stop, temp_v.current_value);
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_start_key,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_start_key , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _button_side_set_clicked(p->btn_start, temp_v.current_value);
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_horn,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_horn , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _button_side_set_clicked(p->btn_whistle, temp_v.current_value);
     }
 
-    temp_v = lv_subject_get_int_from_type(subject, rc_halt,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_halt , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _button_side_set_clicked(p->btn_emergency, temp_v.current_value);
@@ -535,8 +535,8 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     /***************************
     * BUTTON1: 正反泵
     ***************************/
-    temp_value_t temp_rc_ccw = lv_subject_get_int_from_type(subject, rc_ccw,pageid_rc);
-    temp_value_t temp_rc_cw = lv_subject_get_int_from_type(subject, rc_cw,pageid_rc);
+    temp_value_t temp_rc_ccw = lv_subject_get_int_from_type(subject, rc_ccw , 0, pageid_rc);
+    temp_value_t temp_rc_cw = lv_subject_get_int_from_type(subject, rc_cw , 0, pageid_rc);
     if (temp_rc_ccw.current_value)
     {//下
         v[ 0 ] = 2;
@@ -559,8 +559,8 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     /***************************
     * BUTTON2: 左右摆缸
     ***************************/
-    temp_value_t temp_right_swing_pump = lv_subject_get_int_from_type(subject, rc_right_swing_pump,pageid_rc);
-    temp_value_t temp_left_swing_pump = lv_subject_get_int_from_type(subject, rc_left_swing_pump,pageid_rc);
+    temp_value_t temp_right_swing_pump = lv_subject_get_int_from_type(subject, rc_right_swing_pump , 0, pageid_rc);
+    temp_value_t temp_left_swing_pump = lv_subject_get_int_from_type(subject, rc_left_swing_pump , 0, pageid_rc);
     if (temp_right_swing_pump.current_value)
     {//下
         v[ 1 ] = 2;
@@ -583,7 +583,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     /***************************
     * BUTTON3: 龟兔
     ***************************/
-    temp_v = lv_subject_get_int_from_type(subject, rc_slow,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_slow , 0, pageid_rc);
     if (temp_v.current_value)
     {//下
         v[ 2 ] = 2;
@@ -601,8 +601,8 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     /***************************
     * BUTTON4: PRM
     ***************************/
-    temp_value_t temp_rpm_minus = lv_subject_get_int_from_type(subject, rc_rpm_minus,pageid_rc);
-    temp_value_t temp_rpm_plus = lv_subject_get_int_from_type(subject, rc_rpm_plus,pageid_rc);
+    temp_value_t temp_rpm_minus = lv_subject_get_int_from_type(subject, rc_rpm_minus , 0, pageid_rc);
+    temp_value_t temp_rpm_plus = lv_subject_get_int_from_type(subject, rc_rpm_plus , 0, pageid_rc);
     if (temp_rpm_minus.current_value)
     {//下
         v[ 3 ] = 2;
@@ -625,8 +625,8 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     /***************************
     * BUTTON5: 强力、节能
     ***************************/
-    temp_value_t temp_dredge = lv_subject_get_int_from_type(subject, rc_dredge,pageid_rc);
-    temp_value_t temp_strong_power = lv_subject_get_int_from_type(subject, rc_strong_power,pageid_rc);
+    temp_value_t temp_dredge = lv_subject_get_int_from_type(subject, rc_dredge , 0, pageid_rc);
+    temp_value_t temp_strong_power = lv_subject_get_int_from_type(subject, rc_strong_power , 0, pageid_rc);
     if (temp_dredge.current_value)
     {//疏通
         v[ 4 ] = 0;
@@ -649,7 +649,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) 
     /***************************
     * 电源按钮
     ***************************/
-    temp_v = lv_subject_get_int_from_type(subject, rc_powerkey,pageid_rc);
+    temp_v = lv_subject_get_int_from_type(subject, rc_powerkey , 0, pageid_rc);
     if (temp_v.different_flag)
     {
         _button_side_set_clicked(p->btn_off, temp_v.current_value);

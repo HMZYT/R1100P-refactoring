@@ -827,9 +827,9 @@ static void faults_observer_list_cb(lv_observer_t *observer, lv_subject_t *subje
     working_page_faults_t *p = (working_page_faults_t *) observer->user_data;
     static bool _start = false;
 
-    temp_value_t temp_fault_id = lv_subject_get_int_from_type(subject, faults_id,pageid_faults);
-    temp_value_t temp_fault_detail = lv_subject_get_int_from_type(subject, faults_detail,pageid_faults);
-    temp_value_t temp_fault_total = lv_subject_get_int_from_type(subject, faults_total,pageid_faults);
+    temp_value_t temp_fault_id = lv_subject_get_int_from_type(subject, faults_id, 0, pageid_faults);
+    temp_value_t temp_fault_detail = lv_subject_get_int_from_type(subject, faults_detail, 0, pageid_faults);
+    temp_value_t temp_fault_total = lv_subject_get_int_from_type(subject, faults_total, 0, pageid_faults);
     if(temp_fault_id.current_value == 1)
     {
         if ((temp_fault_detail.current_value / 100 % 100) == 0x00)
