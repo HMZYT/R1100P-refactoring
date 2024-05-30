@@ -4,8 +4,8 @@
 //#include "../GUI_APP/gui_user.h"
 #include "../../Model/inc/data_info_v4_0.h"
 #include "../inc/images_v4_0.h"
-#include "../GUI_APP/gui_fonts.h"
-#include "../GUI_LIBS/inc/xlv_battery.h"
+#include "../res/fonts/gui_fonts.h"
+#include "../app/R1100P-V5C_IN/View/inc/xlv_battery.h"
 //#include "lv_port_indev.h"
 //#include "language_control.h"
 

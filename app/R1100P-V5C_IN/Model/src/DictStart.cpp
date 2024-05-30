@@ -6,7 +6,7 @@
 #include "../../../../extensions/data-types/inc/dt_r1100p_ui_data.h"
 #include "../inc/DtR1100PUi.h"
 #include "../../View/inc/sysparas_defs.h"
-#include "../../View/GUI_APP/language_control.h"
+#include "../res/fonts/language_control.h"
 
 void dictInit()
 {

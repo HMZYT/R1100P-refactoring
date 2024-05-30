@@ -1,6 +1,6 @@
 #include "../inc/working_page_note.h"
 #include "../inc/images_v4_0.h"
-#include "../../View/GUI_APP/language_control.h"
+#include "../../res/fonts/language_control.h"
 #include "../inc/UiRun.h"
 #include "../inc/working_page_home.h"
 #include "../inc/UiSubjectsWrapper.h"

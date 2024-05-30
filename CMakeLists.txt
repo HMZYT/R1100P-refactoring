@@ -27,20 +27,17 @@ target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR}/lv_port_pc_eclipse 
 file(GLOB_RECURSE INCLUDES
         "app/R1100P-V5C_IN/Controller/inc/*.h"
         "app/R1100P-V5C_IN/View/inc/*.h"
-        "app/R1100P-V5C_IN/View/GUI_LIBS/inc/*.h"
-        "app/R1100P-V5C_IN/View/GUI_APP/*.h"
         "app/R1100P-V5C_IN/Usart/inc/*.h"
         "app/R1100P-V5C_IN/Model/inc/*.h"
         "app/inc/*.h"
         "extensions/data-types/inc/*.h"
         "drivers/board/inc/*.h"
         "drivers/bsp/inc/*.h"
-        "drivers/dev/inc/*.h")
+        "drivers/dev/inc/*.h"
+        "res/fonts/*.h")
 file(GLOB_RECURSE SOURCES
         "app/R1100P-V5C_IN/Controller/src/*.c"
         "app/R1100P-V5C_IN/View/src/*.c"
-        "app/R1100P-V5C_IN/View/GUI_LIBS/src/*.c"
-        "app/R1100P-V5C_IN/View/GUI_APP/*.c"
         "app/R1100P-V5C_IN/Usart/src/*.c"
         "app/R1100P-V5C_IN/Model/src/*.c"
         "app/R1100P-V5C_IN/Controller/src/*.cpp"
@@ -55,7 +52,8 @@ file(GLOB_RECURSE SOURCES
         "drivers/dev/src/*.c"
         "images/home/*.c"
         "images/antipping/*.c"
-        "images/control/*.c")
+        "images/control/*.c"
+        "res/fonts/*.c"    )
 
 add_executable(main main.c lv_port_pc_eclipse/mouse_cursor_icon.c ${SOURCES} ${INCLUDES}
         app/R1100P-V5C_IN/View/inc/working_header.h

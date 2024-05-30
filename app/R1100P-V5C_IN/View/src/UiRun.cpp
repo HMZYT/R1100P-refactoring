@@ -20,7 +20,7 @@
 #include "../../Model/inc/DtR1100PUi.h"
 #include "../inc/sysparas_defs.h"
 #include "../inc/UiSubjectsWrapper.h"
-#include "../GUI_APP/language_control.h"
+#include "../res/fonts/language_control.h"
 
 static void page_manage_subjects_init();
 static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);

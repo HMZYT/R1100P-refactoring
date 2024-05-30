@@ -3,7 +3,7 @@
 //#include "../GUI_APP/gui_user.h"
 #include "../../Model/inc/data_info_v4_0.h"
 #include "../inc/images_v4_0.h"
-#include "../GUI_APP/gui_fonts.h"
+#include "../res/fonts/gui_fonts.h"
 
 void irc_lcd_header_init( irc_lcd_header_t *h, lv_obj_t *parent )
 {

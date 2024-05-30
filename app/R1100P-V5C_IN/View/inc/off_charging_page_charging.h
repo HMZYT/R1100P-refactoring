@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 #include "lvgl/lvgl.h"
-#include "../GUI_LIBS/inc/xlv_battery.h"
+#include "../app/R1100P-V5C_IN/View/inc/xlv_battery.h"
 
 typedef struct{
     lv_obj_t *bat;

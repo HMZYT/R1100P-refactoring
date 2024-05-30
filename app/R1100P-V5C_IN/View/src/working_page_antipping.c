@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "../inc/UiSubjectsWrapper.h"
 #include "../inc/images_v4_0.h"
-#include "../../View/GUI_APP/language_control.h"
+#include "../../res/fonts/language_control.h"
 #include "../inc/sysparas_defs.h"
 #include "../inc/UiRun.h"
 #include "../inc/working_page_home.h"

@@ -4,7 +4,7 @@
 //#include "../GUI_APP/gui_user.h"
 #include "../../Model/inc/data_info_v4_0.h"
 #include "../inc/images_v4_0.h"
-#include "../GUI_APP/gui_fonts.h"
+#include "../res/fonts/gui_fonts.h"
 
 /// @brief 00：遥控器独立判断故障
 static const char* _errs_00_0[] = {  

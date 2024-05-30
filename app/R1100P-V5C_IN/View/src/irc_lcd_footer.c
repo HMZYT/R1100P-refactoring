@@ -1,5 +1,5 @@
 #include "../inc/irc_lcd_footer.h"
-#include "../GUI_APP/gui_fonts.h"
+#include "../res/fonts/gui_fonts.h"
 
 extern void irc_lcd_footer_refresh(irc_lcd_footer_t *h, void *data);
 
