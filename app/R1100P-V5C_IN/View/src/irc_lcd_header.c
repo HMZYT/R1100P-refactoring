@@ -46,17 +46,17 @@ void irc_lcd_header_init( irc_lcd_header_t *h, lv_obj_t *parent )
 //    lv_obj_set_pos(h->logo, 27, 14);
 //    lv_obj_set_size(h->logo, 112, 14);
 //    lv_obj_add_style(h->logo, &header_style, 0);
-		
-//    h->bg = lv_img_create(h->obj);
-//    lv_img_set_src(h->bg, &zoomlion); //设置图片源
-//    lv_obj_set_pos(h->bg, 0, 0);
 
-//    //创建Title
-//    h->title = lv_label_create(h->obj);
-//    lv_label_set_text(h->title, "未归零");
-//    lv_obj_add_style(h->title, &title_style, 0);
-//    lv_obj_set_pos(h->title, 250, 8);
-//		lv_obj_set_size(h->title, 300, 40);
+    h->bg = lv_img_create(h->obj);
+    lv_img_set_src(h->bg, &zoomlion); //设置图片源
+    lv_obj_set_pos(h->bg, 0, 0);
+
+    //创建Title
+    h->title = lv_label_create(h->obj);
+    lv_label_set_text(h->title, "未归零");
+    lv_obj_add_style(h->title, &title_style, 0);
+    lv_obj_set_pos(h->title, 250, 8);
+    lv_obj_set_size(h->title, 300, 40);
 }
 
 void irc_lcd_header_refresh( irc_lcd_header_t* h, void *data )

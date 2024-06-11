@@ -13,6 +13,7 @@ lv_obj_t *language_list;
 
 lv_obj_t* working_page_note_init(lv_obj_t *page)
 {
+    working_page_note_t *p = lv_malloc(sizeof (working_page_note_t));
     static lv_style_t style;
     lv_style_init(&style);
     lv_style_set_text_color(&style, lv_color_black());
@@ -38,6 +39,12 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_style_set_text_font(&style02, &working_mode_24px);
     lv_style_set_text_align(&style02, LV_TEXT_ALIGN_CENTER);
 
+    static lv_style_t style03;
+    lv_style_init(&style03);
+    lv_style_set_text_color(&style03, lv_color_hex(0xff0000));
+    lv_style_set_text_font(&style03, &working_mode_24px);
+    lv_style_set_text_align(&style03, LV_TEXT_ALIGN_CENTER);
+
     static lv_style_t bg_style;
     lv_style_init(&bg_style);
     lv_style_set_bg_color(&bg_style, lv_color_white());
@@ -53,145 +60,167 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
     lv_obj_add_style(obj, &bg_style, 0);
     lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
 
-    // 排量
+    //排量
     lv_obj_t *temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &current_level);
-    lv_obj_set_pos(temp_obj, 30 + 3, 10);
+    lv_obj_set_pos(temp_obj, 30 +3, 10);
     lv_img_set_zoom(temp_obj, 320);
+
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &watercold);
-    lv_obj_set_pos(temp_obj, 30 - 3, 10 + 1 * 50 - 3);
+    lv_obj_set_pos(temp_obj, 30-3, 10 + 1*50 -3);
     lv_img_set_zoom(temp_obj, 200);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &qiangli);
-    lv_obj_set_pos(temp_obj, 30 - 6, 10 - 8 + 2 * 50 - 3);
+    lv_obj_set_pos(temp_obj, 30 -6, 10 -8 + 2*50 - 3);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &shutong);
-    lv_obj_set_pos(temp_obj, 30 - 6, 10 - 8 + 3 * 50 - 4);
+    lv_obj_set_pos(temp_obj, 30 -6, 10 -8 + 3*50 - 4);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &eco_green);
-    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 4 * 50 - 6);
+    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 4*50 - 6);
     lv_img_set_zoom(temp_obj, 200);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &bump_oil);
-    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 5 * 50 - 10);
+    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 5*50 -10 );
     lv_img_set_zoom(temp_obj, 180);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &img_language);
-    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 6 * 50);
+    lv_obj_set_pos(temp_obj, 30 + 1, 10 + 6*50);
     lv_img_set_zoom(temp_obj, 220);
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 80, 10 + 0 * 50);
+    lv_obj_set_pos(temp_obj,  80, 10 + 0*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "排量档位");
+    language_lv_label_set_text(temp_obj, "label_08");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 80, 10 + 1 * 50);
+    lv_obj_set_pos(temp_obj,  80, 10 + 1*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "水冷");
+    language_lv_label_set_text(temp_obj, "label_09");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 80, 10 + 2 * 50);
+    lv_obj_set_pos(temp_obj,  80, 10 + 2*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "强力");
+    language_lv_label_set_text(temp_obj, "label_10");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 80, 10 + 3 * 50);
+    lv_obj_set_pos(temp_obj,  80, 10 + 3*50);
+
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "疏通");
+    language_lv_label_set_text(temp_obj, "label_11");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 80, 10 + 4 * 50);
+    lv_obj_set_pos(temp_obj,  80, 10 + 4*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "节能");
+    language_lv_label_set_text(temp_obj, "label_12");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 80, 10 + 5 * 50);
+    lv_obj_set_pos(temp_obj,  80, 10 + 5*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "泵送油温");
+    language_lv_label_set_text(temp_obj, "label_13");
 
     temp_obj = lv_label_create(obj);
+
     lv_obj_set_pos(temp_obj, 80, 10 + 6 * 50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    lv_label_set_text(temp_obj, "语言");
+    language_lv_label_set_text(temp_obj, "label_03");
+
+    p->language_label = lv_label_create(obj);
+    lv_obj_set_pos(p->language_label, 80+130, 10 + 6 * 50);
+    lv_obj_add_style(p->language_label, &style03, 0);
+    language_lv_label_set_text(p->language_label, "label_04");
+
 
 #pragma region 语言列表
+    static lv_style_t styleList;
+    lv_style_init(&styleList);
+    lv_style_set_bg_color(&bg_style, lv_color_white());
+    lv_style_set_bg_opa(&bg_style, 255);
+    lv_style_set_text_font(&styleList, &working_mode_24px);
+
     language_list = lv_list_create(obj);
-    lv_obj_set_size(language_list, 100, 50 * 2);
-    button_lang[0] = lv_list_add_button(language_list, NULL, "中文");
-    button_lang[1] = lv_list_add_button(language_list, NULL, "英文");
-    lv_obj_align_to(language_list, temp_obj, LV_ALIGN_BOTTOM_MID, 0, -30);
-    lv_obj_add_flag(language_list, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_set_size(language_list, 300, 100 * 2);
+    button_lang[0] = lv_list_add_btn(language_list, NULL, "中文");
+    button_lang[1] = lv_list_add_btn(language_list, NULL, "English");
+    lv_obj_set_style_bg_opa(button_lang[1], 255, 0);
+    lv_obj_set_style_bg_opa(button_lang[0], 255, 0);
+    lv_obj_set_style_bg_opa(language_list, 255, 0);
+    lv_obj_set_style_border_opa(language_list, 255, 0);
+    lv_obj_set_style_border_width(language_list, 2, 0);
+    lv_obj_align(language_list,  LV_ALIGN_CENTER, 0, 0);
+    //lv_obj_add_flag(language_list, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_style(language_list, &styleList, 0);
+    lv_group_remove_obj(language_list);
 #pragma endregion 语言列表
 
-    // 第二列
+    //第二列
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &duguan);
-    lv_obj_set_pos(temp_obj, 570 + 1, 10 + 8 - 4);
+    lv_obj_set_pos(temp_obj, 570 - 8 -110  , 10 +8 -4 );
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &liao_3);
-    lv_obj_set_pos(temp_obj, 570, 10 - 10 + 1 * 50 - 4);
+    lv_obj_set_pos(temp_obj, 570 - 8 -110, 10 -10+ 1*50 -4);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &liao_1);
-    lv_obj_set_pos(temp_obj, 570, 10 - 10 + 2 * 50 - 4);
+    lv_obj_set_pos(temp_obj, 570 - 8 -110, 10-10 + 2*50 -4);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &liao_2);
-    lv_obj_set_pos(temp_obj, 570, 10 - 10 + 3 * 50 - 4);
+    lv_obj_set_pos(temp_obj, 570 - 8 -110, 10 -10 + 3*50 -4);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &arm_oil);
-    lv_obj_set_pos(temp_obj, 570 - 2, 10 - 10 + 4 * 50 - 5);
+    lv_obj_set_pos(temp_obj, 570 - 8 -110, 10 -10 + 4*50 -5);
     lv_img_set_zoom(temp_obj, 180);
 
     temp_obj = lv_img_create(obj);
     lv_img_set_src(temp_obj, &img_arm_lock);
-    lv_obj_set_pos(temp_obj, 570 - 20, 10 + 5 * 50 - 14);
-    lv_img_set_zoom(temp_obj, 200);
+    lv_obj_set_pos(temp_obj, 570 - 28 -110, 10 + 5*50 -14);
+    lv_img_set_zoom(temp_obj, 180);
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 620, 10 + 0 * 50);
+    lv_obj_set_pos(temp_obj,  620 -110, 10 + 0*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "label_14");
+    language_lv_label_set_text(temp_obj, "label_14");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 620, 10 + 1 * 50);
+    lv_obj_set_pos(temp_obj,  620 -110, 10 + 1*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "label_15");
+    language_lv_label_set_text(temp_obj, "label_15");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 620, 10 + 2 * 50);
+    lv_obj_set_pos(temp_obj,  620 -110, 10 + 2*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "label_16");
+    language_lv_label_set_text(temp_obj, "label_16");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 620, 10 + 3 * 50);
+    lv_obj_set_pos(temp_obj,  620 -110, 10 + 3*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "label_17");
+    language_lv_label_set_text(temp_obj, "label_17");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 620, 10 + 4 * 50);
+    lv_obj_set_pos(temp_obj,  620 -110, 10 + 4*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "label_18");
+    language_lv_label_set_text(temp_obj, "label_18");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 620, 10 + 5 * 50);
+    lv_obj_set_pos(temp_obj,  620 -110, 10 + 5*50);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "label_19");
+    language_lv_label_set_text(temp_obj, "label_19");
 
     temp_obj = lv_label_create(obj);
-    lv_obj_set_pos(temp_obj, 630, 360);
+    lv_obj_set_pos(temp_obj,  625 , 360);
     lv_obj_add_style(temp_obj, &style02, 0);
-    language_set_current_label(temp_obj, "R_016ZNV2B.1");
+    lv_label_set_text(temp_obj, "R_016ZNV2B.1");
 
     //观察者模式
     lv_subject_add_observer_obj(&subject_note_all, note_observer_list_cb, page, NULL);
@@ -201,45 +230,63 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
 
 static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
 {
-    lv_subject_t* temp_lock;
-    lv_subject_t* temp_selected;
-    lv_subject_t* temp_clecked_value;
-    lv_subject_t* temp_language;
-    temp_lock = lv_subject_get_group_element(subject,0);
-    temp_selected = lv_subject_get_group_element(subject,1);
-    temp_clecked_value = lv_subject_get_group_element(subject,2);
-    temp_language = lv_subject_get_group_element(subject,3);
+    lv_subject_t* note_lock_flag;
+    lv_subject_t* language_set;
+    lv_subject_t* powerkey;
+    lv_subject_t* language_current;
+    note_lock_flag = lv_subject_get_group_element(subject,0);
+    language_set = lv_subject_get_group_element(subject,1);
+    powerkey = lv_subject_get_group_element(subject,2);
+    language_current = lv_subject_get_group_element(subject,3);
 
-    static int current_lang;
-    if (lv_subject_get_int(temp_lock))
+
+    if (lv_subject_get_previous_int(language_current) != lv_subject_get_int(language_current))
+    {
+        working_page_note_t *p = lv_malloc(sizeof (working_page_note_t));
+        if (lv_subject_get_int(language_current) < 0)
+        {
+            lv_subject_set_int(language_current, 0);
+        }
+        else if (lv_subject_get_int(language_current) > LANGUAGE_NUMBER-1)
+        {
+            lv_subject_set_int(language_current, LANGUAGE_NUMBER-1);
+        }
+
+        if (selected_language == 0)
+        {
+            lv_label_set_text(p->language_label,"中文");
+        }
+        else if (selected_language == 1){
+
+            lv_label_set_text(p->language_label,"English");
+        }
+    }
+
+    if (lv_subject_get_int(note_lock_flag))
     {
         int lang = 0;
-        current_lang = lv_subject_get_int(temp_clecked_value) + lv_subject_get_int(temp_language);
-        lv_obj_remove_flag(language_list, LV_OBJ_FLAG_HIDDEN);
-        int a = lv_subject_get_int(temp_language);
-        if (lv_subject_get_int(temp_language) == 0)
-            lv_obj_set_style_bg_color(button_lang[Chinese], lv_color_make(0xff, 0x00, 0x00), 0);
-        else if(lv_subject_get_int(temp_language) == 1)
-            lv_obj_set_style_bg_color(button_lang[English], lv_color_make(0xff, 0x00, 0x00), 0);
+        lv_obj_clear_flag(language_list, LV_OBJ_FLAG_HIDDEN);
 
-
-        if (lv_subject_get_previous_int(temp_clecked_value) != lv_subject_get_int(temp_clecked_value))
+        for(int i = 0; i < LANGUAGE_NUMBER;i++)
         {
-            if (current_lang <= 0 )
+            if(i == lv_subject_get_int(language_set))
             {
-                current_lang = 0;
+                lv_obj_set_style_bg_color(button_lang[lv_subject_get_int(language_set)], lv_color_make(0x00, 0xff, 0x00), 0);
             }
-            else if (current_lang >= (LANGUAGE_NUMBER -1 ))
+            else
             {
-                current_lang = LANGUAGE_NUMBER -1;
+                lv_obj_set_style_bg_color(button_lang[i], lv_color_make(0xff, 0xff, 0xff), 0);
             }
-            lv_obj_set_style_bg_color(button_lang[current_lang], lv_color_make(0x00, 0xff, 0x00), 0);
         }
 
-        if (lv_subject_get_previous_int(temp_selected) == 1 && lv_subject_get_int(temp_selected) == 0)
+        if (lv_subject_get_int(powerkey) == 0 && lv_subject_get_previous_int(powerkey)  == 1)
         {
-            lv_subject_t* subjectParas = getSubjectsParasWrapper();
-            lv_subject_set_int(&subjectParas[system_paras_language], 1);
+            selected_language = lv_subject_get_int(language_set);
+            lv_subject_set_int(note_lock_flag, 0);
         }
+    }
+    else
+    {
+        lv_obj_add_flag(language_list, LV_OBJ_FLAG_HIDDEN);
     }
 }

@@ -153,44 +153,45 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
 
     p->current_label = lv_label_create(g1);
     lv_obj_set_pos(p->current_label,  5, 20);
+    lv_obj_set_size(p->current_label,160,30);
     lv_obj_add_style(p->current_label, &style02, 0);
-    lv_label_set_text(p->current_label, "当前支撑模式");
+    language_lv_label_set_text(p->current_label, "label_21");
 
     p->mode_label = lv_label_create(g1);
-    lv_obj_set_pos(p->mode_label,  0, 120);
-    lv_obj_set_size(p->mode_label,  170, 30);
+    lv_obj_set_pos(p->mode_label,  0, 90);
+    lv_obj_set_size(p->mode_label,  170, 60);
     lv_obj_add_style(p->mode_label, &style02, 0);
-    lv_label_set_text(p->mode_label, "无支撑");
-    
+    language_lv_label_set_text(p->mode_label, "label_22");
+
     p->mode_img = lv_img_create(g1);
-    lv_img_set_src(p->mode_img, &no_mode);
+    lv_img_set_src(p->mode_img, &bus_state0);
     lv_obj_set_pos(p->mode_img, 0-20, 120);
     lv_img_set_zoom(p->mode_img, 180);
 
     p->warning_title = lv_label_create(g1);
-    lv_obj_set_pos(p->warning_title,  5, 300);
+    lv_obj_set_pos(p->warning_title,  2, 300);
     lv_obj_add_style(p->warning_title, &style3, 0);
-    lv_label_set_text(p->warning_title, "支撑安全预警提示");
+    language_lv_label_set_text(p->warning_title, "label_23");
 
     p->warning1_cycle = lv_obj_create(g1);
     lv_obj_set_size(p->warning1_cycle,  19, 19);
-    lv_obj_set_pos(p->warning1_cycle,  10, 330);
+    lv_obj_set_pos(p->warning1_cycle,  7, 330);
     lv_obj_add_style(p->warning1_cycle, &style4, 0);
 
     p->warning2_cycle = lv_obj_create(g1);
     lv_obj_set_size(p->warning2_cycle,  19, 19);
-    lv_obj_set_pos(p->warning2_cycle,  10, 360);
+    lv_obj_set_pos(p->warning2_cycle,  7, 360);
     lv_obj_add_style(p->warning2_cycle, &style4, 0);
 
     p->warning_content1 = lv_label_create(g1);
-    lv_obj_set_pos(p->warning_content1,  40, 330);
+    lv_obj_set_pos(p->warning_content1,  37, 330);
     lv_obj_add_style(p->warning_content1, &style3, 0);
-    lv_label_set_text(p->warning_content1, "警示灯提示");
+    language_lv_label_set_text(p->warning_content1, "label_24");
 
     p->warning_content2 = lv_label_create(g1);
-    lv_obj_set_pos(p->warning_content2,  40, 360);
+    lv_obj_set_pos(p->warning_content2,  37, 360);
     lv_obj_add_style(p->warning_content2, &style3, 0);
-    lv_label_set_text(p->warning_content2, "限制功能");
+    language_lv_label_set_text(p->warning_content2, "label_25");
 
     p->bus_state_bg = lv_img_create(obj);
     lv_img_set_src(p->bus_state_bg, &bus_state0);
@@ -330,6 +331,7 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
     lv_img_set_pivot(p->bus_cycle, 138/2, 138/2);
     lv_img_set_zoom(p->bus_cycle, 300);
     lv_obj_add_flag(p->bus_cycle, LV_OBJ_FLAG_HIDDEN);
+    //lv_img_set_angle(p->bus_cycle, -900);
 
     //任意支撑
     p->coord_bg = lv_img_create(obj);
@@ -384,8 +386,10 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
     p->leg_2 = lv_img_create(obj);
     lv_img_set_src(p->leg_2, &leg_short_black);
     lv_obj_set_pos(p->leg_2, 260 + 105 -1  , 60 + 75  );
+    //lv_img_set_zoom(p->leg_2, 192);
     lv_img_set_pivot(p->leg_2, 128/2, 128/2);
     lv_img_set_angle(p->leg_2, 460);
+
 
     p->leg_3 = lv_img_create(obj);
     lv_img_set_src(p->leg_3, &leg_short_black);
@@ -423,10 +427,21 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
     lv_obj_align_to(p->leg_length[2],p->leg_3,LV_ALIGN_OUT_RIGHT_BOTTOM, 5 , 0);
     lv_obj_align_to(p->leg_length[3],p->leg_4,LV_ALIGN_OUT_LEFT_BOTTOM, 5 , 0);
 
+
     p->line_cycle = lv_line_create(obj);
+    //lv_line_set_points(p->line_cycle[0], line_points, 2);
     lv_obj_set_style_line_width(p->line_cycle, 2 ,0);
     lv_obj_set_style_line_color(p->line_cycle, lv_color_make(0xff, 0x00, 0x00),0);
     lv_obj_set_style_line_opa(p->line_cycle, 255, 0);
+    //lv_obj_add_flag(p->line_cycle[i], LV_OBJ_FLAG_HIDDEN);
+
+//		line_data[0] = (lv_point_t){400,220};
+//		line_data[1] = (lv_point_t){430,120};
+////						line_data[0].x = line_points[0].x;
+////						line_data[0].y = line_points[0].y;
+////						line_data[1].x = line_points[1].x;
+////						line_data[1].y = line_points[1].y;
+//		lv_line_set_points(p->line_cycle[0], line_data, 2);
 
     p->danger_mode_icon = lv_img_create(obj);
     lv_img_set_src(p->danger_mode_icon, &mode_icon1);
@@ -435,13 +450,13 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
     //色块
     p->safety_bg = lv_obj_create(obj);
     lv_obj_set_size(p->safety_bg, 50, 300);
-    lv_obj_set_pos(p->safety_bg, 670, 80);    
+    lv_obj_set_pos(p->safety_bg, 670, 80);
     lv_obj_add_style(p->safety_bg, &style00, 0);
 
     //绿色
     p->green_obj = lv_obj_create(obj);
     lv_obj_set_size(p->green_obj, 50, 195);
-    lv_obj_set_pos(p->green_obj, 670, 80);    
+    lv_obj_set_pos(p->green_obj, 670, 80);
     lv_obj_add_style(p->green_obj, &style00, 0);
     lv_obj_set_style_bg_color(p->green_obj, lv_color_make(0x00, 0xff, 0x00),0);
     lv_obj_set_style_border_color(p->green_obj,  lv_color_make(0x00, 0xff, 0x00),0);
@@ -450,7 +465,7 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
     //黄色
     p->yellow_obj = lv_obj_create(obj);
     lv_obj_set_size(p->yellow_obj, 50, 75);
-    lv_obj_set_pos(p->yellow_obj, 670, 80 + 195);    
+    lv_obj_set_pos(p->yellow_obj, 670, 80 + 195);
     lv_obj_add_style(p->yellow_obj, &style00, 0);
     lv_obj_set_style_bg_color(p->yellow_obj, lv_color_make(0xff, 0xff, 0x00),0);
     lv_obj_set_style_border_color(p->yellow_obj,  lv_color_make(0xff, 0xff, 0x00),0);
@@ -459,41 +474,11 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
     //红色
     p->red_obj = lv_obj_create(obj);
     lv_obj_set_size(p->red_obj, 50, 30);
-    lv_obj_set_pos(p->red_obj, 670, 80 + 195 + 75);    
+    lv_obj_set_pos(p->red_obj, 670, 80 + 195 + 75);
     lv_obj_add_style(p->red_obj, &style00, 0);
     lv_obj_set_style_bg_color(p->red_obj, lv_color_make(0xff, 0x00, 0x00),0);
     lv_obj_set_style_border_color(p->red_obj,  lv_color_make(0xff, 0x00, 0x00),0);
     lv_obj_add_flag(p->red_obj, LV_OBJ_FLAG_HIDDEN);
-
-    lv_obj_clear_flag(p->leg_length[0], LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_length[1], LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_length[2], LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_length[3], LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_1, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_2, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_3, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->leg_4, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->bus_cycle_any, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->line_cycle, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->any_state_busbg, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_clear_flag(p->coord_bg, LV_OBJ_FLAG_HIDDEN);
-
-    //任意支撑
-    lv_obj_add_flag(p->red_leg_1_long, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_1_short, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_2_long, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_2_short, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_3_long, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_4_long, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_5_long, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->red_leg_6_long, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->bus_state_bg, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(p->bus_cycle, LV_OBJ_FLAG_HIDDEN);
-    for(i = 0 ; i < 12 ; i++)
-    {
-        lv_obj_add_flag(p->label_angle[i], LV_OBJ_FLAG_HIDDEN);
-    }
-    lv_obj_add_flag(p->bus_cycle, LV_OBJ_FLAG_HIDDEN);
 
     //观察者模式
     lv_subject_add_observer_obj(&subject_faults_all, antipping_observer_list_cb, page, p);

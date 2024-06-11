@@ -26,6 +26,8 @@ static void page_manage_subjects_init();
 static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 lv_subject_t subject_system;
+lv_subject_t subject_header;
+lv_subject_t subject_footer;
 lv_subject_t subject_home_all;
 lv_subject_t subject_rc_all;
 lv_subject_t subject_faults_all;
@@ -105,6 +107,8 @@ static void page_manage_subjects_init()
     static lv_subject_t *antipping_list[antipping_end - faults_end - 1];
     static lv_subject_t *note_list[4];
     static lv_subject_t *factory_list[factory_align_end - antipping_end - 1];
+    static lv_subject_t *header_list[9];
+    //static lv_subject_t *footer_list[];
 
     for(int nIndex = 0; nIndex < system_end; nIndex++)
         system_list[nIndex] = &subjectParas[system_paras_language + nIndex];
@@ -126,9 +130,9 @@ static void page_manage_subjects_init()
         antipping_list[nIndex] = &subjectParas[antipping_collapse_flag + nIndex];
     lv_subject_init_group(&subject_antipping_all, antipping_list, antipping_end - faults_end - 1);
 
-    note_list[0] = &subjectParas[note_page_lock];
-    note_list[1] = &subjectParas[note_selected];
-    note_list[2] = &subjectParas[note_click_value];
+    note_list[0] = &subjectParas[system_paras_screen_lock];
+    note_list[1] = &subjectParas[system_paras_language_set];
+    note_list[2] = &subjectParas[system_paras_power_key];
     note_list[3] = &subjectParas[system_paras_language];
     lv_subject_init_group(&subject_note_all, note_list, 4);
 
@@ -136,6 +140,22 @@ static void page_manage_subjects_init()
         factory_list[nIndex] = &subjectParas[factory_align_disp_min + nIndex];
     lv_subject_init_group(&subject_factory_all, factory_list, factory_align_end - antipping_end - 1);
 
+#pragma region 页头
+    header_list[0] = &subjectParas[rc_horn];
+    header_list[1] = &subjectParas[header_wireless_level];
+    header_list[2] = &subjectParas[header_wireless];
+    header_list[3] = &subjectParas[rc_connected];
+    header_list[4] = &subjectParas[machine_fault_total];
+    header_list[5] = &subjectParas[header_title_type];
+    header_list[6] = &subjectParas[header_bat_level];
+    header_list[7] = &subjectParas[header_bat_charging];
+    header_list[8] = &subjectParas[header_rf_channel];
+    lv_subject_init_group(&subject_header, header_list, 9);
+#pragma endregion 页头
+
+#pragma region 页尾
+
+#pragma endregion 页尾
 }
 
 static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)

@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "../inc/UiRun.h"
 #include "../inc/working_page_home.h"
+#include "../../res/fonts/language_control.h"
+#include "../../res/fonts/lv_i18n.h"
 static void align_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) ;
 
 static void event_handler(lv_event_t *e)
@@ -77,14 +79,13 @@ lv_obj_t* fact_page_algin_init(lv_obj_t *page)
     static lv_style_t style_btn_pressed;
     lv_style_init(&style_btn_pressed);
     //lv_style_set_bg_image_src(&style_btn_pressed, &menu_key02);
-
     static const char *map[] = {
-        "回转", "\n",
-        "一级臂", "\n",
-        "二级臂", "\n",
-        "三级臂", "\n",
-        "四级臂", "\n",
-        "五级臂", "\n",
+        "label_54", "\n",
+        "label_55", "\n",
+        "label_56", "\n",
+        "label_57", "\n",
+        "label_58", "\n",
+        "label_59", "\n",
         NULL};
 
     p->btnm_arm = lv_btnmatrix_create(obj);

@@ -8,6 +8,8 @@ extern "C"{
 
 extern lv_subject_t subject_home_all;
 extern lv_subject_t subject_system;
+extern lv_subject_t subject_header;
+extern lv_subject_t subject_footer;
 extern lv_subject_t subject_rc_all;
 extern lv_subject_t subject_faults_all;
 extern lv_subject_t subject_antipping_all;

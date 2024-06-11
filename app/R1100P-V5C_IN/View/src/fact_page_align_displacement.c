@@ -102,19 +102,23 @@ lv_obj_t* fact_page_algin_displacement_init(lv_obj_t *page)
         "排量", "\n",
         NULL};
 
-    lv_obj_t *btnm = lv_btnmatrix_create(obj);
-    lv_btnmatrix_set_map(btnm, map);
-    lv_obj_add_style(btnm, &bg_style, 0);
-    lv_obj_add_style(btnm, &style_btn_default, LV_PART_ITEMS);
-    lv_obj_add_style(btnm, &style_btn_pressed, LV_PART_ITEMS | LV_STATE_CHECKED);
-    lv_obj_add_event_cb(btnm, event_handler, LV_EVENT_VALUE_CHANGED, NULL);
-    lv_obj_set_size(btnm, 168, 68*2);
-    lv_obj_set_pos(btnm, 0, 0);
-    lv_obj_align(btnm, LV_ALIGN_LEFT_MID, 0, 0 );
+    static const char *map_eng[] = {
+            "Displacement", "\n",
+            NULL};
 
-    lv_btnmatrix_set_btn_ctrl_all(btnm, LV_BTNMATRIX_CTRL_CHECKABLE);
-    lv_btnmatrix_set_one_checked(btnm, true);
-    lv_btnmatrix_set_btn_ctrl(btnm, 0, LV_BTNMATRIX_CTRL_CHECKED);
+    p->btnm = lv_btnmatrix_create(obj);
+    lv_btnmatrix_set_map(p->btnm, map);
+    lv_obj_add_style(p->btnm, &bg_style, 0);
+    lv_obj_add_style(p->btnm, &style_btn_default, LV_PART_ITEMS);
+    lv_obj_add_style(p->btnm, &style_btn_pressed, LV_PART_ITEMS | LV_STATE_CHECKED);
+    lv_obj_add_event_cb(p->btnm, event_handler, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_set_size(p->btnm, 168, 68*2);
+    lv_obj_set_pos(p->btnm, 0, 0);
+    lv_obj_align(p->btnm, LV_ALIGN_LEFT_MID, 0, 0 );
+
+    lv_btnmatrix_set_btn_ctrl_all(p->btnm, LV_BTNMATRIX_CTRL_CHECKABLE);
+    lv_btnmatrix_set_one_checked(p->btnm, true);
+    lv_btnmatrix_set_btn_ctrl(p->btnm, 0, LV_BTNMATRIX_CTRL_CHECKED);
 
 
     lv_obj_t *displacement_img = lv_img_create( obj );
@@ -125,7 +129,7 @@ lv_obj_t* fact_page_algin_displacement_init(lv_obj_t *page)
     p->btn_0 = lv_btn_create( obj );
     lv_obj_t *label_0 = lv_label_create( p->btn_0 );
     lv_obj_center( label_0 );
-    lv_label_set_text( label_0, "校准-0" );
+    lv_label_set_text( label_0, "label_64" );
     lv_obj_set_size( p->btn_0, 160, 60 );
     lv_obj_set_pos( p->btn_0, 280, 325 );
     lv_obj_add_style(p->btn_0, &style_btn_default, 0);
@@ -138,7 +142,7 @@ lv_obj_t* fact_page_algin_displacement_init(lv_obj_t *page)
     p->btn_10 = lv_btn_create( obj );
     lv_obj_t *label_10 = lv_label_create( p->btn_10 );
     lv_obj_center( label_10 );
-    lv_label_set_text( label_10, "校准-10" );
+    lv_label_set_text( label_10, "label_65" );
     lv_obj_set_size( p->btn_10, 160, 60 );
     lv_obj_set_pos( p->btn_10, 555, 325 );
     lv_obj_add_style(p->btn_10, &style_btn_default, 0);
@@ -150,7 +154,7 @@ lv_obj_t* fact_page_algin_displacement_init(lv_obj_t *page)
     p->btn_5 = lv_btn_create( obj );
     lv_obj_t *label_5 = lv_label_create( p->btn_5 );
     lv_obj_center( label_5 );
-    lv_label_set_text( label_5, "校准-5" );
+    lv_label_set_text( label_5, "label_66" );
     lv_obj_set_size( p->btn_5, 160, 60 );
     lv_obj_set_pos( p->btn_5, 420, 60 );
     lv_obj_add_style(p->btn_5, &style_btn_default, 0);

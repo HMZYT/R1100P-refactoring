@@ -415,7 +415,7 @@ lv_obj_t* working_page_home_init(lv_obj_t *page)
     lv_obj_set_pos(p->bump_direction_label, 80, 170 + 5);
     lv_obj_add_style(p->bump_direction_label, &style02, 0);
     //lv_label_set_text(p->bump_direction_label, "0次/min");
-    language_set_current_label(p->bump_direction_label, "label_01");
+    language_lv_label_set_text(p->bump_direction_label, "label_01");
 
     p->icon_materials = lv_img_create(g2);
     lv_img_set_src(p->icon_materials, &liao_none);
@@ -428,7 +428,7 @@ lv_obj_t* working_page_home_init(lv_obj_t *page)
     lv_obj_set_pos(p->icon_materials_label, 90, 170 + 40);
     lv_obj_add_style(p->icon_materials_label, &style02, 0);
     //lv_label_set_text(p->icon_materials_label, "料况一般");
-    language_set_current_label(p->icon_materials_label, "label_17");
+    language_lv_label_set_text(p->icon_materials_label, "label_17");
     lv_obj_add_flag(p->icon_materials_label, LV_OBJ_FLAG_HIDDEN);
 
     p->direction_err = lv_img_create(g2);
@@ -1289,7 +1289,7 @@ temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index,
     if(type_enum == pageid_system)
         temp = lv_subject_get_group_element(subject,index + idx);
     else if(type_enum == pageid_home)
-        temp = lv_subject_get_group_element(subject,index- system_end - 1 + idx);
+        temp = lv_subject_get_group_element(subject,index- header_end - 1 + idx);
     else if(type_enum == pageid_rc)
         temp = lv_subject_get_group_element(subject,index- machine_end - 1 + idx);
     else if(type_enum == pageid_faults)

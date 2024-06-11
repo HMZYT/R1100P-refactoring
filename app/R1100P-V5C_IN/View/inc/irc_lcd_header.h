@@ -13,7 +13,7 @@ struct _irc_lcd_header_t{
     lv_obj_t *obj;
     lv_obj_t *logo;
     lv_obj_t *title;
-		lv_obj_t *bg;
+    lv_obj_t *bg;
     irc_lcd_header_refresh_t refresh;   //由子类实现
 };
 

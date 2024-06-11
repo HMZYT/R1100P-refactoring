@@ -6,27 +6,39 @@
 #include "../../../../extensions/data-types/inc/dt_r1100p_ui_data.h"
 #include "../inc/DtR1100PUi.h"
 #include "../../View/inc/sysparas_defs.h"
-#include "../res/fonts/language_control.h"
 
 void dictInit()
 {
     //绑字典
-    //系统参数
+#pragma region 系统参数
     dtR1100PUi.dtR1100pDictAdd(system_paras_language, &dt_ui.paras.language, 0);
     dtR1100PUi.dtR1100pDictAdd(system_paras_mode, &dt_ui.paras.mode, 0);
     dtR1100PUi.dtR1100pDictAdd(system_paras_page, &dt_ui.paras.page_id, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_power_key, &dt_ui.paras.powerkey, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_screen_lock, &dt_ui.paras.screen_lock, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_language_set, &dt_ui.paras.language_set, 0);
+#pragma endregion 系统参数
+
+#pragma region header
+    dtR1100PUi.dtR1100pDictAdd(header_title_type, &dt_ui.working.header.title_type, 0);
+    dtR1100PUi.dtR1100pDictAdd(header_bat_level, &dt_ui.working.header.bat_level, 0);
+    dtR1100PUi.dtR1100pDictAdd(header_wireless_level, &dt_ui.working.header.wireless_level, 0);
+    dtR1100PUi.dtR1100pDictAdd(header_rf_channel, &dt_ui.working.header.rf_channel, 0);
+//    dtR1100PUi.dtR1100pDictAdd(header_bat_charging, &dt_ui.working.header.bat_charging, 0);
+//    dtR1100PUi.dtR1100pDictAdd(header_wireless, &dt_ui.working.header.wireless, 0);
+#pragma endregion header
 
     //machine
     dtR1100PUi.dtR1100pDictAdd(machine_motor_speed, &dt_ui.working.machine.motor_speed, 0);
     //dtR1100PUi.dtR1100pDictAdd(machine_acc_flag, &dt_ui.working.machine.acc_flag, 0);
-    // dtR1100PUi.dtR1100pDictAdd(machine_dec_flag, &dt_ui.working.machine.dec_flag, 0);
+    //dtR1100PUi.dtR1100pDictAdd(machine_dec_flag, &dt_ui.working.machine.dec_flag, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_gear, &dt_ui.working.machine.gear, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_water_temp, &dt_ui.working.machine.water_temp, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_pump_mode, &dt_ui.working.machine.pump_mode, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_oil_pos, &dt_ui.working.machine.oil_pos, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_urea_pos, &dt_ui.working.machine.urea_pos, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_pumping_pressure, &dt_ui.working.machine.pumping_pressure, 0);
-    // dtR1100PUi.dtR1100pDictAdd(machine_cw, &dt_ui.working.machine.cw, 0);
+    //dtR1100PUi.dtR1100pDictAdd(machine_cw, &dt_ui.working.machine.cw, 0);
     //dtR1100PUi.dtR1100pDictAdd(machine_ccw, &dt_ui.working.machine.ccw, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_emr, &dt_ui.working.machine.emr, 0);
     dtR1100PUi.dtR1100pDictAdd(machine_materials, &dt_ui.working.machine.materials, 0);
@@ -143,10 +155,18 @@ void dictInit()
     //设初值
     //系统参数
     dtR1100PUi.setDtInt(system_paras_language, 0);
-    dtR1100PUi.setDtInt(system_paras_mode, 1);
-    dtR1100PUi.setDtInt(system_paras_page, 0);
+    dtR1100PUi.setDtInt(system_paras_mode, 0);
+    dtR1100PUi.setDtInt(system_paras_page, 4);
+    dtR1100PUi.setDtInt(system_paras_power_key, 0);
+    dtR1100PUi.setDtInt(system_paras_screen_lock, 0);
+    dtR1100PUi.setDtInt(system_paras_language_set, 0);
 
-    int a = dtR1100PUi.getDtInt(system_paras_mode);
+    //int a = dtR1100PUi.getDtInt(system_paras_page);
+
+    //header
+    for(int i = header_title_type; i < header_end; i++) {
+        dtR1100PUi.setDtInt(i, 0);
+    }
     //machine
     for(int i = machine_motor_speed; i < machine_end; i++) {
         dtR1100PUi.setDtInt(i, 0);

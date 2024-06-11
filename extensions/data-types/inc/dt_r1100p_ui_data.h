@@ -5,9 +5,12 @@
 #include <stdbool.h>
 
 typedef struct{
-    uint8_t language;
-    uint8_t mode;
-    uint8_t page_id;
+    int32_t language;
+    int32_t mode;
+    int32_t page_id;
+    int32_t powerkey;
+    int32_t screen_lock;
+    int32_t language_set;
 }lcd_system_paras;
 
 typedef struct {
@@ -378,12 +381,12 @@ typedef struct{
 }rc_lcd_fact_input_data_t;
 typedef struct
 {
-	rc_lcd_input_data_t working;
+    rc_lcd_input_data_t working;
     rc_lcd_fact_input_data_t factory;
     rc_lcd_preparation_input_data_t prepared;
     rc_lcd_off_charging_input_data_t charging;
-	working_rc_space rc_space;
-	working_machine_space machine_space;
+    working_rc_space rc_space;
+    working_machine_space machine_space;
     lcd_system_paras paras;
 } dt_r1100p_ui_t;
 

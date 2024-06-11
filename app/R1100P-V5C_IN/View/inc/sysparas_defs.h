@@ -14,10 +14,23 @@ typedef enum {
 
 typedef enum {
 #pragma region system
-    system_paras_language,          //语言
+    system_paras_language,          //当前语言
     system_paras_mode,              //界面模式
     system_paras_page,              //显示页面
+    system_paras_power_key,         //电源按键
+    system_paras_screen_lock,       //锁屏
+    system_paras_language_set,      //语言设置序号
     system_end,
+#pragma endregion
+
+#pragma region header
+    header_title_type,
+    header_bat_level,               //0, 1, 2, 3, 4, 5,
+    header_wireless_level,          //0, 1, 2, 3, 4, 5,
+    header_rf_channel,	            //信道号
+    header_bat_charging,
+    header_wireless,                //有线：false
+    header_end,
 #pragma endregion
 
 #pragma region machine
@@ -71,6 +84,7 @@ typedef enum {
     machine_arm4_ccw_en,            //4臂收使能
     machine_arm5_ccw_en,            //5臂收使能
     machine_cw_emr,                 //回转应急
+    machine_fault_total,            //故障总数
     machine_end,
 #pragma endregion
 
@@ -83,6 +97,7 @@ typedef enum {
     rc_arm5,                        //五级臂
     rc_displacement,                //排量
     rc_halt,
+    rc_connected,
     rc_data_space,
 
     //位数据
@@ -142,13 +157,6 @@ typedef enum {
     antipping_arm0_status,            //回转角度(单位0.1°,有正负)
     antipping_safe_k,                 //安全系数
     antipping_end,
-#pragma endregion
-
-#pragma region note
-    note_page_lock,                   //note锁屏
-    note_selected,                    //选中确认
-    note_click_value,                 //偏移量
-    note_page_end,
 #pragma endregion
 
 #pragma region factory
