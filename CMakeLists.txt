@@ -34,7 +34,8 @@ file(GLOB_RECURSE INCLUDES
         "drivers/board/inc/*.h"
         "drivers/bsp/inc/*.h"
         "drivers/dev/inc/*.h"
-        "res/fonts/*.h")
+        "res/fonts/*.h"
+        "theme/inc/*.h")
 file(GLOB_RECURSE SOURCES
         "app/R1100P-V5C_IN/Controller/src/*.c"
         "app/R1100P-V5C_IN/View/src/*.c"
@@ -53,7 +54,8 @@ file(GLOB_RECURSE SOURCES
         "images/home/*.c"
         "images/antipping/*.c"
         "images/control/*.c"
-        "res/fonts/*.c"    )
+        "res/fonts/*.c"
+        "theme/src/*.c")
 
 add_executable(main main.c lv_port_pc_eclipse/mouse_cursor_icon.c ${SOURCES} ${INCLUDES}
         app/R1100P-V5C_IN/View/inc/working_header.h

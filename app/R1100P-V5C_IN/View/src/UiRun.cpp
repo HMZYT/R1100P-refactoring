@@ -93,7 +93,7 @@ void uiRun()
 #pragma region test
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
     lv_subject_set_int(&subjectParas[system_paras_language], 0);
-    lv_subject_set_int(&subjectParas[system_paras_page], working_page_note);
+    lv_subject_set_int(&subjectParas[system_paras_page], working_page_rc);
 #pragma endregion test
 }
 
