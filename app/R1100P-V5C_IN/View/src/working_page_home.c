@@ -1084,6 +1084,14 @@ temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index,
     else if (type_enum == pageid_factory)
         temp = lv_subject_get_group_element(subject,index- antipping_end - 1 + idx);
 
+    if (!temp)
+    {
+        temp_v.current_value = 0;
+        temp_v.previous_value = 0;
+        temp_v.different_flag = false;
+        return temp_v;
+    }
+
     temp_v.current_value = lv_subject_get_int(temp);
     temp_v.previous_value = lv_subject_get_previous_int(temp);
     if(temp_v.current_value != temp_v.previous_value)
