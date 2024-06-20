@@ -482,6 +482,8 @@ lv_obj_t* working_page_antipping_init(lv_obj_t *page)
 
     //观察者模式
     lv_subject_add_observer_obj(&subject_faults_all, antipping_observer_list_cb, page, p);
+
+    return obj;
 }
 
 static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)

@@ -29,7 +29,7 @@ static void theme_init(void) {
 #pragma region style_bg
     lv_style_init(&style_bg);
     lv_style_set_bg_color(&style_bg, COLOR_WHITE);
-    lv_style_set_bg_opa(&style_bg, 255);
+    lv_style_set_bg_opa(&style_bg, LV_OPA_COVER);
     lv_style_set_border_width(&style_bg, 2);
     lv_style_set_border_color(&style_bg,  lv_color_make(0xde, 0xde, 0xde));
     lv_style_set_radius(&style_bg,0);

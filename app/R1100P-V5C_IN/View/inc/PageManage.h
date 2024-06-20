@@ -25,6 +25,7 @@ typedef enum {
     fact_page_touch,
     off_charging_page_charging,
     prepared_page_rc,
+    page_end_flag,
 } page_ID_t;
 
 typedef struct

@@ -740,14 +740,6 @@ lv_obj_t* working_page_faults_init(lv_obj_t *page)
     parent_height = lv_disp_get_ver_res(NULL);
 
     int i;
-    static lv_style_t bg_style;
-    lv_style_init(&bg_style);
-    lv_style_set_bg_color(&bg_style, lv_color_make(0xff, 0xff, 0xff));
-    lv_style_set_bg_opa(&bg_style, LV_OPA_COVER);
-    lv_style_set_text_color(&bg_style, lv_color_white());
-    lv_style_set_text_font( &bg_style, &working_mode_28px);
-    lv_style_set_radius(&bg_style,0);
-    lv_style_set_pad_all(&bg_style,0);
 
     static lv_style_t circle_style;
     lv_style_init(&circle_style);
@@ -769,7 +761,6 @@ lv_obj_t* working_page_faults_init(lv_obj_t *page)
     lv_obj_t *obj = lv_obj_create(page);
     lv_obj_set_size(obj, parent_width, parent_height - 40 - 40 );
     lv_obj_set_pos(obj, 0, 40);
-    lv_obj_add_style(obj, &bg_style, 0);
     lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_center(page);
 

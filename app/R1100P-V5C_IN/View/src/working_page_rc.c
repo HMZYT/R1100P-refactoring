@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "../../theme/inc/theme_R1100P_white.h"
 #include "../inc/images_v4_0.h"
 #include "../inc/working_page_home.h"
 #include "../inc/UiRun.h"
+#include "../../theme/inc/theme_R1100P_white.h"
 
 int bg_light_level = 100;
 
@@ -21,6 +21,7 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 lv_obj_t* working_page_rc_init(lv_obj_t *page)
 {
+    //主题初始化
     theme_R1100P_white_init();
 
     working_page_rc_t *p = lv_malloc(sizeof (working_page_rc_t));
@@ -280,6 +281,7 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
 
     //观察者模式
     lv_subject_add_observer_obj(&subject_rc_all, rc_observer_list_cb, page, p);
+    return obj;
 }
 
 static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject) {

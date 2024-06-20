@@ -6,6 +6,7 @@
 #include "../../../../extensions/data-types/inc/dt_r1100p_ui_data.h"
 #include "../inc/DtR1100PUi.h"
 #include "../../View/inc/sysparas_defs.h"
+#include "../../View/inc/PageManage.h"
 
 void dictInit()
 {
@@ -156,7 +157,7 @@ void dictInit()
     //系统参数
     dtR1100PUi.setDtInt(system_paras_language, 0);
     dtR1100PUi.setDtInt(system_paras_mode, 0);
-    dtR1100PUi.setDtInt(system_paras_page, 4);
+    dtR1100PUi.setDtInt(system_paras_page, page_end_flag);
     dtR1100PUi.setDtInt(system_paras_power_key, 0);
     dtR1100PUi.setDtInt(system_paras_screen_lock, 0);
     dtR1100PUi.setDtInt(system_paras_language_set, 0);

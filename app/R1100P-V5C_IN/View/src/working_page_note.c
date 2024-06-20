@@ -4,6 +4,9 @@
 #include "../inc/UiRun.h"
 #include "../inc/working_page_home.h"
 #include "../inc/UiSubjectsWrapper.h"
+#include "../../theme/inc/theme_R1100P_white.h"
+#include "../../theme/inc/theme_style.h"
+
 #define LANGUAGE_NUMBER 2
 
 static void note_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
@@ -13,51 +16,20 @@ lv_obj_t *language_list;
 
 lv_obj_t* working_page_note_init(lv_obj_t *page)
 {
-    working_page_note_t *p = lv_malloc(sizeof (working_page_note_t));
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_text_color(&style, lv_color_black());
-    lv_style_set_bg_opa(&style, LV_OPA_TRANSP);
-    lv_style_set_text_font(&style, &working_mode_24px);
-    lv_style_set_text_align(&style, LV_TEXT_ALIGN_CENTER);
+    //主题初始化
+    theme_R1100P_white_init();
+    theme_style_init();
 
-    static lv_style_t style0;
-    lv_style_init(&style0);
-    lv_style_set_bg_color(&style0, lv_color_make(0xde, 0xde, 0xde));
-    lv_style_set_bg_opa(&style0, LV_OPA_COVER);
-    lv_style_set_border_width(&style0, 2);
-    lv_style_set_border_color(&style0, lv_color_make(0xde, 0xde, 0xde));
+    working_page_note_t *p = lv_malloc(sizeof (working_page_note_t));
 
     uint16_t parent_width, parent_height;
 
     parent_width = lv_disp_get_hor_res(NULL);
     parent_height = lv_disp_get_ver_res(NULL);
 
-    static lv_style_t style02;
-    lv_style_init(&style02);
-    lv_style_set_text_color(&style02, lv_color_black());
-    lv_style_set_text_font(&style02, &working_mode_24px);
-    lv_style_set_text_align(&style02, LV_TEXT_ALIGN_CENTER);
-
-    static lv_style_t style03;
-    lv_style_init(&style03);
-    lv_style_set_text_color(&style03, lv_color_hex(0xff0000));
-    lv_style_set_text_font(&style03, &working_mode_24px);
-    lv_style_set_text_align(&style03, LV_TEXT_ALIGN_CENTER);
-
-    static lv_style_t bg_style;
-    lv_style_init(&bg_style);
-    lv_style_set_bg_color(&bg_style, lv_color_white());
-    lv_style_set_bg_opa(&bg_style, 255);
-    lv_style_set_border_width(&bg_style, 2);
-    lv_style_set_border_color(&bg_style, lv_color_make(0xde, 0xde, 0xde));
-    lv_style_set_radius(&bg_style,0);
-    lv_style_set_pad_all(&bg_style,0);
-
     lv_obj_t *obj = lv_obj_create(page);
     lv_obj_set_size(obj, parent_width, parent_height - 40 - 40);
     lv_obj_set_pos(obj, 0, 40);
-    lv_obj_add_style(obj, &bg_style, 0);
     lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
 
     //排量
@@ -97,52 +69,43 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  80, 10 + 0*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_08");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  80, 10 + 1*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_09");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  80, 10 + 2*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_10");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  80, 10 + 3*50);
 
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_11");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  80, 10 + 4*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_12");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  80, 10 + 5*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_13");
 
     temp_obj = lv_label_create(obj);
 
     lv_obj_set_pos(temp_obj, 80, 10 + 6 * 50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_03");
 
     p->language_label = lv_label_create(obj);
     lv_obj_set_pos(p->language_label, 80+130, 10 + 6 * 50);
-    lv_obj_add_style(p->language_label, &style03, 0);
+    lv_obj_add_style(p->language_label, theme_style_get_label_normal_24px_0(), 0);
     language_lv_label_set_text(p->language_label, "label_04");
 
 
 #pragma region 语言列表
     static lv_style_t styleList;
     lv_style_init(&styleList);
-    lv_style_set_bg_color(&bg_style, lv_color_white());
-    lv_style_set_bg_opa(&bg_style, 255);
     lv_style_set_text_font(&styleList, &working_mode_24px);
 
     language_list = lv_list_create(obj);
@@ -189,37 +152,30 @@ lv_obj_t* working_page_note_init(lv_obj_t *page)
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  620 -110, 10 + 0*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_14");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  620 -110, 10 + 1*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_15");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  620 -110, 10 + 2*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_16");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  620 -110, 10 + 3*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_17");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  620 -110, 10 + 4*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_18");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  620 -110, 10 + 5*50);
-    lv_obj_add_style(temp_obj, &style02, 0);
     language_lv_label_set_text(temp_obj, "label_19");
 
     temp_obj = lv_label_create(obj);
     lv_obj_set_pos(temp_obj,  625 , 360);
-    lv_obj_add_style(temp_obj, &style02, 0);
     lv_label_set_text(temp_obj, "R_016ZNV2B.1");
 
     //观察者模式

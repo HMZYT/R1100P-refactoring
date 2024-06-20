@@ -7,6 +7,7 @@
 #include "../inc/UiSubjectsWrapper.h"
 #include "../inc/sysparas_defs.h"
 #include "../inc/UiRun.h"
+#include "../../theme/inc/theme_R1100P_white.h"
 
 PageManage::PageManage(PAGE* home_page, lv_obj_t* (*init)(lv_obj_t* page))
 {
