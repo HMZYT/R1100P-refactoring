@@ -25,41 +25,38 @@ add_subdirectory(lv_port_pc_eclipse/lvgl)
 target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR}/lv_port_pc_eclipse ${SDL2_INCLUDE_DIRS})
 
 file(GLOB_RECURSE INCLUDES
-        "app/R1100P-V5C_IN/Controller/inc/*.h"
-        "app/R1100P-V5C_IN/View/inc/*.h"
-        "app/R1100P-V5C_IN/Usart/inc/*.h"
-        "app/R1100P-V5C_IN/Model/inc/*.h"
+        "app/R3100P/Controller/inc/*.h"
+        "app/R3100P/View/UI/inc/*.h"
+        "app/R3100P/View/User/inc/*.h"
+        "app/R3100P/Model/inc/*.h"
         "app/inc/*.h"
         "extensions/data-types/inc/*.h"
         "drivers/board/inc/*.h"
         "drivers/bsp/inc/*.h"
         "drivers/dev/inc/*.h"
         "res/fonts/*.h"
-        "theme/inc/*.h")
+        "theme/inc/*.h"
+        "api/inc/*.h")
 file(GLOB_RECURSE SOURCES
-        "app/R1100P-V5C_IN/Controller/src/*.c"
-        "app/R1100P-V5C_IN/View/src/*.c"
-        "app/R1100P-V5C_IN/Usart/src/*.c"
-        "app/R1100P-V5C_IN/Model/src/*.c"
-        "app/R1100P-V5C_IN/Controller/src/*.cpp"
-        "app/R1100P-V5C_IN/View/src/*.cpp"
-        "app/R1100P-V5C_IN/Usart/src/*.cpp"
-        "app/R1100P-V5C_IN/Model/src/*.cpp"
+        "app/R3100P/Controller/src/*.c"
+        "app/R3100P/View/UI/src/*.c"
+        "app/R3100P/View/User/src/*.cpp"
+        "app/R3100P/Model/src/*.c"
+        "app/R3100P/Controller/src/*.cpp"
+        "app/R3100P/View/src/*.cpp"
+        "app/R3100P/Model/src/*.cpp"
         "app/src/*.cpp"
         "app/src/*.c"
         "extensions/data-types/src/*.c"
         "drivers/board/src/*.c"
         "drivers/bsp/src/*.c"
         "drivers/dev/src/*.c"
-        "images/home/*.c"
-        "images/antipping/*.c"
-        "images/control/*.c"
+        "images/*.c"
         "res/fonts/*.c"
-        "theme/src/*.c")
+        "theme/src/*.c"
+        "api/src/*.c")
 
-add_executable(main main.c lv_port_pc_eclipse/mouse_cursor_icon.c ${SOURCES} ${INCLUDES}
-        app/R1100P-V5C_IN/View/inc/working_header.h
-        app/R1100P-V5C_IN/View/src/working_header.c)
+add_executable(main main.c lv_port_pc_eclipse/mouse_cursor_icon.c ${SOURCES} ${INCLUDES})
 
 target_compile_definitions(main PRIVATE LV_CONF_INCLUDE_SIMPLE)
 target_link_libraries(main lvgl lvgl::examples lvgl::demos lvgl::thorvg ${SDL2_LIBRARIES} m pthread)

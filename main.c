@@ -12,10 +12,10 @@
 #include "lvgl/lvgl.h"
 #include "lvgl/examples/lv_examples.h"
 #include "lvgl/demos/lv_demos.h"
-#include "../app/R1100P-V5C_IN//View/inc/UiRun.h"
+#include "../app/R3100P//View/User/inc/UiRun.h"
 #include "extensions/data-types/inc/dt_r1100p.h"
-#include "../app/R1100P-V5C_IN/Model/inc/app_r1100p.h"
-#include "../app/R1100P-V5C_IN/Model/inc/DictStart.h"
+#include "../app/R3100P/Model/inc/app_r1100p.h"
+#include "../app/R3100P/Model/inc/DictStart.h"
 
 /*********************
  *      DEFINES
@@ -70,7 +70,7 @@ int SDL_main(int argc, char **argv) {
     lv_init();
 
     /*Initialize the display, and the input devices*/
-    hal_init(800, 480);
+    hal_init(1280, 720);
 
     /*Open a demo or an example*/
 //  if (argc == 0) {
