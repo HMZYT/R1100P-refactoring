@@ -22,7 +22,7 @@ void UiSubjects::uiSubjectsInit()
     lv_subject_init_int(&paras[system_paras_language], dtR1100PUi.getDtInt( system_paras_language));
     lv_subject_init_int(&paras[system_paras_mode], dtR1100PUi.getDtInt( system_paras_mode));
     lv_subject_init_int(&paras[system_paras_page], dtR1100PUi.getDtInt( system_paras_page));
-
+    lv_subject_init_int(&paras[header_title_type], 0);
     //machine
     lv_subject_init_int(&paras[machine_motor_speed], dtR1100PUi.getDtInt( machine_motor_speed));
     lv_subject_init_int(&paras[machine_gear], dtR1100PUi.getDtInt( machine_gear));

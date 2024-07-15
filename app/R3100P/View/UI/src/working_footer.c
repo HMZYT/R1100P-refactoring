@@ -4,7 +4,12 @@
 #include "../../../Model/inc/data_info_v4_0.h"
 #include "../../User/inc/images_v4_0.h"
 #include "../res/fonts/gui_fonts.h"
-
+#include "../inc/working_page_faults.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "../../User/inc/UiRun.h"
+#include "../inc/working_page_home.h"
+#include "../../res/fonts/language_control.h"
 /// @brief 00：遥控器独立判断故障
 static const char* _errs_00_0[] = {
         "0",
@@ -716,9 +721,9 @@ static const char* _errs_14_3[] = {
 };
 
 
-static void _refresh(irc_lcd_footer_t *h, void *data);
 static lv_style_t style;
 static lv_style_t style_content;
+static void footer_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 irc_lcd_footer_t *working_footer_create(lv_obj_t *parent)
 {
     working_footer_t *h = (working_footer_t *)malloc(sizeof(working_footer_t));
@@ -728,7 +733,6 @@ irc_lcd_footer_t *working_footer_create(lv_obj_t *parent)
     }
     irc_lcd_footer_t *ih = (irc_lcd_footer_t *)h;
     irc_lcd_footer_init(&h->base, parent);
-    h->base.refresh = _refresh;
 
     static lv_style_t style_center;
     lv_style_init(&style_center);
@@ -774,7 +778,10 @@ irc_lcd_footer_t *working_footer_create(lv_obj_t *parent)
 	lv_obj_add_flag(h->total, LV_OBJ_FLAG_HIDDEN);
 	lv_obj_add_flag(h->detail, LV_OBJ_FLAG_HIDDEN);
 	lv_obj_add_flag(h->content, LV_OBJ_FLAG_HIDDEN);
-		
+
+	//观察者模式
+	lv_subject_add_observer_obj(&subject_faults_all, footer_observer_list_cb, NULL, h);
+
     return ih;
 }
 
@@ -799,16 +806,20 @@ static void _set_data_total(lv_obj_t *label, uint8_t v)
     lv_label_set_text(label, temp);
 }
 
-static void _refresh(irc_lcd_footer_t *header, void *data)
+static void footer_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)
 {
-    working_footer_t *h = (working_footer_t *)header;
-    rc_lcd_input_data_t *d = (rc_lcd_input_data_t *)data;
+	lv_obj_t *page_rc = lv_observer_get_target_obj(observer);
+	working_footer_t *h = (working_footer_t *) observer->user_data;
 #if 0
 	d->machine.request_start = 1;
 
 #endif
 
-		if (d->machine.fault_total > 0)
+	temp_value_t temp_fault_id = lv_subject_get_int_from_type(subject, faults_id, 0, pageid_faults);
+	temp_value_t temp_fault_detail = lv_subject_get_int_from_type(subject, faults_detail, 0, pageid_faults);
+	temp_value_t temp_fault_total = lv_subject_get_int_from_type(subject, faults_total, 0, pageid_faults);
+
+		if (temp_fault_total.current_value > 0)
 		{
 			lv_obj_clear_flag(h->id, LV_OBJ_FLAG_HIDDEN);
 			lv_obj_clear_flag(h->total, LV_OBJ_FLAG_HIDDEN);
@@ -816,9 +827,9 @@ static void _refresh(irc_lcd_footer_t *header, void *data)
 			lv_obj_clear_flag(h->content, LV_OBJ_FLAG_HIDDEN);
 
 			uint8_t _level,_class,_id;
-			_level = d->machine.fault_detail / 10000;
-			_class = d->machine.fault_detail / 100 % 100;
-			_id = d->machine.fault_detail % 100;
+			_level = temp_fault_detail.current_value / 10000;
+			_class = temp_fault_detail.current_value / 100 % 100;
+			_id = temp_fault_detail.current_value % 100;
 
 			if(_level == 0x03)
 			{
@@ -835,9 +846,9 @@ static void _refresh(irc_lcd_footer_t *header, void *data)
 				lv_style_set_text_color(&style, lv_color_black());
 				lv_style_set_text_color(&style_content, lv_color_black());
 			}
-			_set_data_8(h->id, d->machine.fault_id);
-			_set_data_total(h->total, d->machine.fault_total);
-			_set_data_16(h->detail, d->machine.fault_detail);
+			_set_data_8(h->id, temp_fault_id.current_value);
+			_set_data_total(h->total, temp_fault_total.current_value);
+			_set_data_16(h->detail, temp_fault_detail.current_value);
 			if (_class == 0x00)
 				{
 					switch (_level)
@@ -1147,7 +1158,7 @@ static void _refresh(irc_lcd_footer_t *header, void *data)
 				lv_obj_add_flag(h->content, LV_OBJ_FLAG_HIDDEN);
 			}
 
-		if (d->machine.fault_total == 1)
+		if (temp_fault_total.current_value == 1)
 		{
 			lv_obj_add_flag(h->id, LV_OBJ_FLAG_HIDDEN);
 			lv_obj_add_flag(h->total, LV_OBJ_FLAG_HIDDEN);
