@@ -52,6 +52,7 @@ typedef enum {
     machine_arm3_status,            //3臂角度(单位0.1°,有正负)
     machine_arm4_status,            //4臂角度(单位0.1°,有正负)
     machine_arm5_status,            //5臂角度(单位0.1°,有正负)
+    machine_arm6_status,            //5臂角度(单位0.1°,有正负)
     machine_support_mode,           //支撑模式(0-无支撑、1-全支撑、2-左支撑、3-右支撑、4-前支撑、5-小支撑 7-左前、8 -右前、100-RPC)
     machine_arms_temperature,       //臂架液压油温（单位：0.1℃，有正负）
     machine_support_logo,           //20a,主监控任意支撑功能图标状态与颜色：0-不显示，1-灰色，2-绿色，3-黄色，4-红色
@@ -85,6 +86,9 @@ typedef enum {
     machine_arm5_ccw_en,            //5臂收使能
     machine_cw_emr,                 //回转应急
     machine_fault_total,            //故障总数
+    machine_arm_pos_max,            //末端最高高度
+    machine_arm_pos_min,            //末端最低高度
+    machine_arm_pos,                //末端高度
     machine_end,
 #pragma endregion
 

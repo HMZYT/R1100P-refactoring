@@ -171,7 +171,7 @@ lv_obj_t* working_page_home_init(lv_obj_t *page)
     p->pump_press_pointer = lv_img_create(g2);
     lv_img_set_src(p->pump_press_pointer, &home_pin);
     lv_img_set_angle(p->pump_press_pointer, 0);
-    lv_img_set_pivot(p->pump_press_pointer, 163 / 2, 163 / 2);
+    lv_img_set_pivot(p->pump_press_pointer, 260 / 2, 260 / 2);
     lv_obj_set_pos(p->pump_press_pointer, 519 - 442, 116 - 60);
 
     p->pump_press_label = lv_label_create(g2);

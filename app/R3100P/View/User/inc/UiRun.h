@@ -15,6 +15,7 @@ extern lv_subject_t subject_faults_all;
 extern lv_subject_t subject_antipping_all;
 extern lv_subject_t subject_factory_all;
 extern lv_subject_t subject_note_all;
+extern lv_subject_t subject_arms_all;
 extern void uiRun();
 
 #ifdef __cplusplus

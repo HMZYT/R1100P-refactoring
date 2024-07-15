@@ -36,6 +36,7 @@ lv_subject_t subject_faults_all;
 lv_subject_t subject_antipping_all;
 lv_subject_t subject_factory_all;
 lv_subject_t subject_note_all;
+lv_subject_t subject_arms_all;
 
 irc_lcd_widget_t working_widget;
 PAGE working_home_page;
@@ -113,6 +114,7 @@ static void page_manage_subjects_init()
     static lv_subject_t *faults_list[faults_end - rc_end - 1];
     static lv_subject_t *antipping_list[antipping_end - faults_end - 1];
     static lv_subject_t *note_list[4];
+    static lv_subject_t *arms_list[11];
     static lv_subject_t *factory_list[factory_align_end - antipping_end - 1];
     static lv_subject_t *header_list[9];
     //static lv_subject_t *footer_list[];
@@ -137,11 +139,28 @@ static void page_manage_subjects_init()
         antipping_list[nIndex] = &subjectParas[antipping_collapse_flag + nIndex];
     lv_subject_init_group(&subject_antipping_all, antipping_list, antipping_end - faults_end - 1);
 
+#pragma region note
     note_list[0] = &subjectParas[system_paras_screen_lock];
     note_list[1] = &subjectParas[system_paras_language_set];
     note_list[2] = &subjectParas[system_paras_power_key];
     note_list[3] = &subjectParas[system_paras_language];
     lv_subject_init_group(&subject_note_all, note_list, 4);
+#pragma endregion note
+
+#pragma region arms
+    arms_list[0] = &subjectParas[system_paras_power_key];
+    arms_list[1] = &subjectParas[machine_arm_pos_max];
+    arms_list[2] = &subjectParas[machine_arm_pos_min];
+    arms_list[3] = &subjectParas[machine_arm_pos];
+    arms_list[4] = &subjectParas[machine_arm1_status];
+    arms_list[5] = &subjectParas[machine_arm2_status];
+    arms_list[6] = &subjectParas[machine_arm3_status];
+    arms_list[7] = &subjectParas[machine_arm4_status];
+    arms_list[8] = &subjectParas[machine_arm5_status];
+    arms_list[9] = &subjectParas[machine_arm6_status];
+    arms_list[10] = &subjectParas[machine_arm0_status];
+    lv_subject_init_group(&subject_arms_all, arms_list, 11);
+#pragma endregion arms
 
     for(int nIndex = 0; nIndex < factory_align_end - antipping_end - 1; nIndex++)
         factory_list[nIndex] = &subjectParas[factory_align_disp_min + nIndex];
