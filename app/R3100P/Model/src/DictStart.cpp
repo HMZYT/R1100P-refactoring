@@ -14,7 +14,7 @@ void dictInit()
 #pragma region 系统参数
     dtR1100PUi.dtR1100pDictAdd(system_paras_language, &dt_ui.paras.language, 0);
     dtR1100PUi.dtR1100pDictAdd(system_paras_mode, &dt_ui.paras.mode, 0);
-    dtR1100PUi.dtR1100pDictAdd(system_paras_page, &dt_ui.paras.page_id, 0);
+    dtR1100PUi.dtR1100pDictAdd(system_paras_page, &dt_ui.paras.page_id, 2);
     dtR1100PUi.dtR1100pDictAdd(system_paras_power_key, &dt_ui.paras.powerkey, 0);
     dtR1100PUi.dtR1100pDictAdd(system_paras_screen_lock, &dt_ui.paras.screen_lock, 0);
     dtR1100PUi.dtR1100pDictAdd(system_paras_language_set, &dt_ui.paras.language_set, 0);

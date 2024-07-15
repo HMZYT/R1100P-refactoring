@@ -95,6 +95,8 @@ typedef enum {
     rc_arm3,                        //三级臂
     rc_arm4,                        //四级臂
     rc_arm5,                        //五级臂
+    rc_arm6,                        //六级臂
+    rc_arm7,                        //七级臂
     rc_displacement,                //排量
     rc_halt,
     rc_connected,
@@ -112,6 +114,7 @@ typedef enum {
     rc_horn,                        //启动/电铃
     rc_ccw,                         //反泵
     rc_cw,                          //正泵
+    rc_dampcan_enable,              //减震
     rc_right_swing_pump,            //右摆缸点动
     rc_left_swing_pump,             //左摆缸点动
     rc_slow,                        //慢速
@@ -120,6 +123,9 @@ typedef enum {
     rc_dredge,                      //疏通
     rc_strong_power,                //强力
     rc_powerkey,                    //开机键复用
+    rc_deploy_retract,              //一键展收
+    rc_pour,                        //一键布料
+    rc_normal,                      //常规模式
     rc_flag,                        //是否锁屏
     rc_end,
 #pragma endregion

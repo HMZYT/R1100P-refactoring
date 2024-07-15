@@ -30,7 +30,7 @@ void irc_lcd_header_init( irc_lcd_header_t *h, lv_obj_t *parent )
     lv_style_init(&title_style);
     lv_style_set_bg_opa(&title_style, LV_OPA_TRANSP);
     lv_style_set_text_color(&title_style, lv_color_black());
-    lv_style_set_text_font(&title_style, &working_mode_36px);
+    lv_style_set_text_font(&title_style, &working_mode_28px);
     lv_style_set_text_align(&title_style, LV_TEXT_ALIGN_CENTER);
 
     //创建基层

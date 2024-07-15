@@ -42,6 +42,7 @@ void UiSubjects::uiSubjectsInit()
     lv_subject_init_int(&paras[machine_arm3_status], dtR1100PUi.getDtInt( machine_arm3_status));
     lv_subject_init_int(&paras[machine_arm4_status], dtR1100PUi.getDtInt( machine_arm4_status));
     lv_subject_init_int(&paras[machine_arm5_status], dtR1100PUi.getDtInt( machine_arm5_status));
+
     lv_subject_init_int(&paras[machine_support_mode], dtR1100PUi.getDtInt( machine_support_mode));
     lv_subject_init_int(&paras[machine_arms_temperature], dtR1100PUi.getDtInt( machine_arms_temperature));
     lv_subject_init_int(&paras[machine_support_logo], dtR1100PUi.getDtInt( machine_support_logo));
@@ -82,6 +83,8 @@ void UiSubjects::uiSubjectsInit()
     lv_subject_init_int(&paras[rc_arm3], dtR1100PUi.getDtInt( rc_arm3));
     lv_subject_init_int(&paras[rc_arm4], dtR1100PUi.getDtInt( rc_arm4));
     lv_subject_init_int(&paras[rc_arm5], dtR1100PUi.getDtInt( rc_arm5));
+    lv_subject_init_int(&paras[rc_arm6], dtR1100PUi.getDtInt( rc_arm6));
+    lv_subject_init_int(&paras[rc_arm7], dtR1100PUi.getDtInt( rc_arm7));
     lv_subject_init_int(&paras[rc_displacement], dtR1100PUi.getDtInt( rc_displacement));
     lv_subject_init_int(&paras[rc_halt], dtR1100PUi.getDtInt( rc_halt));
     lv_subject_init_int(&paras[rc_data_space], dtR1100PUi.getDtInt( rc_data_space));
@@ -97,6 +100,7 @@ void UiSubjects::uiSubjectsInit()
     lv_subject_init_int(&paras[rc_horn], rc_data->horn);
     lv_subject_init_int(&paras[rc_ccw], rc_data->ccw);
     lv_subject_init_int(&paras[rc_cw], rc_data->cw);
+    lv_subject_init_int(&paras[rc_dampcan_enable], rc_data->dampcan_enable);
     lv_subject_init_int(&paras[rc_right_swing_pump], rc_data->right_swing_pump);
     lv_subject_init_int(&paras[rc_left_swing_pump], rc_data->left_swing_pump);
     lv_subject_init_int(&paras[rc_slow], rc_data->slow);
