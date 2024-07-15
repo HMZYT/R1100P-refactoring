@@ -46,6 +46,7 @@ void uiRun()
 {
     //观察者初始化
     uiSubjects.uiSubjectsInit();
+    page_manage_subjects_init();
 
     //创建窗口
     rc_lcd_mode_t modeIndex = e_rc_lcd_working;
@@ -60,47 +61,47 @@ void uiRun()
     modeManage.mode_manage_add_widget(&offChargint_widget, rc_lcd_off_charging_widget_init);
     modeManage.mode_manage_add_widget(&prepared_widget, prepared_widget_init);
 
-    PAGE working_antipping_page;
-    PAGE working_faults_page;
-    PAGE working_rc_page;
-    PAGE working_note_page;
-    PAGE working_light_page;
-    PAGE working_arm_page;
-    PAGE idle_black_page;
-    PAGE fact_version_page;
-    PAGE fact_algin_page;
-    PAGE fact_algin_displacement_page;
-    PAGE fact_page_full_color_page;
-    PAGE fact_page_touch_page;
-    PAGE off_charging_page;
-    PAGE prepared_page;
-    pageManage.page_manage_add_page(&working_antipping_page, working_page_antipping, working_page_antipping_init);
-    pageManage.page_manage_add_page(&working_faults_page, working_page_faults, working_page_faults_init);
-    pageManage.page_manage_add_page(&working_rc_page, working_page_rc, working_page_rc_init);
-    pageManage.page_manage_add_page(&working_note_page, working_page_note, working_page_note_init);
-    pageManage.page_manage_add_page(&working_light_page, working_page_light, working_page_light_init);
-    pageManage.page_manage_add_page(&working_arm_page, working_page_arm, working_page_arms_init);
-    pageManage.page_manage_add_page(&idle_black_page, idle_page_black, idle_page_black_init);
-    pageManage.page_manage_add_page(&fact_version_page, fact_page_version, fact_page_version_init);
-    pageManage.page_manage_add_page(&fact_algin_page, fact_page_algin, fact_page_algin_init);
-    pageManage.page_manage_add_page(&fact_algin_displacement_page, fact_page_algin_displacement, fact_page_algin_displacement_init);
-    pageManage.page_manage_add_page(&fact_page_full_color_page, fact_page_full_color, fact_page_full_color_init);
-    pageManage.page_manage_add_page(&fact_page_touch_page, fact_page_touch, fact_page_touch_init);
-    pageManage.page_manage_add_page(&off_charging_page, off_charging_page_charging, off_charging_page_charging_init);
-    pageManage.page_manage_add_page(&prepared_page, prepared_page_rc, prepared_page_rc_create);
+    PAGE* working_antipping_page = new PAGE;
+    PAGE* working_faults_page = new PAGE;
+    PAGE* working_rc_page = new PAGE;
+    PAGE* working_note_page = new PAGE;
+    PAGE* working_light_page = new PAGE;
+    PAGE* working_arm_page = new PAGE;
+    PAGE* idle_black_page = new PAGE;
+    PAGE* fact_version_page = new PAGE;
+    PAGE* fact_algin_page = new PAGE;
+    PAGE* fact_algin_displacement_page = new PAGE;
+    PAGE* fact_page_full_color_page = new PAGE;
+    PAGE* fact_page_touch_page = new PAGE;
+    PAGE* off_charging_page = new PAGE;
+    PAGE* prepared_page = new PAGE;
+    pageManage.page_manage_add_page(working_antipping_page, working_page_antipping, working_page_antipping_init);
+    pageManage.page_manage_add_page(working_faults_page, working_page_faults, working_page_faults_init);
+    pageManage.page_manage_add_page(working_rc_page, working_page_rc, working_page_rc_init);
+    pageManage.page_manage_add_page(working_note_page, working_page_note, working_page_note_init);
+    pageManage.page_manage_add_page(working_light_page, working_page_light, working_page_light_init);
+    pageManage.page_manage_add_page(working_arm_page, working_page_arm, working_page_arms_init);
+    pageManage.page_manage_add_page(idle_black_page, idle_page_black, idle_page_black_init);
+    pageManage.page_manage_add_page(fact_version_page, fact_page_version, fact_page_version_init);
+    pageManage.page_manage_add_page(fact_algin_page, fact_page_algin, fact_page_algin_init);
+    pageManage.page_manage_add_page(fact_algin_displacement_page, fact_page_algin_displacement, fact_page_algin_displacement_init);
+    pageManage.page_manage_add_page(fact_page_full_color_page, fact_page_full_color, fact_page_full_color_init);
+    pageManage.page_manage_add_page(fact_page_touch_page, fact_page_touch, fact_page_touch_init);
+    pageManage.page_manage_add_page(off_charging_page, off_charging_page_charging, off_charging_page_charging_init);
+    pageManage.page_manage_add_page(prepared_page, prepared_page_rc, prepared_page_rc_create);
 
-    //观察者初始化
-    page_manage_subjects_init();
-    lv_subject_add_observer_obj(&subject_system, system_observer_list_cb, NULL, NULL);
-
-//    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(e_rc_lcd_working);//选择模式
-//    pageManage.page_manage_switch_page(working_page_note,temp_widget);
+    lv_obj_t * obj_temp = working_widget_init();
+    lv_obj_remove_flag(obj_temp, LV_OBJ_FLAG_HIDDEN);
+    pageManage.page_manage_init_pages(obj_temp);
 
 #pragma region test
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
     lv_subject_set_int(&subjectParas[system_paras_language], 0);
-    lv_subject_set_int(&subjectParas[system_paras_page], working_page_rc);
+    lv_subject_set_int(&subjectParas[system_paras_page], working_page_home);
 #pragma endregion test
+
+    //观察者初始化
+    lv_subject_add_observer_obj(&subject_system, system_observer_list_cb, NULL, NULL);
 }
 
 static void page_manage_subjects_init()
@@ -177,12 +178,12 @@ static void system_observer_list_cb(lv_observer_t *observer, lv_subject_t *subje
 
 #pragma region 模式
     temp_v = lv_subject_get_int_from_type(subject, system_paras_mode, 0, pageid_system);
-    lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(temp_v.current_value);//选择模式
+    //lv_obj_t *temp_widget = modeManage.mode_manage_switch_widget(temp_v.current_value);//选择模式
 #pragma endregion 模式
 
 #pragma region 页面
     temp_v = lv_subject_get_int_from_type(subject, system_paras_page, 0, pageid_system);
     language_clear_label_list();
-    pageManage.page_manage_switch_page(temp_v.current_value,temp_widget);
+    pageManage.page_manage_switch_page(temp_v.current_value);
 #pragma endregion 页面
 }

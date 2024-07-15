@@ -5,7 +5,6 @@
 #include "../../User/inc/sysparas_defs.h"
 #include "../../User/inc/UiRun.h"
 #include "../inc/working_page_home.h"
-#include "../../theme/inc/theme_R1100P_white.h"
 #include "../../theme/inc/theme_style.h"
 
 static lv_style_t style5_red;
@@ -24,10 +23,6 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
 
 lv_obj_t* working_page_antipping_init(lv_obj_t *page)
 {
-    //主题初始化
-    theme_R1100P_white_init();
-    theme_style_init();
-
     working_page_antipping_t *p = lv_malloc(sizeof (working_page_antipping_t));
     uint16_t parent_width, parent_height;
 

@@ -138,6 +138,7 @@ lv_obj_t* fact_page_touch_init(lv_obj_t *page)
     lv_obj_set_pos(test_label, 0, 0);
     lv_obj_add_style(test_label, &style_test, 0);
 #endif
+    return obj;
 }
 
 extern bool key_factory;

@@ -353,6 +353,7 @@ lv_obj_t* prepared_page_rc_create(lv_obj_t *page)
     lv_obj_set_pos( test_label, 0, 0 );
     lv_obj_add_style( test_label, &style_test, 0 );
 #endif
+    return obj;
 }
 
 static rc_lcd_button_t *_create_button(lv_obj_t *parent)

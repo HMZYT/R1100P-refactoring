@@ -6,8 +6,8 @@
 uint8_t selected_language = 0;
 
 const char *language_type_info[End_Flag] = {
-    "zh-cn",
-    "en-GB",
+        "zh-cn",
+        "en-GB",
 };
 
 typedef struct
@@ -30,29 +30,33 @@ void language_set_current_lang(int32_t num)
 
 void language_lv_label_set_text(lv_obj_t *obj_label, char *info_label)
 {
-    lv_i18n_init(lv_i18n_language_pack);
-    lv_i18n_set_locale(language_current);
+
     lv_label_set_text(obj_label, _(info_label));
     info_detail[nindex].obj = obj_label;
     info_detail[nindex].obj_txt = info_label;
     nindex++;
 }
 
+
 void language_lv_label_set_text_static(lv_obj_t *obj_label, const char *info_label)
 {
-    char temp_char[sizeof(info_label)];
-    strcpy(temp_char, info_label);
-    lv_label_set_text(obj_label, _(temp_char));
-    strcpy(temp_char, "");
+    if(info_label)
+    {
+        uint32_t len = strlen(info_label);
+        char * temp_char = (char*)lv_malloc(len);
+        strcpy(temp_char,info_label);
+        lv_label_set_text(obj_label,_(temp_char));
+        lv_free(temp_char);
+    }
 }
 
-void language_clear_label_list()
+void language_clear_label_list(void)
 {
     lv_memset(&info_detail, 0, sizeof(info_detail));
     nindex = 0;
 }
 
-void language_change_callback()
+void language_change_callback(void)
 {
     if (language_current == NULL)
     {

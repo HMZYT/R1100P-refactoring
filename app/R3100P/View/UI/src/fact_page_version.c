@@ -155,6 +155,7 @@ lv_obj_t* fact_page_version_init(lv_obj_t *page)
     lv_obj_set_pos(p->content_t_back_mcu_version, 450, 270);
     lv_obj_set_pos(p->content_rf_version, 450, 320);
     lv_obj_set_pos(p->content_dev_addr, 450, 370);
+    return obj;
 }
 
 //static void _show(irc_lcd_page_t *page, bool v)

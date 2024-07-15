@@ -29,40 +29,29 @@ void PageManage::page_manage_add_page(PAGE* page, int id, lv_obj_t* (*init)(lv_o
     pageList.push_back(page);
 }
 
-void PageManage::page_manage_switch_page(int id, lv_obj_t *ipage)
+void PageManage::page_manage_init_pages(lv_obj_t *iPage)
 {
-    int i;
-    for (i = 0; i < pageList.size(); i++)
+    for (auto temp : pageList)
     {
-        PAGE* page = pageList[i];
-        if (page->pageID == id)
+        lv_obj_t * tempObj = temp->init(iPage);
+        if (temp->pageID != 0)
         {
-            if(curr_page != nullptr)
-            {
-                lv_obj_delete_async(curr_page);
-                switch (last_id) {
-                    case working_page_home:
-                        lv_subject_remove_all_obj(&subject_home_all, curr_page);
-                        break;
-                    case working_page_antipping:
-                        lv_subject_remove_all_obj(&subject_antipping_all, curr_page);
-                        break;
-                    case working_page_faults:
-                        lv_subject_remove_all_obj(&subject_faults_all, curr_page);
-                        break;
-                    case working_page_rc:
-                        lv_subject_remove_all_obj(&subject_rc_all, curr_page);
-                        break;
-                    case working_page_note:
-                        lv_subject_remove_all_obj(&subject_note_all, curr_page);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            curr_page = page->init(ipage);
-            last_id = id;
-            break;
+            lv_obj_add_flag(tempObj, LV_OBJ_FLAG_HIDDEN);
         }
+        pageListInit.push_back(tempObj);
+    }
+
+    curr_page = pageListInit[working_page_home];
+}
+
+void PageManage::page_manage_switch_page(int id)
+{
+    lv_obj_add_flag(curr_page, LV_OBJ_FLAG_HIDDEN);
+    if (id < page_end_flag)
+    {
+        lv_obj_t * tempObj = pageListInit[id];
+        lv_obj_clear_flag(tempObj, LV_OBJ_FLAG_HIDDEN);
+        curr_page = pageListInit[id];
     }
 }
+

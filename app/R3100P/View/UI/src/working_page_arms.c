@@ -9,9 +9,6 @@ static void arms_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject
 
 lv_obj_t* working_page_arms_init(lv_obj_t *page)
 {
-    //主题初始化
-    theme_R1100P_white_init();
-    theme_style_init();
     working_page_arms_t *p = lv_malloc(sizeof (working_page_arms_t));
 
     uint16_t parent_width, parent_height;

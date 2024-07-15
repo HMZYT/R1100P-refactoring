@@ -327,7 +327,7 @@ static void header_observer_list_cb(lv_observer_t *observer, lv_subject_t *subje
     else{
         lv_obj_remove_flag(ih->title, LV_OBJ_FLAG_HIDDEN);
     }
-    //language_lv_label_set_text_static(ih->title, _titles[lv_subject_get_int(title_type)]);
+    language_lv_label_set_text_static(ih->title, _titles[lv_subject_get_int(title_type)]);
 
     if (lv_subject_get_int(bat_level) != lv_subject_get_previous_int(bat_level))
     {

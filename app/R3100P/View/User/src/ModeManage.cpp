@@ -18,15 +18,27 @@ void ModeManage::mode_manage_add_widget(irc_lcd_widget_t *modeWidget,lv_obj_t* (
     widgetsList.push_back(modeWidget);
 }
 
+void ModeManage::mode_manage_init_widgets()
+{
+    for (auto temp : widgetsList)
+    {
+        lv_obj_t * tempObj = temp->init();
+        lv_obj_add_flag(tempObj, LV_OBJ_FLAG_HIDDEN);
+        widgetsListInit.push_back(tempObj);
+    }
+    lv_obj_remove_flag(widgetsListInit[0], LV_OBJ_FLAG_HIDDEN);
+    currentModeWidget = widgetsListInit[0];
+}
+
 lv_obj_t* ModeManage::mode_manage_switch_widget(int modeIndex)
 {
-    if(widgetsList[modeIndex] == nullptr || widgetsList[modeIndex]->init == nullptr)
-        return nullptr;
-
-    if(currentModeWidget != NULL)
-        lv_obj_delete_async(currentModeWidget);
-
-    currentModeWidget =  widgetsList[modeIndex]->init();
+    lv_obj_add_flag(currentModeWidget, LV_OBJ_FLAG_HIDDEN);
+    if (modeIndex < e_rc_lcd_flag_end)
+    {
+        lv_obj_t * tempObj = widgetsListInit[modeIndex];
+        lv_obj_remove_flag(tempObj, LV_OBJ_FLAG_HIDDEN);
+        currentModeWidget = tempObj;
+    }
 
     return currentModeWidget;
 }

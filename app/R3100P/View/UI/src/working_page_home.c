@@ -6,7 +6,6 @@
 #include "../../res/fonts/language_control.h"
 #include "../../theme/inc/theme_style.h"
 #include "../../User/inc/UiRun.h"
-#include "../../theme/inc/theme_R1100P_white.h"
 
 static void home_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 temp_value_t lv_subject_get_int_from_type(lv_subject_t * subject, int32_t index, int32_t idx,page_idx type_enum);
@@ -14,10 +13,6 @@ static int32_t cal_angel(int32_t data);
 
 lv_obj_t* working_page_home_init(lv_obj_t *page)
 {
-    //主题初始化
-    theme_R1100P_white_init();
-    theme_style_init();
-
     working_page_home_t *p = lv_malloc(sizeof (working_page_home_t));
     uint16_t parent_width, parent_height;
 
@@ -52,8 +47,8 @@ lv_obj_t* working_page_home_init(lv_obj_t *page)
     // 发动机转速指针
     p->engine_speed_pointer = lv_img_create(g1);
     lv_img_set_src(p->engine_speed_pointer, &home_pin);
-    lv_img_set_angle(p->engine_speed_pointer, 0);
-    lv_img_set_pivot(p->engine_speed_pointer, 163 / 2, 163 / 2);
+    lv_img_set_angle(p->engine_speed_pointer, 1500);
+    lv_img_set_pivot(p->engine_speed_pointer, 260 / 2, 260 / 2);
     lv_obj_set_pos(p->engine_speed_pointer, 108 - 27, 117 - 60);
 
     p->engine_speed_label = lv_label_create(g1);

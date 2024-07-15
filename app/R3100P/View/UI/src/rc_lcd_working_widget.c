@@ -1,9 +1,14 @@
 #include "../inc/rc_lcd_working_widget.h"
 #include "../inc/working_header.h"
 #include "../inc/working_footer.h"
+#include "../../theme/inc/theme_style.h"
+#include "../../theme/inc/theme_R1100P_white.h"
 
 lv_obj_t* working_widget_init()
 {
+    //主题初始化
+    theme_R1100P_white_init();
+    theme_style_init();
     //主窗口
     lv_obj_t *widget = lv_obj_create(lv_screen_active());
 
@@ -21,7 +26,7 @@ lv_obj_t* working_widget_init()
 
     lv_obj_set_size(widget, parent_width, parent_height);
     lv_obj_set_pos(widget, 0, 0);
-    lv_obj_add_style(widget ,&main_style, 0);
+    //lv_obj_add_style(widget ,&main_style, 0);
     lv_obj_remove_flag(widget, LV_OBJ_FLAG_SCROLLABLE);
 
     //页头

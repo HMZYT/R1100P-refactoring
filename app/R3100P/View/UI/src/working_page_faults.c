@@ -736,9 +736,6 @@ static void _set_data_16(lv_obj_t *label, uint16_t v)
 
 lv_obj_t* working_page_faults_init(lv_obj_t *page)
 {
-    //主题初始化
-    theme_R1100P_white_init();
-    theme_style_init();
     working_page_faults_t *p = lv_malloc(sizeof (working_page_faults_t));
     uint16_t parent_width, parent_height;
 
@@ -807,6 +804,7 @@ lv_obj_t* working_page_faults_init(lv_obj_t *page)
 
     //观察者模式
     lv_subject_add_observer_obj(&subject_faults_all, faults_observer_list_cb, page, p);
+    return obj;
 }
 
 static void faults_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject)

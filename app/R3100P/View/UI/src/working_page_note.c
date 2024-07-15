@@ -14,10 +14,6 @@ lv_obj_t *language_list;
 
 lv_obj_t* working_page_note_init(lv_obj_t *page)
 {
-    //主题初始化
-    theme_R1100P_white_init();
-    theme_style_init();
-
     working_page_note_t *p = lv_malloc(sizeof (working_page_note_t));
 
     uint16_t parent_width, parent_height;

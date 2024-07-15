@@ -21,9 +21,6 @@ static void rc_observer_list_cb(lv_observer_t *observer, lv_subject_t *subject);
 
 lv_obj_t* working_page_rc_init(lv_obj_t *page)
 {
-    //主题初始化
-    theme_R1100P_white_init();
-
     working_page_rc_t *p = lv_malloc(sizeof (working_page_rc_t));
 
     uint16_t parent_width, parent_height;
@@ -40,296 +37,237 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
     for (i = 0; i < 6; ++i)
     {
         p->rockers[i] = _create_rocker(obj);
-        lv_obj_set_size(p->rockers[i]->ibase, 63, 113);
-        lv_obj_set_pos(p->rockers[i]->ibase, 95 + 89 * i, 113 - 40);
+        lv_obj_set_size(p->rockers[i]->ibase, 101, 181);
+        lv_obj_set_pos(p->rockers[i]->ibase, 170 + 120 * i, 173 - 60);
 
         p->up[i] = lv_label_create(obj);
         p->down[i] = lv_label_create(obj);
 
-        lv_obj_set_pos(p->up[i], 135 + 89 * i, 42);
+        lv_obj_set_pos(p->up[i], 250 + 120 * i, 173 - 70);
         lv_obj_add_flag( p->up[i], LV_OBJ_FLAG_HIDDEN );
         lv_label_set_text( p->up[i], "127" );
 
-        lv_obj_set_pos(p->down[i], 135 + 89 * i, 220);
+        lv_obj_set_pos(p->down[i], 250 + 120 * i, 340 - 70);
         lv_obj_add_flag( p->down[i], LV_OBJ_FLAG_HIDDEN );
         lv_label_set_text( p->down[i], "-127" );
     }
 
-    for (i = 0; i < 7; ++i)
+    for (i = 0; i < 6; ++i)
     {
         p->btns[i] = _create_button(obj);
-        lv_obj_set_size(p->btns[i]->ibase, 55, 51);
-        lv_obj_set_pos(p->btns[i]->ibase, 53 + 60 * i, 329 - 40 +3);
+        lv_obj_set_size(p->btns[i]->ibase, 88, 82);
+        lv_obj_set_pos(p->btns[i]->ibase, 287 + 97 * i, 501 - 60);
         _button_set_v(p->btns[i], 0);
     }
 
-    //锁臂
-    lv_obj_t * tmp_label = lv_img_create(obj);
-    lv_img_set_src( tmp_label, &img_arm_lock );
-    lv_obj_set_pos( tmp_label, 512 + 10, 345 );
-    lv_img_set_zoom( tmp_label, 200 );
+//    lv_obj_t *btn_displacement_bg = lv_img_create(obj);
+//    lv_img_set_src(btn_displacement_bg, &control_cycle_Bbtn1);
+//    lv_obj_set_pos(btn_displacement_bg, 616 + 15, 325 - 30);
+//    lv_obj_set_size(btn_displacement_bg, 60, 60);
 
-    lv_obj_t *btn_displacement_bg = lv_img_create(obj);
-    lv_img_set_src(btn_displacement_bg, &control_cycle_Bbtn1);
-    lv_obj_set_pos(btn_displacement_bg, 616 + 15, 325 - 30);
-    lv_obj_set_size(btn_displacement_bg, 60, 60);
-
-    p->btn_replacement = lv_img_create(obj);
-    lv_img_set_src(p->btn_replacement, &control_cycle_Bbtn2);
-    lv_obj_set_pos(p->btn_replacement, 616+15, 325 - 30);
-    lv_obj_set_size(p->btn_replacement, 60, 60);
+//    p->btn_replacement = lv_img_create(obj);
+//    lv_img_set_src(p->btn_replacement, &control_cycle_Bbtn2);
+//    lv_obj_set_pos(p->btn_replacement, 616+15, 325 - 30);
+//    lv_obj_set_size(p->btn_replacement, 60, 60);
 
     p->btn_whistle = lv_img_create(obj);
     lv_img_set_src(p->btn_whistle, &control_margin_02);
-    lv_obj_set_pos(p->btn_whistle, parent_width - 20, 108 - 40);
-    lv_obj_set_size(p->btn_whistle, 20, 54);
+    lv_obj_set_pos(p->btn_whistle, 0, 173 - 60);
+    lv_obj_set_size(p->btn_whistle, 32, 86);
 
-    p->btn_emergency = lv_img_create(obj);
-    lv_img_set_src(p->btn_emergency, &control_margin_02);
-    lv_obj_set_pos(p->btn_emergency, parent_width - 20, 68 + 240 + 30 );
-    lv_obj_set_size(p->btn_emergency, 20, 54);
+    lv_obj_t * tmp_label = lv_img_create( obj );
+    lv_img_set_src( tmp_label, &horn_rc);
+    lv_obj_set_pos( tmp_label, 46, 226 - 60);
 
-    p->label_emergency = lv_label_create(obj);
-    lv_obj_set_pos( p->label_emergency, parent_width - 75, 68 + 250 + 35 );
-    lv_label_set_text( p->label_emergency, "急停" );
-
-    p->btn_start = lv_img_create(obj);
-    lv_img_set_src(p->btn_start, &control_margin_02);
-    lv_obj_set_pos(p->btn_start, 0, 108 - 40 + 54 + 5);
-    lv_obj_set_size(p->btn_start, 20, 54);
-
-    p->btn_stop = lv_img_create(obj);
-    lv_img_set_src(p->btn_stop, &control_margin_02);
-    lv_obj_set_pos(p->btn_stop, 0, 108 - 40);
-    lv_obj_set_size(p->btn_stop, 20, 54);
+    tmp_label = lv_img_create( obj );
+    lv_img_set_src( tmp_label, &img_power_red);
+    lv_obj_set_pos( tmp_label, 46, 159 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_motor_stop );
-    lv_obj_set_pos( tmp_label, 20, 108 - 35);
+    lv_obj_set_pos( tmp_label, 9, 515 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_motor_start );
-    lv_obj_set_pos( tmp_label, 20, 133 );
-
-    p->label_lock = lv_label_create(obj);
-    lv_label_set_text(p->label_lock, "0");
-    lv_obj_set_pos(p->label_lock, 512 + 8, 309 - 45);
-
-    p->label_displacement = lv_label_create(obj);
-    lv_label_set_text(p->label_displacement, "0");
-    lv_obj_set_pos(p->label_displacement, 611 + 10, 309 - 50);
-    lv_obj_set_width( p->label_displacement, 66 );
+    lv_obj_set_pos( tmp_label, 9, 430 - 60 );
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &control_cycle_Bbtn1 );
-    lv_obj_set_pos( tmp_label, 616 + 15, 325 - 30 );
+    lv_obj_set_pos( tmp_label, 1045, 449 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &bbbbb_bump );
-    lv_obj_set_pos( tmp_label, 616 + 30, 355 );
+    lv_obj_set_pos( tmp_label, 1095, 583 - 60);
 
     //锁臂
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &control_cycle_Sbtn_bg);
-    lv_obj_set_pos( tmp_label, 500 + 2, 337 -55 + 3 );
+    lv_obj_set_pos( tmp_label, 65, 480 - 60);
+
+    //锁臂
+    tmp_label = lv_img_create(obj);
+    lv_img_set_src( tmp_label, &img_arm_lock );
+    lv_obj_set_pos( tmp_label, 103, 584 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_gh0_v6c2);
-    lv_obj_set_pos( tmp_label, 613, 25 );
-    lv_img_set_zoom(tmp_label, 180);
+    lv_obj_set_pos( tmp_label, 1017, 137 - 60);
 
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &arm_gh0_v6c2);
-    lv_obj_set_pos( tmp_label, 613, 25 + 175);
-    lv_img_set_zoom(tmp_label, 180);
+    lv_img_set_src( tmp_label, &arm_gh1_v6c2);
+    lv_obj_set_pos( tmp_label, 1017, 340 - 60);
 
     p->arms06a = lv_img_create( obj );
     lv_img_set_src( p->arms06a, &arm_gX1);
-    lv_obj_set_pos( p->arms06a, 690, 28 );
-    lv_img_set_zoom(p->arms06a, 130);
+    lv_obj_set_pos( p->arms06a, 1157, 150 - 60);
+    lv_img_set_zoom(p->arms06a, 200);
 
     p->arms06b = lv_img_create( obj );
     lv_img_set_src( p->arms06b, &bbbbb_other);
-    lv_obj_set_pos( p->arms06b, 600, 110 - 50 );
-    lv_img_set_zoom(p->arms06b, 180);
-
-    p->arms06c = lv_img_create( obj );
-    //lv_img_set_src( p->arms06c, &bbbbb_other1);
-    lv_obj_set_pos( p->arms06c, 658, 120 );
-
-    p->label_rig = lv_label_create( obj );
-    lv_label_set_text(p->label_rig, "");
-    lv_obj_set_pos(p->label_rig, 620 + 40 +20 +40 + 5 , 109 + 40 -15);
-
-    p->label_dow = lv_label_create( obj );
-    lv_label_set_text(p->label_dow, "");
-    lv_obj_set_pos(p->label_dow, 655 , 109 + 50 +20 + 5  );
+    lv_obj_set_pos( p->arms06b, 1002, 187 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_a0);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 0, 18 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 190, 105 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_b0_v6c2);
-    lv_obj_set_pos( tmp_label, 68 + 90 * 1 , 28 );
-    lv_img_set_zoom(tmp_label, 220);
+    lv_obj_set_pos( tmp_label, 290 , 125 - 60);
+    //lv_img_set_zoom(tmp_label, 220);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_c0);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 2 , 18 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 0 , 115 - 60);
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_d0);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 3 , 18 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 1, 115 - 60 );
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_e0);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 4 , 18 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 2, 115 - 60 );
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_f0);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 5 , 18 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 3, 115 - 60 );
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_a1);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 0, 190 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 190, 366 - 60);
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_b1_v6c2);
-    lv_obj_set_pos( tmp_label, 68 + 90 * 1 , 200 );
-    lv_img_set_zoom(tmp_label, 220);
+    lv_obj_set_pos( tmp_label, 290 , 316);
+    //lv_img_set_zoom(tmp_label, 220);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_c1);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 2 , 190 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 0, 305);
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_d1);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 3 , 190 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 1, 305);
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_e1);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 4 , 190 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 2, 305);
+    //lv_img_set_zoom(tmp_label, 200);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_f1);
-    lv_obj_set_pos( tmp_label, 98 + 90 * 5 , 190 );
-    lv_img_set_zoom(tmp_label, 200);
+    lv_obj_set_pos( tmp_label, 430 + 120 * 3, 305);
+    //v_img_set_zoom(tmp_label, 200);
+
+    tmp_label = lv_img_create( obj );
+    lv_img_set_src( tmp_label, &img_swing_left);
+    lv_obj_set_pos( tmp_label, 1200, 468 - 60);
+
+    tmp_label = lv_img_create( obj );
+    lv_img_set_src( tmp_label, &img_swing_right);
+    lv_obj_set_pos( tmp_label, 1200, 550 - 60);
 
     //位置1
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_bump_down);
-    lv_obj_set_pos( tmp_label, 51, 255 );
+    lv_obj_set_pos( tmp_label, 310, 462 - 60 );
+    lv_img_set_zoom(tmp_label, 280);
 
     //位置2
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_swing_left);
-    lv_obj_set_pos( tmp_label, 112, 250 );
-    lv_img_set_zoom( tmp_label, 200 );
+    lv_img_set_src( tmp_label, &img_motor_up);
+    lv_obj_set_pos( tmp_label, 404, 402 );
 
     //位置3
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &fast_mode);
-    lv_obj_set_pos( tmp_label, 170 , 255 );
+    lv_obj_set_pos( tmp_label, 501 , 402 );
 
     //位置4
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_motor_up);
-    lv_obj_set_pos( tmp_label, 233, 255 );
-    lv_img_set_zoom( tmp_label, 200 );
+    lv_img_set_src( tmp_label, &vibrate_on);
+    lv_obj_set_pos( tmp_label, 593, 402 );
 
     //位置5
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_bump);
-    lv_obj_set_pos( tmp_label, 295, 255 );
-
-    tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_strong);
-    lv_obj_set_pos( tmp_label, 295 + 5, 255);
-    lv_img_set_zoom( tmp_label, 200 );
+    lv_img_set_src( tmp_label, &arm_gX1);
+    lv_obj_set_pos( tmp_label, 687, 392);
+    lv_img_set_zoom(tmp_label, 200);
 
     //位置6
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &vibrate_on);
-    lv_obj_set_pos( tmp_label, 355, 258 );
-    lv_img_set_zoom( tmp_label, 200 );
+    lv_img_set_src( tmp_label, &img_bump);
+    lv_obj_set_pos( tmp_label, 786, 402 );
 
-    //位置7
-    tmp_label = lv_img_create(obj);
-    lv_img_set_src( tmp_label, &arm_gX1);
-    lv_obj_set_pos( tmp_label, 400, 250);
-    lv_img_set_zoom( tmp_label, 150 );
+    tmp_label = lv_img_create( obj );
+    lv_img_set_src( tmp_label, &img_strong);
+    lv_obj_set_pos( tmp_label, 786 + 10, 402);
 
     //位置1
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_bump_up);
-    lv_obj_set_pos( tmp_label, 51, 255 + 87);
+    lv_obj_set_pos( tmp_label, 310, 590 - 60);
+    lv_img_set_zoom(tmp_label, 280);
 
     //位置2
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_swing_right);
-    lv_obj_set_pos( tmp_label, 112, 250 + 89);
-    lv_img_set_zoom( tmp_label, 200 );
+    lv_img_set_src( tmp_label, &img_motor_down);
+    lv_obj_set_pos( tmp_label, 404, 530);
 
     //位置3
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &slow_mode);
-    lv_obj_set_pos( tmp_label, 170 , 255 + 87);
+    lv_obj_set_pos( tmp_label, 501, 530);
 
     //位置4
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_motor_down);
-    lv_obj_set_pos( tmp_label, 233, 255 + 87);
-    lv_img_set_zoom( tmp_label, 200 );
+    lv_img_set_src( tmp_label, &vibrate_off);
+    lv_obj_set_pos( tmp_label, 593, 530);
 
     //位置5
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_bump);
-    lv_obj_set_pos( tmp_label, 295, 255 + 87);
-
-    tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_eco);
-    lv_obj_set_pos( tmp_label, 295 + 5, 255 + 87);
+    lv_img_set_src( tmp_label, &arm_gX2_v6c2);
+    lv_obj_set_pos( tmp_label, 687, 530);
 
     //位置6
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &vibrate_off);
-    lv_obj_set_pos( tmp_label, 355, 260 + 85);
-    lv_img_set_zoom( tmp_label, 200 );
-
-    //位置7
-    tmp_label = lv_img_create(obj);
-    lv_img_set_src( tmp_label, &arm_gX2_v6c2);
-    lv_obj_set_pos( tmp_label, 410, 258 + 87);
-    lv_img_set_zoom( tmp_label, 190 );
-
-    //红色双箭头
-    tmp_label = lv_img_create(obj);
-    lv_img_set_src( tmp_label, &red_arrow_N);
-    lv_obj_set_pos( tmp_label, 440, 248);
-    lv_img_set_zoom( tmp_label, 140 );
+    lv_img_set_src( tmp_label, &img_bump);
+    lv_obj_set_pos( tmp_label, 786, 530);
 
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &horn_rc);
-    lv_obj_set_pos( tmp_label, parent_width - 82, 68);
-
-    p->btn_off = lv_img_create(obj);
-    lv_img_set_src(p->btn_off, &control_margin_02);
-    lv_obj_set_pos(p->btn_off, parent_width - 20, 288 - 50);
-    lv_obj_set_size(p->btn_off, 20, 54);
+    lv_img_set_src( tmp_label, &img_eco);
+    lv_obj_set_pos( tmp_label, 786 + 10, 530);
 
     tmp_label = lv_img_create( obj );
-    lv_img_set_src( tmp_label, &img_power_red);
-    lv_obj_set_pos( tmp_label, parent_width - 70, 288 - 40);
+    lv_img_set_src( tmp_label, &shutong);
+    lv_obj_set_pos( tmp_label, 850, 460);
+    lv_img_set_zoom(tmp_label, 280);
 
     p->backlight_bar = lv_bar_create( obj);
     lv_bar_set_range(p->backlight_bar, 0, 100);
@@ -694,7 +632,7 @@ static rc_lcd_button_t *_create_button(lv_obj_t *parent)
     btn->v = lv_image_create(btn->ibase);
     lv_image_set_src(btn->v, &control_s_btn02);
     lv_obj_set_pos(btn->v, 0, 0);
-    lv_obj_set_size(btn->v, 55, 51);
+    lv_obj_set_size(btn->v, 88, 82);
     lv_obj_remove_flag(btn->ibase, LV_OBJ_FLAG_SCROLLABLE);
 
     return btn;
@@ -800,13 +738,13 @@ rocker_t *_create_rocker(lv_obj_t *parent)
     lv_obj_t *bg_img = lv_image_create(r->ibase);
     lv_image_set_src(bg_img, &control_btn01);
     lv_obj_set_pos(bg_img, 0, 0);
-    lv_obj_set_size(bg_img, 73, 118);
+    lv_obj_set_size(bg_img, 101, 181);
     lv_obj_remove_flag(r->ibase, LV_OBJ_FLAG_SCROLLABLE);
 
     r->v = lv_image_create(bg_img);
     lv_image_set_src(r->v, &control_btn02);
-    lv_obj_set_pos(r->v, 2, 39);
-    lv_obj_set_size(r->v, 68, 42);
+    lv_obj_set_pos(r->v, 4, 39);
+    lv_obj_set_size(r->v, 91, 82);
 
 
     return r;

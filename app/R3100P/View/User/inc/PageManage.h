@@ -43,11 +43,13 @@ public:
 
 public:
     void page_manage_add_page(PAGE* page, int  id, lv_obj_t*(*init)(lv_obj_t* page));
-    void page_manage_switch_page(int id,  lv_obj_t *base );
+    void page_manage_init_pages(lv_obj_t *iPage);
+    void page_manage_switch_page(int id);
+
 private:
     lv_obj_t * curr_page;
     vector<PAGE *> pageList;
-    int last_id;
+    vector<lv_obj_t*> pageListInit;
 };
 
 #endif //LVGL_PAGEMANAGE_H
