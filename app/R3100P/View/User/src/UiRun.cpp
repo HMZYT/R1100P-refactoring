@@ -98,7 +98,7 @@ void uiRun()
 #pragma region test
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
     lv_subject_set_int(&subjectParas[system_paras_language], 0);
-    lv_subject_set_int(&subjectParas[system_paras_page], working_page_rc);
+    lv_subject_set_int(&subjectParas[system_paras_page], working_page_arm);
 #pragma endregion test
 
     //观察者初始化

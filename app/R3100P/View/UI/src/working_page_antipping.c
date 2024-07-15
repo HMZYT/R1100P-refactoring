@@ -830,7 +830,7 @@ static void antipping_observer_list_cb(lv_observer_t *observer, lv_subject_t *su
         {
             sprintf(temp, "%.1fm", down_dis.current_value / 10.0);
             lv_label_set_text(p->leg_3_level_label, temp);
-            if (down_dis.different_flag == 0)
+            if (down_dis.current_value == 0)
             {
                 lv_obj_add_flag(p->leg_3_level_label, LV_OBJ_FLAG_HIDDEN);
             }else
