@@ -8,6 +8,7 @@ extern void theme_style_init(void);
 
 extern lv_style_t *theme_style_get_label_edit_36px_0();
 extern lv_style_t *theme_style_get_label_normal_32px_0();
+extern lv_style_t *theme_style_get_label_normal_32px_red();
 extern lv_style_t *theme_style_get_label_normal_36px_0();
 extern lv_style_t *theme_style_get_label_normal_20px_1();
 extern lv_style_t *theme_style_get_label_normal_36px_1();

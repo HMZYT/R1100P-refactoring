@@ -8,6 +8,7 @@ static lv_style_t style_label_normal_36px_3;    //36px+蓝+中
 static lv_style_t style_label_normal_36px_4;    //36px+绿+中
 static lv_style_t style_label_normal_36px_5;    //36px+红+中
 static lv_style_t style_label_normal_32px_0;    //32px+黑+中
+static lv_style_t style_label_normal_32px_red;   //32px+红+中
 static lv_style_t style_label_normal_20px_1;    //20px+黑+右
 static lv_style_t style_label_normal_20px_2;    //20px+黑+左
 static lv_style_t style_label_normal_24px_0;    //24px+红+中
@@ -43,6 +44,13 @@ void theme_style_init(void) {
     lv_style_set_text_align(&style_label_normal_32px_0, LV_TEXT_ALIGN_CENTER);
     lv_style_set_radius(&style_label_normal_32px_0,0);
     lv_style_set_pad_all(&style_label_normal_32px_0,0);
+
+    lv_style_init(&style_label_normal_32px_red);
+    lv_style_set_text_color(&style_label_normal_32px_red, lv_color_make(0xff, 0x00, 0x00));
+    lv_style_set_text_font(&style_label_normal_32px_red, &working_mode_32px);
+    lv_style_set_text_align(&style_label_normal_32px_red, LV_TEXT_ALIGN_CENTER);
+    lv_style_set_radius(&style_label_normal_32px_red,0);
+    lv_style_set_pad_all(&style_label_normal_32px_red,0);
 
     lv_style_init(&style_label_normal_20px_1);
     lv_style_set_text_color(&style_label_normal_20px_1, lv_color_black());
@@ -151,6 +159,10 @@ lv_style_t *theme_style_get_label_normal_24px_1() {
 #pragma region 32px
 lv_style_t *theme_style_get_label_normal_32px_0() {
     return &style_label_normal_32px_0;
+}
+
+lv_style_t *theme_style_get_label_normal_32px_red() {
+    return &style_label_normal_32px_red;
 }
 #pragma region 32px
 

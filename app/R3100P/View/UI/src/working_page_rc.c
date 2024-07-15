@@ -6,6 +6,7 @@
 #include "../inc/working_page_home.h"
 #include "../../User/inc/UiRun.h"
 #include "../../theme/inc/theme_R1100P_white.h"
+#include "../../theme/inc/theme_style.h"
 
 int bg_light_level = 100;
 
@@ -60,20 +61,10 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
         _button_set_v(p->btns[i], 0);
     }
 
-//    lv_obj_t *btn_displacement_bg = lv_img_create(obj);
-//    lv_img_set_src(btn_displacement_bg, &control_cycle_Bbtn1);
-//    lv_obj_set_pos(btn_displacement_bg, 616 + 15, 325 - 30);
-//    lv_obj_set_size(btn_displacement_bg, 60, 60);
-
-//    p->btn_replacement = lv_img_create(obj);
-//    lv_img_set_src(p->btn_replacement, &control_cycle_Bbtn2);
-//    lv_obj_set_pos(p->btn_replacement, 616+15, 325 - 30);
-//    lv_obj_set_size(p->btn_replacement, 60, 60);
-
-    p->btn_whistle = lv_img_create(obj);
-    lv_img_set_src(p->btn_whistle, &control_margin_02);
-    lv_obj_set_pos(p->btn_whistle, 0, 173 - 60);
-    lv_obj_set_size(p->btn_whistle, 32, 86);
+    p->btn_whistle_and_off = lv_img_create(obj);
+    lv_img_set_src(p->btn_whistle_and_off, &control_margin_02);
+    lv_obj_set_pos(p->btn_whistle_and_off, 0, 173 - 60);
+    lv_obj_set_size(p->btn_whistle_and_off, 32, 86);
 
     lv_obj_t * tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &horn_rc);
@@ -83,31 +74,51 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
     lv_img_set_src( tmp_label, &img_power_red);
     lv_obj_set_pos( tmp_label, 46, 159 - 60);
 
+    p->btn_stop = lv_img_create(obj);
+    lv_img_set_src(p->btn_stop, &control_margin_02);
+    lv_obj_set_pos(p->btn_stop, 0, 510 - 60);
+    lv_obj_set_size(p->btn_stop, 32, 86);
+
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_motor_stop );
-    lv_obj_set_pos( tmp_label, 9, 515 - 60);
+    lv_obj_set_pos( tmp_label, 46, 520 - 60);
+
+    p->btn_start = lv_img_create(obj);
+    lv_img_set_src(p->btn_start, &control_margin_02);
+    lv_obj_set_pos(p->btn_start, 0, 420 - 60);
+    lv_obj_set_size(p->btn_start, 32, 86);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_motor_start );
-    lv_obj_set_pos( tmp_label, 9, 430 - 60 );
+    lv_obj_set_pos( tmp_label, 46, 430 - 60 );
+
+    p->btn_replacement = lv_img_create(obj);
+    lv_img_set_src(p->btn_replacement, &control_cycle_Bbtn2);
+    lv_obj_set_pos(p->btn_replacement, 1040, 490 - 60);
+    lv_obj_set_size(p->btn_replacement, 60, 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &control_cycle_Bbtn1 );
-    lv_obj_set_pos( tmp_label, 1045, 449 - 60);
+    lv_obj_set_pos( tmp_label, 1005, 449 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &bbbbb_bump );
-    lv_obj_set_pos( tmp_label, 1095, 583 - 60);
+    lv_obj_set_pos( tmp_label, 1055, 583 - 60);
+
+    p->btn_lock_arms = lv_img_create(obj);
+    lv_img_set_src(p->btn_lock_arms, &control_cycle_Sbtn);
+    lv_obj_set_pos(p->btn_lock_arms, 135, 515 - 60);
+    lv_obj_set_size(p->btn_lock_arms, 70, 70);
 
     //锁臂
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &control_cycle_Sbtn_bg);
-    lv_obj_set_pos( tmp_label, 65, 480 - 60);
+    lv_obj_set_pos( tmp_label, 102, 480 - 60);
 
     //锁臂
     tmp_label = lv_img_create(obj);
     lv_img_set_src( tmp_label, &img_arm_lock );
-    lv_obj_set_pos( tmp_label, 103, 584 - 60);
+    lv_obj_set_pos( tmp_label, 140, 584 - 60);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_gh0_v6c2);
@@ -125,6 +136,11 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
     p->arms06b = lv_img_create( obj );
     lv_img_set_src( p->arms06b, &bbbbb_other);
     lv_obj_set_pos( p->arms06b, 1002, 187 - 60);
+
+    p->arms06c = lv_img_create( obj );
+    lv_img_set_src( p->arms06c, &button_cycle_red);
+    lv_obj_set_pos( p->arms06c, 1038, 224 - 60);
+    lv_img_set_zoom(p->arms06c, 120);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &arm_a0);
@@ -185,13 +201,33 @@ lv_obj_t* working_page_rc_init(lv_obj_t *page)
     lv_obj_set_pos( tmp_label, 430 + 120 * 3, 305);
     //v_img_set_zoom(tmp_label, 200);
 
+    p->btn_swing_left = lv_img_create(obj);
+    lv_img_set_src(p->btn_swing_left, &control_margin_02);
+    lv_obj_set_pos(p->btn_swing_left, parent_width - 34, 370 - 60);
+    lv_obj_set_size(p->btn_swing_left, 32, 86);
+
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_swing_left);
-    lv_obj_set_pos( tmp_label, 1200, 468 - 60);
+    lv_obj_set_pos( tmp_label, 1160, 380 - 60);
+
+    p->btn_swing_right = lv_img_create(obj);
+    lv_img_set_src(p->btn_swing_right, &control_margin_02);
+    lv_obj_set_pos(p->btn_swing_right, parent_width - 34, 470 - 60);
+    lv_obj_set_size(p->btn_swing_right, 32, 86);
 
     tmp_label = lv_img_create( obj );
     lv_img_set_src( tmp_label, &img_swing_right);
-    lv_obj_set_pos( tmp_label, 1200, 550 - 60);
+    lv_obj_set_pos( tmp_label, 1160, 480 - 60);
+
+    p->btn_emergency = lv_img_create(obj);
+    lv_img_set_src(p->btn_emergency, &control_margin_02);
+    lv_obj_set_pos(p->btn_emergency, parent_width - 34, 570 - 60);
+    lv_obj_set_size(p->btn_emergency, 32, 86);
+
+    tmp_label = lv_label_create(obj);
+    lv_obj_set_pos(tmp_label,  parent_width - 104, 600 - 60);
+    lv_label_set_text(tmp_label, "急停");
+    lv_obj_add_style(tmp_label, theme_style_get_label_normal_32px_red(), 0);
 
     //位置1
     tmp_label = lv_img_create( obj );

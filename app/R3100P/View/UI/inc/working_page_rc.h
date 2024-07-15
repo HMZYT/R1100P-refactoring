@@ -27,11 +27,12 @@ typedef struct{
     rc_lcd_button_t *btns[ 7 ];
     lv_obj_t *btn_lock_arms;
     lv_obj_t *btn_replacement;
-    lv_obj_t *btn_off;
-    lv_obj_t *btn_whistle;
+    lv_obj_t *btn_whistle_and_off;
     lv_obj_t *btn_stop; //发动机急停
     lv_obj_t *btn_start; //发动机启动
     lv_obj_t *btn_emergency;
+    lv_obj_t *btn_swing_left;
+    lv_obj_t *btn_swing_right;
     lv_obj_t *label_emergency;
     lv_obj_t *label_lock;
     lv_obj_t *label_displacement;
