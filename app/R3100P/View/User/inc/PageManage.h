@@ -17,6 +17,7 @@ typedef enum {
     working_page_faults,
     working_page_rc,
     working_page_note,
+    working_page_setting,
     working_page_light,
     working_page_arm,
     idle_page_black,

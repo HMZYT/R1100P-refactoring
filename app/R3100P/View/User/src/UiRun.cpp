@@ -10,6 +10,7 @@
 #include "../../UI/inc/working_page_rc.h"
 #include "../../UI/inc/working_page_note.h"
 #include "../../UI/inc/working_page_light.h"
+#include "../../UI/inc/working_page_setting.h"
 #include "../../UI/inc/working_page_arms.h"
 #include "../../UI/inc/idle_page_black.h"
 #include "../../UI/inc/fact_page_version.h"
@@ -66,6 +67,7 @@ void uiRun()
     PAGE* working_faults_page = new PAGE;
     PAGE* working_rc_page = new PAGE;
     PAGE* working_note_page = new PAGE;
+    PAGE* working_setting_page = new PAGE;
     PAGE* working_light_page = new PAGE;
     PAGE* working_arm_page = new PAGE;
     PAGE* idle_black_page = new PAGE;
@@ -80,7 +82,8 @@ void uiRun()
     pageManage.page_manage_add_page(working_faults_page, working_page_faults, working_page_faults_init);
     pageManage.page_manage_add_page(working_rc_page, working_page_rc, working_page_rc_init);
     pageManage.page_manage_add_page(working_note_page, working_page_note, working_page_note_init);
-    pageManage.page_manage_add_page(working_light_page, working_page_light, working_page_light_init);
+    pageManage.page_manage_add_page(working_setting_page, working_page_setting, working_page_setting_init);
+    //pageManage.page_manage_add_page(working_light_page, working_page_light, working_page_light_init);
     pageManage.page_manage_add_page(working_arm_page, working_page_arm, working_page_arms_init);
     pageManage.page_manage_add_page(idle_black_page, idle_page_black, idle_page_black_init);
     pageManage.page_manage_add_page(fact_version_page, fact_page_version, fact_page_version_init);
@@ -98,7 +101,7 @@ void uiRun()
 #pragma region test
     lv_subject_t* subjectParas = getSubjectsParasWrapper();
     lv_subject_set_int(&subjectParas[system_paras_language], 0);
-    lv_subject_set_int(&subjectParas[system_paras_page], working_page_arm);
+    lv_subject_set_int(&subjectParas[system_paras_page], working_page_setting);
 #pragma endregion test
 
     //观察者初始化

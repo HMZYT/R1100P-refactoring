@@ -225,6 +225,12 @@ LV_IMAGE_DECLARE(redleg_4_long);
 LV_IMAGE_DECLARE(redleg_5_long);
 
 LV_IMAGE_DECLARE(control_page_bg);
+LV_IMAGE_DECLARE(control_0c0);
+LV_IMAGE_DECLARE(control_0c1);
+LV_IMAGE_DECLARE(control_0d0);
+LV_IMAGE_DECLARE(control_0d1);
+LV_IMAGE_DECLARE(control_0i0);
+LV_IMAGE_DECLARE(control_0j0);
 LV_IMAGE_DECLARE(control_0f0);
 LV_IMAGE_DECLARE(control_0f1);
 LV_IMAGE_DECLARE(control_0g0);

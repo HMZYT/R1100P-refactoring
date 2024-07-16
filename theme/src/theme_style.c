@@ -9,13 +9,16 @@ static lv_style_t style_label_normal_36px_4;    //36px+绿+中
 static lv_style_t style_label_normal_36px_5;    //36px+红+中
 static lv_style_t style_label_normal_32px_0;    //32px+黑+中
 static lv_style_t style_label_normal_32px_red;   //32px+红+中
+static lv_style_t style_label_normal_20px_0;    //20px+黑+中
 static lv_style_t style_label_normal_20px_1;    //20px+黑+右
 static lv_style_t style_label_normal_20px_2;    //20px+黑+左
+static lv_style_t style_label_normal_20px_green;//20px+绿+中
 static lv_style_t style_label_normal_24px_0;    //24px+红+中
 static lv_style_t style_label_normal_24px_1;    //24px+黑+中
 static lv_style_t style_label_bg_0;             //灰色背景
 static lv_style_t style_label_bg_1;             //蓝色背景
 static lv_style_t style_label_bg_2;             //绿色背景
+static lv_style_t style_line_green;             //绿线
 
 void theme_style_init(void) {
     lv_style_init(&style_label_edit_36px_0);
@@ -66,12 +69,26 @@ void theme_style_init(void) {
     lv_style_set_radius(&style_label_normal_36px_1,0);
     lv_style_set_pad_all(&style_label_normal_36px_1,0);
 
+    lv_style_init(&style_label_normal_20px_0);
+    lv_style_set_text_color(&style_label_normal_20px_0, lv_color_black());
+    lv_style_set_text_font(&style_label_normal_20px_0, &working_mode_20px);
+    lv_style_set_text_align(&style_label_normal_20px_0, LV_TEXT_ALIGN_CENTER);
+    lv_style_set_radius(&style_label_normal_20px_0,0);
+    lv_style_set_pad_all(&style_label_normal_20px_0,0);
+
     lv_style_init(&style_label_normal_20px_2);
     lv_style_set_text_color(&style_label_normal_20px_2, lv_color_black());
     lv_style_set_text_font(&style_label_normal_20px_2, &working_mode_20px);
     lv_style_set_text_align(&style_label_normal_20px_2, LV_TEXT_ALIGN_LEFT);
     lv_style_set_radius(&style_label_normal_20px_2,0);
     lv_style_set_pad_all(&style_label_normal_20px_2,0);
+
+    lv_style_init(&style_label_normal_20px_green);
+    lv_style_set_text_color(&style_label_normal_20px_green, lv_color_make(0x26, 0xAC, 0x0E));
+    lv_style_set_text_font(&style_label_normal_20px_green, &working_mode_20px);
+    lv_style_set_text_align(&style_label_normal_20px_green, LV_TEXT_ALIGN_CENTER);
+    lv_style_set_radius(&style_label_normal_20px_green,0);
+    lv_style_set_pad_all(&style_label_normal_20px_green,0);
 
     lv_style_init(&style_label_normal_36px_2);
     lv_style_set_text_color(&style_label_normal_36px_2, lv_color_black());
@@ -134,15 +151,29 @@ void theme_style_init(void) {
     lv_style_set_bg_opa(&style_label_bg_2, LV_OPA_COVER);
     lv_style_set_radius(&style_label_bg_2,0);
     lv_style_set_pad_all(&style_label_bg_2,0);
+
+#pragma region line
+    lv_style_init(&style_line_green);
+    lv_style_set_line_width(&style_line_green,1);
+    lv_style_set_line_color(&style_line_green, lv_color_make(0x69, 0xA5, 0x59));
+#pragma endregion line
 }
 
 #pragma region 20px
+lv_style_t *theme_style_get_label_normal_20px_0() {
+    return &style_label_normal_20px_0;
+}
+
 lv_style_t *theme_style_get_label_normal_20px_1() {
     return &style_label_normal_20px_1;
 }
 
 lv_style_t *theme_style_get_label_normal_20px_2() {
     return &style_label_normal_20px_2;
+}
+
+lv_style_t *theme_style_get_label_normal_20px_green() {
+    return &style_label_normal_20px_green;
 }
 #pragma endregion 20px
 
@@ -206,4 +237,8 @@ lv_style_t *theme_style_get_bg_1() {
 
 lv_style_t *theme_style_get_bg_2() {
     return &style_label_bg_2;
+}
+
+lv_style_t *theme_style_get_line_green() {
+    return &style_line_green;
 }
